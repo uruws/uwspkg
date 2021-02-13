@@ -1,0 +1,22 @@
+FROM uwspkg/build
+
+LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
+LABEL version="2021.02.13"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh sudo \
+	&& printf 'uws\tALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/uws \
+	&& chmod -v 0440 /etc/sudoers.d/uws
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+CMD exec /bin/bash -l
