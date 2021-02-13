@@ -32,10 +32,10 @@ ENV USER uws
 ENV HOME /home/uws
 
 WORKDIR /home/uws/src/pkg-${PKG}
-RUN CC=clang ./configure \
+RUN CC=clang ./configure --prefix=/uws \
 	&& make check CC=clang CFLAGS='-D_XOPEN_SOURCE=700'
 
-RUN mkdir -vp /uws/usr/local/etc \
-	&& make install DESTDIR=/uws
+RUN mkdir -vp /uws/etc \
+	&& make install
 
 CMD exec /bin/bash -l
