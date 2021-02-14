@@ -40,9 +40,10 @@ RUN tar -xzf pkg-${PKG}.tgz \
 	&& cd pkg-${PKG} \
 	&& CC=clang ./configure --prefix=/uws \
 	&& make check CC=clang CFLAGS='-D_XOPEN_SOURCE=700' \
-	&& mkdir -vp /uws/etc \
+	&& mkdir -vp -m 0755 /uws/etc \
 	&& make install \
 	&& cd .. \
 	&& rm -rf pkg-${PKG}
 
+WORKDIR /home/uws
 CMD exec /usr/local/bin/uws-login.sh
