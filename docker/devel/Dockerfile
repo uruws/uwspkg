@@ -21,4 +21,8 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
+RUN mkdir -vp /home/uws/src/uwspkg
+VOLUME /home/uws/src/uwspkg
+
+WORKDIR /home/uws/src/uwspkg
 CMD exec /usr/local/bin/uws-login.sh
