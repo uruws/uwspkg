@@ -41,4 +41,4 @@ ARG UWS_UMASK=0027
 RUN printf 'umask %s\n' ${UWS_UMASK} >>/home/uws/.profile
 RUN printf "export PS1='%s '\n" '\u@\h:\W\$' >>/home/uws/.profile
 
-CMD exec /bin/bash -l
+CMD exec /usr/local/bin/uws-login.sh
