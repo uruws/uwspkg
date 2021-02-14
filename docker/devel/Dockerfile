@@ -13,10 +13,12 @@ RUN /root/bin/apt-install.sh sudo \
 	&& printf 'uws\tALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/uws \
 	&& chmod -v 0440 /etc/sudoers.d/uws
 
+RUN /root/bin/apt-install.sh man less vim-tiny
+
 USER uws:uws
 WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
 
-CMD exec /bin/bash -l
+CMD exec /usr/local/bin/uws-login.sh
