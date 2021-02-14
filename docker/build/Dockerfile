@@ -16,12 +16,10 @@ RUN wget -O pkgng.tgz https://github.com/freebsd/pkg/archive/${PKG}.tar.gz \
 	&& tar -C /home/uws/src -xzf pkgng.tgz \
 	&& chown -R uws:uws /home/uws/src
 
-RUN /root/bin/apt-install.sh autoconf automake libtool pkgconf make \
-	freebsd-buildutils libarchive-dev libbz2-dev liblzma-dev libssl-dev clang
+RUN /root/bin/apt-install.sh clang
 
-#RUN /root/bin/apt-install.sh sudo \
-#	&& printf 'uws\tALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/uws \
-#	&& chmod -v 0440 /etc/sudoers.d/uws
+RUN /root/bin/apt-install.sh autoconf automake libtool pkgconf make \
+	freebsd-buildutils libarchive-dev libbz2-dev liblzma-dev libssl-dev
 
 RUN mkdir -vp /uws && chown -vR uws:uws /uws
 
@@ -38,4 +36,4 @@ RUN CC=clang ./configure --prefix=/uws \
 RUN mkdir -vp /uws/etc \
 	&& make install
 
-CMD exec /bin/bash -l
+CMD exec /usr/local/bin/uws-login.sh
