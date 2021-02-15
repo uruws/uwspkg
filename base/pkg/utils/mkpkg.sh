@@ -9,21 +9,49 @@ files=/home/uws/src
 dstfn=/home/uws/build/uwspkg-bootstrap.tgz
 
 oldwd=${PWD}
+
 cd /uws
 rm -vrf etc share include
 
 install -v -d etc
 install -v -m 0644 ${files}/etc/pkg.conf etc/
 
-cat ${files}/manifest >${build}/+MANIFEST
+ldd /uws/sbin/pkg | fgrep '=>' | cut -d '>' -f 2 | cut -d ' ' -f 2 >${build}/libs
+for fn in $(cat ${build}/libs | sort -u); do
+	libn=`echo $(basename $fn) | sed 's/\.so.*//'`
+	src=$(dirname ${fn})/${libn}
+	cp -va --no-preserve=ownership ${src}*.so* /uws/lib
+done
+
+(find /uws -type f && find /uws -type l) >${build}/pkg-plist
+
+manifest=${build}/+MANIFEST
+cat ${files}/manifest >${manifest}
+
+#~ echo 'files: {' >>${manifest}
+#~ for fn in $(cat ${build}/files | sort -u); do
+	#~ mode=0644
+	#~ if test 'X/uws/sbin/pkg' = "X${fn}"; then
+		#~ mode=0755
+	#~ fi
+	#~ if test -L ${fn}; then
+		#~ echo "file: - ${fn}"
+	#~ else
+		#~ echo "file: $(sha256sum ${fn} | cut -d ' ' -f 1) ${fn}"
+	#~ fi
+#~ done >>${manifest}
+#~ echo '}' >>${manifest}
 
 cd ${build}
-pkg create -v -m . -r /uws
+cat ${manifest}
+cat ${build}/pkg-plist
+
+pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
 pkg register -d -m .
 
 cd ${oldwd}
-rm -rf ${build}
 
 tar -C / -vczf ${dstfn} ./uws
 echo "${dstfn} done!"
+
 exit 0
