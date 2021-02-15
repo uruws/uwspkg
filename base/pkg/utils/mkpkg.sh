@@ -28,22 +28,28 @@ echo '@owner root' >${plist}
 echo '@group root' >>${plist}
 echo '@mode 0755' >>${plist}
 echo '/uws/sbin/pkg' >>${plist}
-echo '@mode 0644' >>${plist}
-(find /uws -type f && find /uws -type l) | fgrep -v /uws/sbin/pkg >>${plist}
+echo '@mode' >>${plist}
+(find /uws -type f && find /uws -type l) | fgrep -v /uws/sbin/pkg | sort -u >>${plist}
 
 manifest=${build}/+MANIFEST
 cat ${files}/manifest >${manifest}
+
+mkdir -vp /uws/var/db/pkg
+echo '@dir /uws/var' >>${plist}
+echo '@dir /uws/var/db' >>${plist}
+echo '@dir /uws/var/db/pkg' >>${plist}
 
 cd ${build}
 cat ${manifest}
 cat ${plist}
 
 pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
-pkg register -d -m .
+fakeroot pkg register -d -m .
 
 cd ${oldwd}
+rm -vf /uws/var/db/pkg/local.sqlite
 
-tar -C / -vczf ${dstfn} ./uws
+tar -C / -vczf ${dstfn} ./uws | sort
 echo "${dstfn} done!"
 
 exit 0

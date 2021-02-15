@@ -3,6 +3,14 @@ FROM uwspkg/build
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
 LABEL version="2021.02.14"
 
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh fakeroot
+
 USER uws:uws
 WORKDIR /home/uws
 
