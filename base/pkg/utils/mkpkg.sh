@@ -23,7 +23,13 @@ for fn in $(cat ${build}/libs | sort -u); do
 	cp -va --no-preserve=ownership ${src}*.so* /uws/lib
 done
 
-(find /uws -type f && find /uws -type l) >${build}/pkg-plist
+plist=${build}/pkg-plist
+echo '@owner root' >${plist}
+echo '@group root' >>${plist}
+echo '@mode 0755' >>${plist}
+echo '/uws/sbin/pkg' >>${plist}
+echo '@mode 0644' >>${plist}
+(find /uws -type f && find /uws -type l) | fgrep -v /uws/sbin/pkg >>${plist}
 
 manifest=${build}/+MANIFEST
 cat ${files}/manifest >${manifest}
@@ -44,7 +50,7 @@ cat ${files}/manifest >${manifest}
 
 cd ${build}
 cat ${manifest}
-cat ${build}/pkg-plist
+cat ${plist}
 
 pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
 pkg register -d -m .
