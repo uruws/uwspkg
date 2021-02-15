@@ -34,20 +34,6 @@ echo '@mode 0644' >>${plist}
 manifest=${build}/+MANIFEST
 cat ${files}/manifest >${manifest}
 
-#~ echo 'files: {' >>${manifest}
-#~ for fn in $(cat ${build}/files | sort -u); do
-	#~ mode=0644
-	#~ if test 'X/uws/sbin/pkg' = "X${fn}"; then
-		#~ mode=0755
-	#~ fi
-	#~ if test -L ${fn}; then
-		#~ echo "file: - ${fn}"
-	#~ else
-		#~ echo "file: $(sha256sum ${fn} | cut -d ' ' -f 1) ${fn}"
-	#~ fi
-#~ done >>${manifest}
-#~ echo '}' >>${manifest}
-
 cd ${build}
 cat ${manifest}
 cat ${plist}
