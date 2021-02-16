@@ -7,6 +7,9 @@ mkdir -vp /home/uws/build
 build=$(mktemp -d /home/uws/build/pkg-XXXXXXXX)
 files=/home/uws/src
 dstfn=/home/uws/build/uwspkg-bootstrap-${UWSPKG_VERSION}.tgz
+verfn=/home/uws/build/uwspkg-bootstrap.version
+
+echo ${UWSPKG_VERSION} >${verfn}
 
 oldwd=${PWD}
 
