@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:stable-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
 LABEL version="2021.02.13"
@@ -12,7 +12,7 @@ ENV HOME /root
 ADD ./utils/apt-*.sh /root/bin/
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
-RUN /root/bin/apt-distupgrade.sh
+RUN /root/bin/apt-distsetup.sh testing main
 RUN /root/bin/apt-install.sh bash ca-certificates wget locales
 
 ADD ./utils/uws-*.sh /root/bin/
