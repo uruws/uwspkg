@@ -20,11 +20,10 @@ install -v -d etc
 install -v -m 0644 ${files}/etc/pkg.conf etc/
 install -v -m 0755 ${files}/bin/uwspkg /usr/local/bin/uwspkg
 
-ldd /uws/sbin/pkg | fgrep '=>' | cut -d '>' -f 2 | cut -d ' ' -f 2 >${build}/libs
-for fn in $(cat ${build}/libs | sort -u); do
-	libn=`echo $(basename $fn) | sed 's/\.so.*//'`
-	src=$(dirname ${fn})/${libn}
-	cp -va --no-preserve=ownership ${src}*.so* /uws/lib
+ldd /uws/sbin/pkg >${build}/libs
+LIBS='libbsd.so libarchive.so libmd.so libxml2.so libicuuc.so libicudata.so'
+for fn in ${LIBS}; do
+	cp -va --no-preserve=ownership /usr/lib/x86_64-linux-gnu/${fn}* /uws/lib
 done
 
 plist=${build}/pkg-plist
@@ -34,6 +33,7 @@ echo '@mode 0755' >>${plist}
 echo '/usr/local/bin/uwspkg' >>${plist}
 echo '/uws/sbin/pkg' >>${plist}
 echo '@mode' >>${plist}
+
 (find /uws -type f && find /uws -type l) |
 	fgrep -v /uws/sbin/pkg | fgrep -v /usr/local/bin/uwspkg | sort -u >>${plist}
 
