@@ -23,7 +23,7 @@ RUN mkdir -vp ./build ./src
 COPY --chown=uws:uws ./utils /usr/local/bin
 COPY --chown=uws:uws ./files /home/uws/src
 
-ENV UWSPKG_VERSION 20210216
-RUN mkpkg.sh
+VOLUME /home/uws/build
 
-CMD exec /usr/local/bin/uws-login.sh
+ENV UWSPKG_VERSION 20210216
+ENTRYPOINT exec /usr/local/bin/mkpkg.sh
