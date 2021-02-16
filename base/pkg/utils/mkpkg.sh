@@ -58,7 +58,9 @@ cd ${oldwd}
 
 fakeroot tar -C / -czf ${dstfn} ./usr/local/bin/uwspkg ./uws
 tar -tzf ${dstfn} | sort
-sha256sum ${dstfn} >${dstfn}.sha256sum
+
+cd /home/uws/build
+sha256sum $(basename ${dstfn}) >${dstfn}.sha256sum
 
 cat ${dstfn}.sha256sum
 exit 0
