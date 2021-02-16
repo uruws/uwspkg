@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+st=$(stat -c '%u:%g-%a' /uws/sbin/pkg)
+if test 'X0:0-755' != "X${st}"; then
+	echo "invalid /uws/sbin/pkg stat: ${st}" >&2
+	exit 1
+fi
+exit 0
