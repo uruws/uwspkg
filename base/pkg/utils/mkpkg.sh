@@ -6,7 +6,7 @@ export PATH=/uws/sbin:${PATH}
 mkdir -vp /home/uws/build
 build=$(mktemp -d /home/uws/build/pkg-XXXXXXXX)
 files=/home/uws/src
-dstfn=/home/uws/build/uwspkg-bootstrap.tgz
+dstfn=/home/uws/build/uwspkg-bootstrap-${UWSPKG_VERSION}.tgz
 
 oldwd=${PWD}
 
@@ -33,6 +33,7 @@ echo '@mode' >>${plist}
 
 manifest=${build}/+MANIFEST
 cat ${files}/manifest >${manifest}
+echo "version: ${UWSPKG_VERSION}" >>${manifest}
 
 mkdir -vp /uws/var/db/pkg
 echo '@dir /uws/var' >>${plist}

@@ -1,7 +1,7 @@
 FROM uwspkg/build
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
-LABEL version="2021.02.14"
+LABEL version="2021.02.16"
 
 USER root:root
 WORKDIR /root
@@ -23,6 +23,7 @@ RUN mkdir -vp ./build ./src
 COPY --chown=uws:uws ./utils /usr/local/bin
 COPY --chown=uws:uws ./files /home/uws/src
 
+ENV UWSPKG_VERSION 20210216
 RUN mkpkg.sh
 
 CMD exec /usr/local/bin/uws-login.sh

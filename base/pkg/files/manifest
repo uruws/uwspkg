@@ -1,5 +1,4 @@
 name: pkg
-version: 20210214
 origin: base/pkg
 comment: uws package manager
 arch: x86_64
