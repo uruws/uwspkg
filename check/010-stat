@@ -5,4 +5,14 @@ if test 'X0:0-755' != "X${st}"; then
 	echo "invalid /uws/sbin/pkg stat: ${st}" >&2
 	exit 1
 fi
+st=$(stat -c '%u:%g-%a' /usr/local/bin/uwspkg)
+if test 'X0:0-755' != "X${st}"; then
+	echo "invalid /usr/local/bin/uwspkg stat: ${st}" >&2
+	exit 1
+fi
+st=$(stat -c '%u:%g-%a' /uws/etc/pkg.conf)
+if test 'X0:0-644' != "X${st}"; then
+	echo "invalid /uws/etc/pkg.conf stat: ${st}" >&2
+	exit 1
+fi
 exit 0

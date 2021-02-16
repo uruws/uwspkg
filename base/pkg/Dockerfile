@@ -10,6 +10,8 @@ ENV USER root
 ENV HOME /root
 
 RUN /root/bin/apt-install.sh fakeroot
+RUN chgrp uws /usr/local/bin \
+	&& chmod g+w /usr/local/bin
 
 USER uws:uws
 WORKDIR /home/uws

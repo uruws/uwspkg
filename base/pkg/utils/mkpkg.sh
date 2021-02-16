@@ -18,6 +18,7 @@ rm -vrf etc share include
 
 install -v -d etc
 install -v -m 0644 ${files}/etc/pkg.conf etc/
+install -v -m 0755 ${files}/bin/uwspkg /usr/local/bin/uwspkg
 
 ldd /uws/sbin/pkg | fgrep '=>' | cut -d '>' -f 2 | cut -d ' ' -f 2 >${build}/libs
 for fn in $(cat ${build}/libs | sort -u); do
@@ -30,9 +31,11 @@ plist=${build}/pkg-plist
 echo '@owner root' >${plist}
 echo '@group root' >>${plist}
 echo '@mode 0755' >>${plist}
+echo '/usr/local/bin/uwspkg' >>${plist}
 echo '/uws/sbin/pkg' >>${plist}
 echo '@mode' >>${plist}
-(find /uws -type f && find /uws -type l) | fgrep -v /uws/sbin/pkg | sort -u >>${plist}
+(find /uws -type f && find /uws -type l) |
+	fgrep -v /uws/sbin/pkg | fgrep -v /usr/local/bin/uwspkg | sort -u >>${plist}
 
 manifest=${build}/+MANIFEST
 cat ${files}/manifest >${manifest}
@@ -53,7 +56,7 @@ fakeroot pkg register -d -m .
 cd ${oldwd}
 rm -vf /uws/var/db/pkg/local.sqlite
 
-fakeroot tar -C / -czf ${dstfn} ./uws
+fakeroot tar -C / -czf ${dstfn} ./usr/local/bin/uwspkg ./uws
 tar -tzf ${dstfn} | sort
 sha256sum ${dstfn} >${dstfn}.sha256sum
 
