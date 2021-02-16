@@ -1,4 +1,4 @@
-name: pkg
+name: uwspkg
 origin: base/pkg
 comment: uws package manager
 arch: x86_64

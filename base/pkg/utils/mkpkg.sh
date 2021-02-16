@@ -54,7 +54,7 @@ pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
 fakeroot pkg register -d -m .
 
 cd ${oldwd}
-rm -vf /uws/var/db/pkg/local.sqlite
+#~ rm -vf /uws/var/db/pkg/local.sqlite
 
 fakeroot tar -C / -czf ${dstfn} ./usr/local/bin/uwspkg ./uws
 tar -tzf ${dstfn} | sort
