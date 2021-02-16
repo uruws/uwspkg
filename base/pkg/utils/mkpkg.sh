@@ -14,7 +14,7 @@ echo ${UWSPKG_VERSION} >${verfn}
 oldwd=${PWD}
 
 cd /uws
-rm -vrf etc share include
+rm -vrf etc share include lib/pkgconfig
 
 install -v -d etc
 install -v -m 0644 ${files}/etc/pkg.conf etc/
