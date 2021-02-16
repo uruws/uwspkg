@@ -40,6 +40,7 @@ check: build/uwspkg-bootstrap.version
 
 DEPS := base/pkg/Dockerfile base/pkg/make.sh base/pkg/files/manifest
 DEPS += base/pkg/files/bin/uwspkg base/pkg/files/etc/pkg.conf
+DEPS += base/pkg/utils/mkpkg.sh
 
 build/uwspkg-bootstrap.version: $(DEPS)
 	@$(MAKE) base/pkg
