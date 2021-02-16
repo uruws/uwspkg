@@ -1,5 +1,5 @@
 .PHONY: default
-default: all
+default: base/pkg
 
 .PHONY: prune
 prune:
@@ -10,7 +10,7 @@ clean:
 	@rm -rvf ./build ./tmp
 
 .PHONY: all
-all: docker/base docker/build docker/devel base/pkg
+all: docker/base docker/build docker/check docker/devel base/pkg
 
 .PHONY: docker/base
 docker/base:
@@ -19,6 +19,10 @@ docker/base:
 .PHONY: docker/build
 docker/build:
 	@./docker/build/build.sh
+
+.PHONY: docker/check
+docker/check:
+	@./docker/check/build.sh
 
 .PHONY: docker/devel
 docker/devel:
@@ -30,6 +34,12 @@ base/pkg: docker/build
 	@./base/pkg/make.sh
 
 .PHONY: check
-check: clean prune base/pkg
-	@./docker/check/build.sh
+check: build/uwspkg-bootstrap.version
+	@./docker/check/build.sh >/dev/null
 	@./docker/check/run.sh
+
+DEPS := base/pkg/Dockerfile base/pkg/make.sh base/pkg/files/manifest
+DEPS += base/pkg/files/bin/uwspkg base/pkg/files/etc/pkg.conf
+
+build/uwspkg-bootstrap.version: $(DEPS)
+	@$(MAKE) base/pkg
