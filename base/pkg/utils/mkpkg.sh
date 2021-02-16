@@ -49,7 +49,9 @@ fakeroot pkg register -d -m .
 cd ${oldwd}
 rm -vf /uws/var/db/pkg/local.sqlite
 
-tar -C / -vczf ${dstfn} ./uws | sort
-echo "${dstfn} done!"
+tar -C / -czf ${dstfn} ./uws
+tar -tzf ${dstfn} | sort
+sha256sum ${dstfn} >${dstfn}.sha256sum
 
+cat ${dstfn}.sha256sum
 exit 0
