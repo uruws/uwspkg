@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
 uwspkg info -a
+uwspkg info -R uwspkg
 exit 0

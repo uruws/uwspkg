@@ -1,7 +1,6 @@
 name: uwspkg
 origin: base/pkg
 comment: uws package manager
-arch: x86_64
 www: https://github.com/uruws/uwspkg
 maintainer: pkg@uws.talkingpts.org
 prefix: /uws
