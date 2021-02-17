@@ -1,7 +1,7 @@
 FROM uwspkg/base
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
-LABEL version="2021.02.16-1"
+LABEL version="2021.02.17"
 
 USER root:root
 WORKDIR /root
@@ -13,7 +13,9 @@ RUN /root/bin/apt-install.sh sudo \
 	&& printf 'uws\tALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/uws \
 	&& chmod -v 0440 /etc/sudoers.d/uws
 
-RUN /root/bin/apt-install.sh libbsd0 libarchive13
+COPY debian-deps.txt /tmp
+RUN cat /tmp/debian-deps.txt | xargs /root/bin/apt-install.sh \
+	&& rm -vf /tmp/debian-deps.txt
 
 USER uws:uws
 WORKDIR /home/uws
