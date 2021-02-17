@@ -1,7 +1,7 @@
 FROM uwspkg/base
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
-LABEL version="2021.02.13"
+LABEL version="2021.02.18"
 
 USER uws:uws
 WORKDIR /home/uws
@@ -25,7 +25,7 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh clang
 
 RUN /root/bin/apt-install.sh autoconf automake libtool pkgconf make \
-	freebsd-buildutils libarchive-dev libbz2-dev liblzma-dev libssl-dev
+	libbsd-dev zlib1g-dev libarchive-dev libbz2-dev liblzma-dev libssl-dev
 
 RUN mkdir -vp /uws && chown -vR uws:uws /uws
 
