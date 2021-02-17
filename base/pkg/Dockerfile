@@ -24,7 +24,5 @@ VOLUME /home/uws/build
 
 COPY --chown=uws:uws ./files /home/uws/src
 
-ENV UWSPKG_VERSION 20210216
-
 COPY --chown=uws:uws ./utils /usr/local/bin
 ENTRYPOINT exec /usr/local/bin/mkpkg.sh
