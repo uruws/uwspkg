@@ -19,13 +19,12 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-COPY --chown=uws:uws ./utils /usr/local/bin
-
 RUN mkdir -vp ./build ./src
-COPY --chown=uws:uws ./utils /usr/local/bin
-COPY --chown=uws:uws ./files /home/uws/src
-
 VOLUME /home/uws/build
 
+COPY --chown=uws:uws ./files /home/uws/src
+
 ENV UWSPKG_VERSION 20210216
+
+COPY --chown=uws:uws ./utils /usr/local/bin
 ENTRYPOINT exec /usr/local/bin/mkpkg.sh

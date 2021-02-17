@@ -35,7 +35,7 @@ base/pkg: docker/build
 
 .PHONY: check
 check: build/uwspkg-bootstrap.version
-	@./docker/check/build.sh >/dev/null
+	@./docker/check/build.sh
 	@./docker/check/run.sh
 
 DEPS := base/pkg/Dockerfile base/pkg/make.sh base/pkg/files/manifest

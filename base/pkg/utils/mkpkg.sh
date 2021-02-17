@@ -1,8 +1,6 @@
 #!/bin/sh
 set -eu
 
-export PATH=/uws/sbin:${PATH}
-
 mkdir -vp /home/uws/build
 build=$(mktemp -d /home/uws/build/pkg-XXXXXXXX)
 files=/home/uws/src
@@ -21,10 +19,10 @@ install -v -m 0644 ${files}/etc/pkg.conf etc/
 install -v -m 0755 ${files}/bin/uwspkg /usr/local/bin/uwspkg
 
 ldd /uws/sbin/pkg >${build}/libs
-LIBS='libbsd.so libarchive.so libmd.so libxml2.so libicuuc.so libicudata.so'
-for fn in ${LIBS}; do
-	cp -va --no-preserve=ownership /usr/lib/x86_64-linux-gnu/${fn}* /uws/lib
-done
+#~ LIBS='libbsd.so libarchive.so libmd.so libxml2.so libicuuc.so libicudata.so'
+#~ for fn in ${LIBS}; do
+	#~ cp -va --no-preserve=ownership /usr/lib/x86_64-linux-gnu/${fn}* /uws/lib
+#~ done
 
 plist=${build}/pkg-plist
 echo '@owner root' >${plist}
@@ -49,6 +47,9 @@ echo '@dir /uws/var/db/pkg' >>${plist}
 cd ${build}
 cat ${manifest}
 cat ${plist}
+
+export PATH=/uws/sbin:${PATH}
+export LD_LIBRARY_PATH=/uws/lib
 
 pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
 fakeroot pkg register -d -m .
