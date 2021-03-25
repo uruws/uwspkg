@@ -10,6 +10,7 @@ import (
 	"path"
 	"path/filepath"
 
+	"uwspkg/config"
 	"uwspkg/log"
 )
 
@@ -29,6 +30,9 @@ func main() {
 	pkgdir = filepath.Join(filepath.Clean(filepath.FromSlash(pkgdir)), pkgname)
 	log.Debug("pkg dir: %s", pkgdir)
 	log.Debug("pkg name: %s", pkgname)
+	if err := config.Load(); err != nil {
+		log.Fatal("%v", err)
+	}
 }
 
 func parseOrigin(o string) (string, string) {
