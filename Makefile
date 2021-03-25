@@ -34,7 +34,7 @@ base/uwspkg: docker/build
 	@./base/uwspkg/make.sh
 
 .PHONY: check
-check: build/uwspkg-bootstrap.version
+check: go/check build/uwspkg-bootstrap.version
 	@./docker/check/build.sh
 	@./docker/check/run.sh
 
