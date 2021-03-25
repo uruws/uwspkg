@@ -9,7 +9,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-ENV PKG 1.16.2
+ENV PKG 1.16.3
 
 RUN mkdir -vp -m 0750 /home/uws/src
 WORKDIR /home/uws/src
