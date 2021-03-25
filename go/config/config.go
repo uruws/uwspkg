@@ -45,6 +45,7 @@ const Version uint = 1
 
 type Config struct {
 	Version uint `yaml:version`
+	PkgDir  string `yaml:"pkgdir"`
 }
 
 type Manager struct {
@@ -74,6 +75,15 @@ func (m *Manager) LoadFile(name string) error {
 		if m.c.Version > Version {
 			return fmt.Errorf("config invalid version: %d", m.c.Version)
 		}
+	}
+	return m.Parse(m.c)
+}
+
+func (m *Manager) Parse(c *Config) error {
+	var err error
+	c.PkgDir, err = filepath.Abs(filepath.Clean(c.PkgDir))
+	if err != nil {
+		return err
 	}
 	return nil
 }
