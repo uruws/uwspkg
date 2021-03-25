@@ -7,6 +7,7 @@ package main
 import (
 	"flag"
 	"os"
+	"path"
 
 	"uwspkg/log"
 )
@@ -15,13 +16,19 @@ func main() {
 	log.Init("uwspkg-build")
 	log.Debug("init")
 	var (
-		pkgorig string
+		pkgdir string
+		pkgname string
 	)
 	flag.Parse()
-	pkgorig = flag.Arg(0)
-	if pkgorig == "" {
+	pkgdir, pkgname = parseOrigin(flag.Arg(0))
+	if pkgdir == "" {
 		usage()
 	}
+	log.Debug("pkg origin: %s%s", pkgdir, pkgname)
+}
+
+func parseOrigin(o string) (string, string) {
+	return path.Split(o)
 }
 
 func usage() {
