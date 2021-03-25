@@ -40,12 +40,20 @@ func Load() error {
 	return nil
 }
 
+type Loader struct {
+	Version int `yaml:"version"`
+}
+
 type Config struct {
 	m *sync.Mutex
+	Loader *Loader `yaml:"config"`
 }
 
 func New() *Config {
-	return &Config{m: new(sync.Mutex)}
+	return &Config{
+		m: new(sync.Mutex),
+		Loader: &Loader{},
+	}
 }
 
 func (c *Config) LoadFile(name string) error {
@@ -57,7 +65,7 @@ func (c *Config) LoadFile(name string) error {
 		log.Debug("%v", err)
 		return err
 	}
-	if err := yaml.Unmarshal(blob, nil); err != nil {
+	if err := yaml.Unmarshal(blob, &c); err != nil {
 		return err
 	} else {
 	}
