@@ -6,6 +6,7 @@ package config
 
 import (
 	"io/ioutil"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
@@ -21,7 +22,7 @@ var ConfigFiles map[int]string = map[int]string{
 	2: filepath.FromSlash("./uwspkg.yml"),
 }
 
-var cfg *Config
+var cfg *Manager
 func init() {
 	cfg = New()
 }
@@ -40,34 +41,39 @@ func Load() error {
 	return nil
 }
 
-type Loader struct {
-	Version int `yaml:"version"`
-}
+const Version uint = 1
 
 type Config struct {
-	m *sync.Mutex
-	Loader *Loader `yaml:"config"`
+	Version uint `yaml:version`
 }
 
-func New() *Config {
-	return &Config{
-		m: new(sync.Mutex),
-		Loader: &Loader{},
+type Manager struct {
+	x *sync.Mutex
+	c *Config
+}
+
+func New() *Manager {
+	return &Manager{
+		x: new(sync.Mutex),
+		c: new(Config),
 	}
 }
 
-func (c *Config) LoadFile(name string) error {
+func (m *Manager) LoadFile(name string) error {
 	log.Debug("load file: %s", name)
-	c.m.Lock()
-	defer c.m.Unlock()
+	m.x.Lock()
+	defer m.x.Unlock()
 	blob, err := ioutil.ReadFile(name)
 	if err != nil {
 		log.Debug("%v", err)
 		return err
 	}
-	if err := yaml.Unmarshal(blob, &c); err != nil {
+	if err := yaml.Unmarshal(blob, &m.c); err != nil {
 		return err
 	} else {
+		if m.c.Version > Version {
+			return fmt.Errorf("config invalid version: %d", m.c.Version)
+		}
 	}
 	return nil
 }
