@@ -10,7 +10,7 @@ clean:
 	@rm -rvf ./build ./tmp
 
 .PHONY: all
-all: docker/base docker/build docker/check docker/devel base/uwspkg
+all: docker/base docker/build docker/check docker/devel base/uwspkg go/docker
 
 .PHONY: docker/base
 docker/base:
@@ -44,3 +44,7 @@ DEPS += base/uwspkg/utils/mkpkg.sh
 
 build/uwspkg-bootstrap.version: $(DEPS)
 	@$(MAKE) base/uwspkg
+
+.PHONY: go/docker
+go/docker:
+	@./go/docker/build.sh
