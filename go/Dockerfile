@@ -12,7 +12,7 @@ ENV HOME /root
 RUN /root/bin/apt-distsetup.sh bullseye
 RUN /root/bin/apt-install.sh golang-go
 
-RUN mkdir -vp /go/src/uwspkg && chown -vR uws:uws /go
+RUN mkdir -vp /go/src/uwspkg /go/.cache && chown -vR uws:uws /go
 VOLUME /go/src/uwspkg
 
 USER uws:uws
