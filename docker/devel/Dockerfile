@@ -13,7 +13,13 @@ RUN /root/bin/apt-install.sh sudo \
 	&& printf 'uws\tALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/uws \
 	&& chmod -v 0440 /etc/sudoers.d/uws
 
-RUN /root/bin/apt-install.sh man less vim-tiny
+RUN /root/bin/apt-install.sh man less vim-tiny fakeroot
+
+RUN chgrp -v uws /usr/local/bin \
+	&& chmod g+ws /usr/local/bin
+
+RUN mkdir -vp /opt/src/uwspkg
+VOLUME /opt/src/uwspkg
 
 USER uws:uws
 WORKDIR /home/uws
@@ -21,8 +27,5 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN mkdir -vp /uws/src/uwspkg
-VOLUME /uws/src/uwspkg
-
-WORKDIR /uws/src/uwspkg
+WORKDIR /opt/src/uwspkg
 CMD exec /usr/local/bin/uws-login.sh
