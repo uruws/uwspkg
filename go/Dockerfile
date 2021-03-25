@@ -31,4 +31,9 @@ RUN go env \
 	&& go version
 
 WORKDIR /go/src/uwspkg
+
+COPY --chown=uws:uws go.mod go.sum ./
+RUN go mod download -x \
+	&& rm -vf go.mod go.sum
+
 CMD exec /usr/local/bin/uws-login.sh
