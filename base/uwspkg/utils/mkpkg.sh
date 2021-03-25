@@ -52,7 +52,7 @@ export PATH=/uws/sbin:${PATH}
 export LD_LIBRARY_PATH=/uws/lib
 
 pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
-fakeroot pkg register -d -m .
+fakeroot pkg register -d -m . -f pkg-plist
 
 cd ${oldwd}
 #~ rm -vf /uws/var/db/pkg/local.sqlite
