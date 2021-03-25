@@ -150,49 +150,25 @@ func Output(calldepth int, s string) error {
 	return l.Output(calldepth, s)
 }
 
-func Panic(v ...interface{}) {
-	err := errors.New(fmt.Sprint(v...))
-	l.Print(logger.PANIC, v...)
-	panic(err)
-}
-
-func Panicf(format string, v ...interface{}) {
+func Panic(format string, v ...interface{}) {
 	err := errors.New(fmt.Sprintf(format, v...))
 	l.Printf(logger.PANIC, format, v...)
 	panic(err)
 }
 
-func Print(v ...interface{}) {
-	if verbose {
-		l.Print(logger.MSG, v...)
-	}
-}
-
-func Printf(format string, v ...interface{}) {
+func Print(format string, v ...interface{}) {
 	if verbose {
 		l.Printf(logger.MSG, format, v...)
 	}
 }
 
-func Debug(v ...interface{}) {
-	if debug {
-		l.Print(logger.DEBUG, v...)
-	}
-}
-
-func Debugf(format string, v ...interface{}) {
+func Debug(format string, v ...interface{}) {
 	if debug {
 		l.Printf(logger.DEBUG, format, v...)
 	}
 }
 
-func Error(v ...interface{}) error {
-	err := errors.New(fmt.Sprint(v...))
-	l.Print(logger.ERROR, v...)
-	return err
-}
-
-func Errorf(format string, v ...interface{}) error {
+func Error(format string, v ...interface{}) error {
 	err := errors.New(fmt.Sprintf(format, v...))
 	l.Printf(logger.ERROR, format, v...)
 	return err
@@ -200,35 +176,18 @@ func Errorf(format string, v ...interface{}) error {
 
 var osExit func(int) = os.Exit
 
-func Fatal(v ...interface{}) {
-	l.Print(logger.FATAL, v...)
-	osExit(2)
-}
-
-func Fatalf(format string, v ...interface{}) {
+func Fatal(format string, v ...interface{}) {
 	l.Printf(logger.FATAL, format, v...)
 	osExit(2)
 }
 
-func Warn(v ...interface{}) {
-	if verbose {
-		l.Print(logger.WARN, v...)
-	}
-}
-
-func Warnf(format string, v ...interface{}) {
+func Warn(format string, v ...interface{}) {
 	if verbose {
 		l.Printf(logger.WARN, format, v...)
 	}
 }
 
-func Info(v ...interface{}) {
-	if info {
-		l.Print(logger.INFO, v...)
-	}
-}
-
-func Infof(format string, v ...interface{}) {
+func Info(format string, v ...interface{}) {
 	if info {
 		l.Printf(logger.INFO, format, v...)
 	}

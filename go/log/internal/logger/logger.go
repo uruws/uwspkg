@@ -112,15 +112,6 @@ func (l *Logger) tag(lvl Level, msg string) string {
 	return tag + msg
 }
 
-func (l *Logger) Print(lvl Level, args ...interface{}) {
-	msg := gfmt.Sprint(args...)
-	if l.colored {
-		l.log.Output(l.depth, l.color(lvl, msg))
-	} else {
-		l.log.Output(l.depth, l.tag(lvl, msg))
-	}
-}
-
 func (l *Logger) Printf(lvl Level, fmt string, args ...interface{}) {
 	msg := gfmt.Sprintf(fmt, args...)
 	if l.colored {
