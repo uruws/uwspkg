@@ -48,3 +48,7 @@ build/uwspkg-bootstrap.version: $(DEPS)
 .PHONY: go/docker
 go/docker:
 	@./go/docker/build.sh
+
+.PHONY: go/check
+go/check:
+	@./go/docker/check.sh
