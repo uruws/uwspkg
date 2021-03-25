@@ -9,6 +9,8 @@ import (
 	_ "uwspkg/_testing/setup"
 
 	"uwspkg/config"
+
+	. "gopkg.in/check.v1"
 )
 
 func TestConfigDefaults(t *testing.T) {
@@ -17,5 +19,16 @@ func TestConfigDefaults(t *testing.T) {
 	}
 }
 
-func TestPackage(t *testing.T) {
+func Test(t *testing.T) {
+	TestingT(t)
+}
+
+type TSuite struct {
+}
+
+func init() {
+	Suite(&TSuite{})
+}
+
+func (s *TSuite) TestPackage(c *C) {
 }
