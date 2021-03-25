@@ -20,6 +20,7 @@ var (
 	debug      bool = false
 	info       bool = true
 	verbose    bool = true
+	warn       bool = true
 	debugFlags int  = log.Llongfile
 	stdFlags   int  = log.Ldate | log.Ltime | log.Lmicroseconds | log.Lmsgprefix
 )
@@ -30,6 +31,7 @@ func init() {
 	l = logger.New()
 	l.SetDepth(cdepth)
 	l.SetFlags(stdFlags)
+	setVerbose()
 }
 
 func setDebugFlags(s string) {
@@ -74,6 +76,7 @@ func setQuiet() {
 	debug = false
 	info = false
 	verbose = false
+	warn = false
 }
 
 func setDebug() {
@@ -84,6 +87,7 @@ func setDebug() {
 	debug = true
 	info = true
 	verbose = true
+	warn = true
 }
 
 func setInfo() {
@@ -94,6 +98,7 @@ func setInfo() {
 	debug = false
 	info = true
 	verbose = false
+	warn = true
 }
 
 func setVerbose() {
@@ -104,6 +109,18 @@ func setVerbose() {
 	debug = false
 	info = true
 	verbose = true
+	warn = true
+}
+
+func setWarning() {
+	l.SetDebug(false)
+	l.SetFlags(stdFlags)
+	l.Lock()
+	defer l.Unlock()
+	debug = false
+	info = false
+	verbose = false
+	warn = true
 }
 
 func setMode(lvl string) {
@@ -114,6 +131,8 @@ func setMode(lvl string) {
 		setDebug()
 	case "info":
 		setInfo()
+	case "warn":
+		setWarning()
 	default:
 		setVerbose()
 	}
@@ -182,7 +201,7 @@ func Fatal(format string, v ...interface{}) {
 }
 
 func Warn(format string, v ...interface{}) {
-	if verbose {
+	if warn {
 		l.Printf(logger.WARN, format, v...)
 	}
 }
