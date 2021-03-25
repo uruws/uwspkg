@@ -8,6 +8,7 @@ import (
 	"flag"
 	"os"
 	"path"
+	"path/filepath"
 
 	"uwspkg/log"
 )
@@ -25,6 +26,9 @@ func main() {
 		usage()
 	}
 	log.Debug("pkg origin: %s%s", pkgdir, pkgname)
+	pkgdir = filepath.Join(filepath.Clean(filepath.FromSlash(pkgdir)), pkgname)
+	log.Debug("pkg dir: %s", pkgdir)
+	log.Debug("pkg name: %s", pkgname)
 }
 
 func parseOrigin(o string) (string, string) {
