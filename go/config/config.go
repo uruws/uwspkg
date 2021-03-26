@@ -25,9 +25,9 @@ var Files map[int]string = map[int]string{
 const Version uint = 1
 
 type Main struct {
-	Version  uint   `yaml:version`
-	PkgDir   string `yaml:"pkgdir"`
-	Manifest string `yaml:"manifest"`
+	Version  uint
+	PkgDir   string
+	Manifest string
 }
 
 func newMain() *Main {

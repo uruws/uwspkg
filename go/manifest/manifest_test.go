@@ -4,6 +4,7 @@
 package manifest
 
 import (
+	"path/filepath"
 	"testing"
 
 	_ "uwspkg/_testing/setup"
@@ -26,4 +27,12 @@ func (s *TSuite) TestNewConfig(c *C) {
 	m := newConfig()
 	c.Check(m.Origin, Equals, "")
 	c.Check(m.Name, Equals, "")
+}
+
+func (s *TSuite) TestLoad(c *C) {
+	m := New()
+	err := m.Load(filepath.FromSlash("testdata/load/manifest.yml"))
+	c.Assert(err, IsNil)
+	c.Check(m.c.Origin, Equals, "testdata/load")
+	c.Check(m.c.Name, Equals, "load")
 }
