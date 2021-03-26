@@ -32,6 +32,8 @@ type Main struct {
 	BuildCfgDir   string `yaml:"build.cfgdir"`
 	BuildEnvPath  string `yaml:"build.env.path"`
 	SchrootCfgDir string `yaml:"schroot.cfgdir"`
+	DebianRepo    string `yaml:"debian.repo"`
+	DebianSecRepo string `yaml:"debian.secrepo"`
 }
 
 func (m *manager) Parse(c *Main) error {
@@ -69,6 +71,12 @@ func (m *manager) Parse(c *Main) error {
 		if err != nil {
 			return err
 		}
+	}
+	if c.DebianRepo == "" {
+		c.DebianRepo = "http://deb.debian.org/debian"
+	}
+	if c.DebianSecRepo == "" {
+		c.DebianSecRepo = "http://security.debian.org/debian-security"
 	}
 	return nil
 }
