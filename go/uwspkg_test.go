@@ -31,6 +31,13 @@ func init() {
 }
 
 func (s *TSuite) TestPackage(c *C) {
-	pkg := New("testing/base")
-	c.Assert(pkg.Origin, Equals, "testing/base")
+	pkg := New("testing/package")
+	c.Assert(pkg.Origin, Equals, "testing/package")
+}
+
+func (s *TSuite) TestPackageLoad(c *C) {
+	pkg := New("testing/package_load")
+	c.Assert(pkg.Origin, Equals, "testing/package_load")
+	err := pkg.Load()
+	c.Assert(err, IsNil)
 }

@@ -11,3 +11,7 @@ type Package struct {
 func New(origin string) *Package {
 	return &Package{Origin: origin}
 }
+
+func (p *Package) Load() error {
+	return nil
+}
