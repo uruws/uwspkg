@@ -12,8 +12,14 @@ ENV HOME /root
 RUN /root/bin/apt-distsetup.sh bullseye
 RUN /root/bin/apt-install.sh golang-go make less
 
-RUN mkdir -vp /go/src/uwspkg /go/.cache && chown -vR uws:uws /go
+RUN mkdir -vp /go/src/uwspkg /go/.cache \
+	&& chown -vR uws:uws /go
 VOLUME /go/src/uwspkg
+
+RUN mkdir -vp /usr/local/src/base /usr/local/src/devel \
+	&& chown -vR uws:uws /usr/local/src
+VOLUME /usr/local/src/base
+VOLUME /usr/local/src/devel
 
 USER uws:uws
 WORKDIR /home/uws
