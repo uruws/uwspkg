@@ -8,8 +8,8 @@ import (
 	"flag"
 	"os"
 	"path"
-	"path/filepath"
 
+	"uwspkg"
 	"uwspkg/config"
 	"uwspkg/log"
 )
@@ -18,19 +18,22 @@ func main() {
 	log.Init("uwspkg-build")
 	log.Debug("init")
 	var (
+		pkgorig string
 		pkgdir  string
 		pkgname string
 	)
 	flag.Parse()
-	pkgdir, pkgname = parseOrigin(flag.Arg(0))
+	pkgorig = flag.Arg(0)
+	pkgdir, pkgname = parseOrigin(pkgorig)
 	if pkgdir == "" {
 		usage()
 	}
-	log.Debug("pkg origin: %s%s", pkgdir, pkgname)
-	pkgdir = filepath.Join(filepath.Clean(filepath.FromSlash(pkgdir)), pkgname)
-	log.Debug("pkg dir: %s", pkgdir)
-	log.Debug("pkg name: %s", pkgname)
+	log.Debug("pkg origin: %s - %s %s", pkgorig, pkgdir, pkgname)
 	if err := config.Load(); err != nil {
+		log.Fatal("%v", err)
+	}
+	pkg := uwspkg.New(pkgorig)
+	if err := pkg.Load(); err != nil {
 		log.Fatal("%v", err)
 	}
 }

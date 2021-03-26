@@ -49,6 +49,13 @@ type Config struct {
 	PkgDir  string `yaml:"pkgdir"`
 }
 
+func newConfig() *Config {
+	return &Config{
+		Version: 0,
+		PkgDir: ".",
+	}
+}
+
 type Manager struct {
 	x *sync.Mutex
 	c *Config
@@ -57,8 +64,12 @@ type Manager struct {
 func New() *Manager {
 	return &Manager{
 		x: new(sync.Mutex),
-		c: new(Config),
+		c: newConfig(),
 	}
+}
+
+func Get() *Config {
+	return cfg.c
 }
 
 func (m *Manager) LoadFile(name string) error {
