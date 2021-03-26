@@ -152,6 +152,9 @@ func setOutput(out io.Writer) {
 }
 
 func Init(progname string) {
+	if progname == "" {
+		progname = os.Args[0]
+	}
 	setPrefix(progname)
 	if mode := os.Getenv("UWSPKG_LOG"); mode != "" {
 		setMode(mode)
