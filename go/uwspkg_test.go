@@ -31,4 +31,6 @@ func init() {
 }
 
 func (s *TSuite) TestPackage(c *C) {
+	pkg := New("testing/base")
+	c.Assert(pkg.Origin, Equals, "testing/base")
 }

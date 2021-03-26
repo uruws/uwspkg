@@ -5,9 +5,9 @@
 package uwspkg
 
 type Package struct {
-	Name string `yaml:"name"`
+	Origin string `yaml:"origin"`
 }
 
-func New() *Package {
-	return &Package{}
+func New(origin string) *Package {
+	return &Package{Origin: origin}
 }

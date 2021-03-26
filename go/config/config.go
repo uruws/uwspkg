@@ -5,8 +5,8 @@
 package config
 
 import (
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
@@ -23,6 +23,7 @@ var ConfigFiles map[int]string = map[int]string{
 }
 
 var cfg *Manager
+
 func init() {
 	cfg = New()
 }
@@ -44,7 +45,7 @@ func Load() error {
 const Version uint = 1
 
 type Config struct {
-	Version uint `yaml:version`
+	Version uint   `yaml:version`
 	PkgDir  string `yaml:"pkgdir"`
 }
 

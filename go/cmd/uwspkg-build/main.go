@@ -18,7 +18,7 @@ func main() {
 	log.Init("uwspkg-build")
 	log.Debug("init")
 	var (
-		pkgdir string
+		pkgdir  string
 		pkgname string
 	)
 	flag.Parse()
