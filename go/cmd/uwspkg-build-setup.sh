@@ -7,6 +7,11 @@ mkdir -vp ${SRV}
 debinst='debootstrap --variant=minbase'
 if ! test -d ${SRV}/chroot/debian-buster; then
 	${debinst} buster ${SRV}/chroot/debian-buster ${REPO}
+	oldwd=${PWD}
+	cd ${SRV}/chroot/debian-buster
+	rm -rfv ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
+		./var/cache/apt/*cache.bin
+	cd ${oldwd}
 fi
 mkdir -vp ${SRV}/union/overlay ${SRV}/union/underlay
 schsrc=./etc/schroot
