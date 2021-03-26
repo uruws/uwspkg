@@ -30,6 +30,7 @@ type Main struct {
 	Manifest      string `yaml:"manifest"`
 	BuildDir      string `yaml:"build.dir"`
 	BuildCfgDir   string `yaml:"build.cfgdir"`
+	BuildEnvPath  string `yaml:"build.env.path"`
 	SchrootCfgDir string `yaml:"schroot.cfgdir"`
 }
 
@@ -57,6 +58,9 @@ func (m *manager) Parse(c *Main) error {
 		if err != nil {
 			return err
 		}
+	}
+	if c.BuildEnvPath == "" {
+		c.BuildEnvPath = "/bin:/usr/bin:/usr/sbin"
 	}
 	if c.SchrootCfgDir == "" {
 		c.SchrootCfgDir = filepath.FromSlash("/etc/schroot")
