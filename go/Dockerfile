@@ -12,6 +12,13 @@ ENV HOME /root
 RUN /root/bin/apt-distsetup.sh bullseye
 RUN /root/bin/apt-install.sh golang-go make less
 
+COPY ./cmd/uwspkg-build.deps .
+RUN cat uwspkg-build.deps | xargs /root/bin/apt-install.sh \
+	&& rm -vf uwspkg-build.deps
+
+COPY ./etc/schroot/chroot.d/uwspkg.conf /etc/schroot/chroot.d/
+RUN chmod -v 0644 /etc/schroot/chroot.d/uwspkg.conf
+
 RUN mkdir -vp /go/src/uwspkg /go/.cache \
 	&& chown -vR uws:uws /go
 VOLUME /go/src/uwspkg
