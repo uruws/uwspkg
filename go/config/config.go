@@ -22,12 +22,12 @@ var Files map[int]string = map[int]string{
 	2: filepath.FromSlash("./uwspkg.yml"),
 }
 
-const Version uint = 1
+const Version uint = 0
 
 type Main struct {
-	Version  uint
-	PkgDir   string
-	Manifest string
+	Version  uint   `yaml:"version"`
+	PkgDir   string `yaml:"pkgdir"`
+	Manifest string `yaml:"manifest"`
 }
 
 func newMain() *Main {

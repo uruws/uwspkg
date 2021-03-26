@@ -23,8 +23,8 @@ type Config struct {
 func newConfig(origin string) *Config {
 	return &Config{
 		Origin: origin,
-		Name: "",
-		Image: "default",
+		Name:   "",
+		Image:  "default",
 	}
 }
 
