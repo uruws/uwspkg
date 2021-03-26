@@ -33,7 +33,7 @@ func (p *Package) Load() error {
 	pkgdir = filepath.Join(p.cfg.PkgDir, pkgdir)
 	log.Debug("pkg dir: %s", pkgdir)
 	log.Debug("pkg name: %s", pkgname)
-	pkgman := filepath.Join(pkgdir, "manifest.yml")
+	pkgman := filepath.Join(pkgdir, p.cfg.Manifest)
 	log.Debug("pkg name: %s", pkgman)
 	p.man = manifest.New()
 	return nil

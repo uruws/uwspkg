@@ -31,5 +31,5 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	m := newManager()
 	c.Check(m.c.Version, Equals, uint(0))
 	c.Check(m.c.PkgDir, Equals, ".")
-	c.Check(m.c.Manifest, NotNil)
+	c.Check(m.c.Manifest, Equals, "manifest.yml")
 }
