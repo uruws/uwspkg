@@ -16,9 +16,6 @@ COPY ./cmd/uwspkg-build.deps .
 RUN cat uwspkg-build.deps | xargs /root/bin/apt-install.sh \
 	&& rm -vf uwspkg-build.deps
 
-COPY ./etc/schroot/chroot.d/uwspkg.conf /etc/schroot/chroot.d/
-RUN chmod -v 0644 /etc/schroot/chroot.d/uwspkg.conf
-
 RUN mkdir -vp /go/src/uwspkg /go/.cache \
 	&& chown -vR uws:uws /go
 VOLUME /go/src/uwspkg
@@ -48,5 +45,21 @@ WORKDIR /go/src/uwspkg
 COPY --chown=uws:uws go.mod go.sum ./
 RUN go mod download -x \
 	&& rm -vf go.mod go.sum
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+COPY ./etc/schroot/chroot.d/uwspkg.conf /etc/schroot/chroot.d/
+RUN chmod -v 0644 /etc/schroot/chroot.d/uwspkg.conf
+
+RUN mkdir -vp -m 0750 /srv/chroot \
+	&& chown -v uws:uws /srv/chroot
+VOLUME /srv/chroot
+
+USER uws:uws
+WORKDIR /go/src/uwspkg
 
 CMD exec /usr/local/bin/uws-login.sh
