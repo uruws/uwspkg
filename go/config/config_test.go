@@ -28,7 +28,7 @@ func (s *TSuite) TestDefaults(c *C) {
 }
 
 func (s *TSuite) TestDefaultConfig(c *C) {
-	cfg := Get()
+	cfg := newConfig()
 	c.Check(cfg.Version, Equals, uint(0))
 	c.Check(cfg.PkgDir, Equals, ".")
 }

@@ -19,9 +19,9 @@ type Package struct {
 	man  *manifest.Config
 }
 
-func New(origin string) *Package {
+func New(origin string, cfg *config.Config) *Package {
 	return &Package{
-		cfg:  config.Get(),
+		cfg:  cfg,
 		orig: origin,
 	}
 }

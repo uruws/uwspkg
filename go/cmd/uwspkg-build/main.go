@@ -29,10 +29,14 @@ func main() {
 		usage()
 	}
 	log.Debug("pkg origin: %s - %s %s", pkgorig, pkgdir, pkgname)
-	if err := config.Load(); err != nil {
+	var (
+		cfg *config.Config
+		err error
+	)
+	if cfg, err = config.Load(); err != nil {
 		log.Fatal("%v", err)
 	}
-	pkg := uwspkg.New(pkgorig)
+	pkg := uwspkg.New(pkgorig, cfg)
 	if err := pkg.Load(); err != nil {
 		log.Fatal("%v", err)
 	}

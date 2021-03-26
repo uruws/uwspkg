@@ -18,10 +18,21 @@ func Test(t *testing.T) {
 }
 
 type TSuite struct {
+	cfg *config.Config
 }
 
 func init() {
 	Suite(&TSuite{})
+}
+
+func (s *TSuite) SetUpTest(c *C) {
+	var err error
+	s.cfg, err = config.Load()
+	c.Assert(err, IsNil)
+}
+
+func (s *TSuite) TearDownTest(c *C) {
+	s.cfg = nil
 }
 
 func (s *TSuite) TestConfigDefaults(c *C) {
@@ -29,12 +40,12 @@ func (s *TSuite) TestConfigDefaults(c *C) {
 }
 
 func (s *TSuite) TestPackage(c *C) {
-	pkg := New("testing/package")
+	pkg := New("testing/package", s.cfg)
 	c.Assert(pkg.orig, Equals, "testing/package")
 }
 
 func (s *TSuite) TestPackageLoad(c *C) {
-	pkg := New("testing/package_load")
+	pkg := New("testing/package_load", s.cfg)
 	c.Assert(pkg.orig, Equals, "testing/package_load")
 	err := pkg.Load()
 	c.Assert(err, IsNil)

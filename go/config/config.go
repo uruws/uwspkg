@@ -23,32 +23,12 @@ var ConfigFiles map[int]string = map[int]string{
 	2: filepath.FromSlash("./uwspkg.yml"),
 }
 
-var cfg *Manager
-
-func init() {
-	cfg = New()
-}
-
-func Load() error {
-	log.Debug("load")
-	flen := len(ConfigFiles)
-	for idx := 0; idx < flen; idx += 1 {
-		fn := ConfigFiles[idx]
-		if err := cfg.LoadFile(fn); err != nil {
-			if !os.IsNotExist(err) {
-				return err
-			}
-		}
-	}
-	return nil
-}
-
 const Version uint = 1
 
 type Config struct {
-	Version     uint   `yaml:version`
-	PkgDir      string `yaml:"pkgdir"`
-	Manifest    *manifest.Config `yaml:"manifest"`
+	Version  uint             `yaml:version`
+	PkgDir   string           `yaml:"pkgdir"`
+	Manifest *manifest.Config `yaml:"manifest"`
 }
 
 func newConfig() *Config {
@@ -71,8 +51,19 @@ func New() *Manager {
 	}
 }
 
-func Get() *Config {
-	return cfg.c
+func Load() (*Config, error) {
+	log.Debug("load")
+	m := New()
+	flen := len(ConfigFiles)
+	for idx := 0; idx < flen; idx += 1 {
+		fn := ConfigFiles[idx]
+		if err := m.LoadFile(fn); err != nil {
+			if !os.IsNotExist(err) {
+				return nil, err
+			}
+		}
+	}
+	return m.c, nil
 }
 
 func (m *Manager) LoadFile(name string) error {
