@@ -52,6 +52,9 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+COPY ./etc/doas.conf /etc/
+RUN chmod -v 0640 /etc/doas.conf
+
 COPY ./etc/schroot/chroot.d/uwspkg.conf /etc/schroot/chroot.d/
 RUN chmod -v 0644 /etc/schroot/chroot.d/uwspkg.conf
 
