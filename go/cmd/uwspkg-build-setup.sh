@@ -18,8 +18,8 @@ if ! test -d ${baseroot}; then
 	printf 'deb %s/ buster main\n' "${REPO}" >./etc/apt/sources.list
 	printf 'deb %s/ buster-updates main\n' "${REPO}" >>./etc/apt/sources.list
 	printf 'deb %s buster/updates main\n' "${SECREPO}" >>./etc/apt/sources.list
-	${schroot_default} apt-get update
-	${schroot_default} apt-get install bash
+	${schroot_default} -- apt-get update -yy
+	${schroot_default} -- apt-get install -yy --no-install-recommends bash
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
