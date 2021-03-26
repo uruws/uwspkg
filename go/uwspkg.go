@@ -10,16 +10,18 @@ import (
 
 	"uwspkg/config"
 	"uwspkg/log"
+	"uwspkg/manifest"
 )
 
 type Package struct {
 	cfg  *config.Config
 	orig string
+	man  *manifest.Config
 }
 
 func New(origin string) *Package {
 	return &Package{
-		cfg: config.Get(),
+		cfg:  config.Get(),
 		orig: origin,
 	}
 }
@@ -33,5 +35,7 @@ func (p *Package) Load() error {
 	log.Debug("pkg name: %s", pkgname)
 	pkgman := filepath.Join(pkgdir, p.cfg.Manifest)
 	log.Debug("pkg name: %s", pkgman)
-	return nil
+	var err error
+	p.man, err = manifest.New(p.orig, pkgname, pkgman)
+	return err
 }

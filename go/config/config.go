@@ -52,8 +52,8 @@ type Config struct {
 
 func newConfig() *Config {
 	return &Config{
-		Version: 0,
-		PkgDir: ".",
+		Version:  0,
+		PkgDir:   ".",
 		Manifest: "manifest.yml",
 	}
 }
