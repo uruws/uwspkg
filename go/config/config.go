@@ -25,9 +25,30 @@ var Files map[int]string = map[int]string{
 const Version uint = 0
 
 type Main struct {
-	Version  uint   `yaml:"version"`
-	PkgDir   string `yaml:"pkgdir"`
-	Manifest string `yaml:"manifest"`
+	Version       uint   `yaml:"version"`
+	PkgDir        string `yaml:"pkgdir"`
+	Manifest      string `yaml:"manifest"`
+	SchrootCfgDir string `yaml:"schroot.cfgdir"`
+}
+
+func (m *manager) Parse(c *Main) error {
+	var err error
+	c.PkgDir, err = filepath.Abs(filepath.Clean(c.PkgDir))
+	if err != nil {
+		return err
+	}
+	if c.Manifest == "" {
+		c.Manifest = "manifest.yml"
+	}
+	if c.SchrootCfgDir == "" {
+		c.SchrootCfgDir = filepath.FromSlash("/etc/schroot")
+	} else {
+		c.SchrootCfgDir, err = filepath.Abs(filepath.Clean(c.SchrootCfgDir))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func newMain() *Main {
@@ -83,13 +104,4 @@ func (m *manager) LoadFile(name string) error {
 	}
 	log.Debug("parse %s", name)
 	return m.Parse(m.c)
-}
-
-func (m *manager) Parse(c *Main) error {
-	var err error
-	c.PkgDir, err = filepath.Abs(filepath.Clean(c.PkgDir))
-	if err != nil {
-		return err
-	}
-	return nil
 }
