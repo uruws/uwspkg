@@ -18,7 +18,7 @@ func Test(t *testing.T) {
 }
 
 type TSuite struct {
-	cfg *config.Config
+	cfg *config.Main
 }
 
 func init() {
@@ -36,7 +36,7 @@ func (s *TSuite) TearDownTest(c *C) {
 }
 
 func (s *TSuite) TestConfigDefaults(c *C) {
-	c.Check(config.ConfigFiles, HasLen, 1)
+	c.Check(config.Files, HasLen, 2)
 }
 
 func (s *TSuite) TestPackage(c *C) {

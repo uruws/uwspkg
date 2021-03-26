@@ -14,12 +14,12 @@ import (
 )
 
 type Package struct {
-	cfg  *config.Config
+	cfg  *config.Main
 	orig string
 	man  *manifest.Config
 }
 
-func New(origin string, cfg *config.Config) *Package {
+func New(origin string, cfg *config.Main) *Package {
 	return &Package{
 		cfg:  cfg,
 		orig: origin,

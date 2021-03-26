@@ -30,7 +30,7 @@ func main() {
 	}
 	log.Debug("pkg origin: %s - %s %s", pkgorig, pkgdir, pkgname)
 	var (
-		cfg *config.Config
+		cfg *config.Main
 		err error
 	)
 	if cfg, err = config.Load(); err != nil {

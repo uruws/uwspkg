@@ -14,10 +14,9 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"uwspkg/log"
-	"uwspkg/manifest"
 )
 
-var ConfigFiles map[int]string = map[int]string{
+var Files map[int]string = map[int]string{
 	0: filepath.FromSlash("/uws/etc/uwspkg.yml"),
 	1: filepath.FromSlash("/uws/local/etc/uwspkg.yml"),
 	2: filepath.FromSlash("./uwspkg.yml"),
@@ -25,38 +24,38 @@ var ConfigFiles map[int]string = map[int]string{
 
 const Version uint = 1
 
-type Config struct {
-	Version  uint             `yaml:version`
-	PkgDir   string           `yaml:"pkgdir"`
-	Manifest *manifest.Config `yaml:"manifest"`
+type Main struct {
+	Version  uint   `yaml:version`
+	PkgDir   string `yaml:"pkgdir"`
+	Manifest string `yaml:"manifest"`
 }
 
-func newConfig() *Config {
-	return &Config{
+func newMain() *Main {
+	return &Main{
 		Version:  0,
 		PkgDir:   ".",
-		Manifest: manifest.New(),
+		Manifest: "manifest.yml",
 	}
 }
 
-type Manager struct {
+type manager struct {
 	x *sync.Mutex
-	c *Config
+	c *Main
 }
 
-func New() *Manager {
-	return &Manager{
+func newManager() *manager {
+	return &manager{
 		x: new(sync.Mutex),
-		c: newConfig(),
+		c: newMain(),
 	}
 }
 
-func Load() (*Config, error) {
+func Load() (*Main, error) {
 	log.Debug("load")
-	m := New()
-	flen := len(ConfigFiles)
+	m := newManager()
+	flen := len(Files)
 	for idx := 0; idx < flen; idx += 1 {
-		fn := ConfigFiles[idx]
+		fn := Files[idx]
 		if err := m.LoadFile(fn); err != nil {
 			if !os.IsNotExist(err) {
 				return nil, err
@@ -66,7 +65,7 @@ func Load() (*Config, error) {
 	return m.c, nil
 }
 
-func (m *Manager) LoadFile(name string) error {
+func (m *manager) LoadFile(name string) error {
 	log.Debug("load file: %s", name)
 	m.x.Lock()
 	defer m.x.Unlock()
@@ -86,13 +85,10 @@ func (m *Manager) LoadFile(name string) error {
 	return m.Parse(m.c)
 }
 
-func (m *Manager) Parse(c *Config) error {
+func (m *manager) Parse(c *Main) error {
 	var err error
 	c.PkgDir, err = filepath.Abs(filepath.Clean(c.PkgDir))
 	if err != nil {
-		return err
-	}
-	if err := manifest.Parse(c.Manifest); err != nil {
 		return err
 	}
 	return nil

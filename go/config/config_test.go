@@ -24,12 +24,12 @@ func init() {
 }
 
 func (s *TSuite) TestDefaults(c *C) {
-	c.Check(ConfigFiles, HasLen, 3)
+	c.Check(Files, HasLen, 3)
 }
 
 func (s *TSuite) TestDefaultConfig(c *C) {
-	cfg := newConfig()
-	c.Check(cfg.Version, Equals, uint(0))
-	c.Check(cfg.PkgDir, Equals, ".")
-	c.Check(cfg.Manifest, NotNil)
+	m := newManager()
+	c.Check(m.c.Version, Equals, uint(0))
+	c.Check(m.c.PkgDir, Equals, ".")
+	c.Check(m.c.Manifest, NotNil)
 }

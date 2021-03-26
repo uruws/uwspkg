@@ -13,7 +13,8 @@ import (
 
 func init() {
 	log.Init("testing")
-	config.ConfigFiles = map[int]string{
-		0: filepath.FromSlash("./testdata"),
+	config.Files = map[int]string{
+		0: filepath.FromSlash("/go/src/uwspkg/testdata/uwspkg.yml"),
+		1: filepath.FromSlash("./testdata/uwspkg.yml"),
 	}
 }
