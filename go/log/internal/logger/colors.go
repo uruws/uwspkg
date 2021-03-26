@@ -27,11 +27,11 @@ var (
 
 var levelColor = map[Level]string{
 	PANIC:  tilt(red),
-	FATAL:  bold(blue),
-	ERROR:  bold(red),
+	FATAL:  bold(red),
+	ERROR:  red,
 	WARN:   italic(yellow),
 	MSG:    magenta,
-	INFO:   italic(cyan),
+	INFO:   cyan,
 	DEBUG:  green,
 	cReset: reset,
 }

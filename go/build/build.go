@@ -10,16 +10,16 @@ import (
 )
 
 func SetUp(m *manifest.Config) error {
-	log.Info("setup %s", m.Origin)
+	log.Info("SetUp %s", m.Origin)
 	return nil
 }
 
 func Package(m *manifest.Config) error {
-	log.Info("package %s", m.Origin)
+	log.Info("Build %s", m.Origin)
 	return nil
 }
 
 func TearDown(m *manifest.Config) error {
-	log.Info("tear down %s", m.Origin)
+	log.Info("TearDown %s", m.Origin)
 	return nil
 }
