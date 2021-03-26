@@ -38,7 +38,7 @@ if test -s ${schroot_conf}; then
 		dst="${schdst}/uwspkg-${prof}"
 		rm -rf ${dst}
 		install -m 0755 -d ${dst}
-		install -m 0644 ${schsrc}/uwspkg-${prof}/* ${dst}
+		install -v -m 0644 ${schsrc}/uwspkg-${prof}/* ${dst}
 		dstroot=`dirname ${baseroot}`/${prof}
 		if test 'Xdefault' != "X${prof}"; then
 			rsync -vax --delete-before ${baseroot}/ ${dstroot}/
