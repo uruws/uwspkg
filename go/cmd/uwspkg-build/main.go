@@ -40,6 +40,9 @@ func main() {
 	if err := pkg.Load(); err != nil {
 		log.Fatal("%v", err)
 	}
+	if err := pkg.Build(); err != nil {
+		log.Fatal("%v", err)
+	}
 }
 
 func parseOrigin(o string) (string, string) {
