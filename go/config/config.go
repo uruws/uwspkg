@@ -45,14 +45,16 @@ func Load() error {
 const Version uint = 1
 
 type Config struct {
-	Version uint   `yaml:version`
-	PkgDir  string `yaml:"pkgdir"`
+	Version  uint   `yaml:version`
+	PkgDir   string `yaml:"pkgdir"`
+	Manifest string `yaml:"manifest"`
 }
 
 func newConfig() *Config {
 	return &Config{
 		Version: 0,
 		PkgDir: ".",
+		Manifest: "manifest.yml",
 	}
 }
 
@@ -88,6 +90,7 @@ func (m *Manager) LoadFile(name string) error {
 			return fmt.Errorf("config invalid version: %d", m.c.Version)
 		}
 	}
+	log.Debug("parse %s", name)
 	return m.Parse(m.c)
 }
 
@@ -97,5 +100,6 @@ func (m *Manager) Parse(c *Config) error {
 	if err != nil {
 		return err
 	}
+	c.Manifest = filepath.Clean(c.Manifest)
 	return nil
 }
