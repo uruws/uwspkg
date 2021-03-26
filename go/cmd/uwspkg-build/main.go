@@ -23,21 +23,6 @@ func main() {
 	)
 	flag.BoolVar(&buildSetup, "setup", false, "setup build environment")
 	flag.Parse()
-	if buildSetup {
-		if err := build.EnvSetUp(); err != nil {
-			log.Fatal("%v", err)
-		}
-	} else {
-		pkgBuild(flag.Arg(0))
-	}
-}
-
-func pkgBuild(pkgorig string) {
-	pkgdir, pkgname := parseOrigin(pkgorig)
-	if pkgdir == "" {
-		usage()
-	}
-	log.Debug("pkg origin: %s - %s %s", pkgorig, pkgdir, pkgname)
 	var (
 		cfg *config.Main
 		err error
@@ -45,13 +30,30 @@ func pkgBuild(pkgorig string) {
 	if cfg, err = config.Load(); err != nil {
 		log.Fatal("%v", err)
 	}
+	if buildSetup {
+		err = build.EnvSetUp(cfg)
+	} else {
+		err = pkgBuild(cfg, flag.Arg(0))
+	}
+	if err != nil {
+		log.Fatal("%v", err)
+	}
+}
+
+func pkgBuild(cfg *config.Main, pkgorig string) error {
+	pkgdir, pkgname := parseOrigin(pkgorig)
+	if pkgdir == "" {
+		usage()
+	}
+	log.Debug("pkg origin: %s - %s %s", pkgorig, pkgdir, pkgname)
 	pkg := uwspkg.New(pkgorig, cfg)
 	if err := pkg.Load(); err != nil {
-		log.Fatal("%v", err)
+		return err
 	}
 	if err := pkg.Build(); err != nil {
-		log.Fatal("%v", err)
+		return err
 	}
+	return nil
 }
 
 func parseOrigin(o string) (string, string) {

@@ -5,11 +5,12 @@
 package build
 
 import (
+	"uwspkg/config"
 	"uwspkg/log"
 	"uwspkg/manifest"
 )
 
-func EnvSetUp() error {
+func EnvSetUp(cfg *config.Main) error {
 	log.Info("EnvSetUp")
 	return nil
 }
