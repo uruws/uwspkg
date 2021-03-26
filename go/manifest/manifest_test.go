@@ -1,14 +1,12 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-package manifest_test
+package manifest
 
 import (
 	"testing"
 
 	_ "uwspkg/_testing/setup"
-
-	"uwspkg/manifest"
 
 	. "gopkg.in/check.v1"
 )
@@ -24,8 +22,8 @@ func init() {
 	Suite(&TSuite{})
 }
 
-func (s *TSuite) TestNew(c *C) {
-	m := manifest.New()
+func (s *TSuite) TestNewConfig(c *C) {
+	m := newConfig()
 	c.Check(m.Origin, Equals, "")
 	c.Check(m.Name, Equals, "")
 }

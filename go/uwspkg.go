@@ -16,13 +16,14 @@ import (
 type Package struct {
 	cfg  *config.Main
 	orig string
-	man  *manifest.Config
+	man  *manifest.Manifest
 }
 
 func New(origin string, cfg *config.Main) *Package {
 	return &Package{
 		cfg:  cfg,
 		orig: origin,
+		man: manifest.New(),
 	}
 }
 
@@ -34,7 +35,6 @@ func (p *Package) Load() error {
 	log.Debug("pkg dir: %s", pkgdir)
 	log.Debug("pkg name: %s", pkgname)
 	pkgman := filepath.Join(pkgdir, p.cfg.Manifest)
-	log.Debug("pkg name: %s", pkgman)
-	p.man = manifest.New()
-	return nil
+	log.Debug("pkg manifest: %s", pkgman)
+	return p.man.Load(pkgman)
 }

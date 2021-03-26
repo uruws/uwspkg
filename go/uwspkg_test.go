@@ -41,6 +41,7 @@ func (s *TSuite) TestConfigDefaults(c *C) {
 
 func (s *TSuite) TestPackage(c *C) {
 	pkg := New("testing/package", s.cfg)
+	c.Assert(pkg.cfg, Equals, s.cfg)
 	c.Assert(pkg.orig, Equals, "testing/package")
 }
 
