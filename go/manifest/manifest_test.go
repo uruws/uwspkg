@@ -24,13 +24,13 @@ func init() {
 }
 
 func (s *TSuite) TestNewConfig(c *C) {
-	m := newConfig()
-	c.Check(m.Origin, Equals, "")
+	m := newConfig("testing")
+	c.Check(m.Origin, Equals, "testing")
 	c.Check(m.Name, Equals, "")
 }
 
 func (s *TSuite) TestLoad(c *C) {
-	m := New()
+	m := New("testdata/load")
 	err := m.Load(filepath.FromSlash("testdata/load/manifest.yml"))
 	c.Assert(err, IsNil)
 	c.Check(m.c.Origin, Equals, "testdata/load")

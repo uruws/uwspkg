@@ -5,6 +5,7 @@
 package manifest
 
 import (
+	"fmt"
 	"io/ioutil"
 	"sync"
 
@@ -18,8 +19,8 @@ type Config struct {
 	Name   string
 }
 
-func newConfig() *Config {
-	return &Config{}
+func newConfig(origin string) *Config {
+	return &Config{Origin: origin}
 }
 
 type Manifest struct {
@@ -27,9 +28,9 @@ type Manifest struct {
 	x *sync.Mutex
 }
 
-func New() *Manifest {
+func New(origin string) *Manifest {
 	return &Manifest{
-		c: newConfig(),
+		c: newConfig(origin),
 		x: new(sync.Mutex),
 	}
 }
@@ -43,9 +44,14 @@ func (m *Manifest) Load(filename string) error {
 		log.Debug("%v", err)
 		return err
 	}
+	orig := m.c.Origin
 	if err := yaml.Unmarshal(blob, &m.c); err != nil {
 		log.Debug("%v", err)
 		return err
+	} else {
+		if m.c.Origin != orig {
+			return fmt.Errorf("%s package origin mismatch: %s", orig, m.c.Origin)
+		}
 	}
 	log.Debug("parse %s", filename)
 	return m.Parse(m.c)
