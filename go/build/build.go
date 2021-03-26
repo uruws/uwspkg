@@ -9,7 +9,17 @@ import (
 	"uwspkg/manifest"
 )
 
+func SetUp(m *manifest.Config) error {
+	log.Debug("setup %s", m.Origin)
+	return nil
+}
+
 func Package(m *manifest.Config) error {
 	log.Debug("package %s", m.Origin)
+	return nil
+}
+
+func TearDown(m *manifest.Config) error {
+	log.Debug("tear down %s", m.Origin)
 	return nil
 }

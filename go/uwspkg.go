@@ -41,5 +41,15 @@ func (p *Package) Load() error {
 }
 
 func (p *Package) Build() error {
-	return build.Package(p.man.Config())
+	m := p.man.Config()
+	if err := build.SetUp(m); err != nil {
+		return err
+	}
+	if err := build.Package(m); err != nil {
+		return err
+	}
+	if err := build.TearDown(m); err != nil {
+		return err
+	}
+	return nil
 }
