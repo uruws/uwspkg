@@ -9,6 +9,11 @@ import (
 	"uwspkg/manifest"
 )
 
+func EnvSetUp() error {
+	log.Info("EnvSetUp")
+	return nil
+}
+
 func SetUp(m *manifest.Config) error {
 	log.Info("SetUp %s", m.Origin)
 	return nil

@@ -10,6 +10,7 @@ import (
 	"path"
 
 	"uwspkg"
+	"uwspkg/build"
 	"uwspkg/config"
 	"uwspkg/log"
 )
@@ -18,13 +19,21 @@ func main() {
 	log.Init("uwspkg-build")
 	log.Debug("init")
 	var (
-		pkgorig string
-		pkgdir  string
-		pkgname string
+		buildSetup bool
 	)
+	flag.BoolVar(&buildSetup, "setup", false, "setup build environment")
 	flag.Parse()
-	pkgorig = flag.Arg(0)
-	pkgdir, pkgname = parseOrigin(pkgorig)
+	if buildSetup {
+		if err := build.EnvSetUp(); err != nil {
+			log.Fatal("%v", err)
+		}
+	} else {
+		pkgBuild(flag.Arg(0))
+	}
+}
+
+func pkgBuild(pkgorig string) {
+	pkgdir, pkgname := parseOrigin(pkgorig)
 	if pkgdir == "" {
 		usage()
 	}
