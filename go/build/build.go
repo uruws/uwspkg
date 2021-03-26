@@ -11,7 +11,8 @@ import (
 )
 
 func EnvSetUp(cfg *config.Main) error {
-	log.Info("EnvSetUp: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
+	log.Info("Env setup: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
+	log.Debug("Build dir: %s", cfg.BuildDir)
 	return nil
 }
 

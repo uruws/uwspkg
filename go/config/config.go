@@ -28,6 +28,7 @@ type Main struct {
 	Version       uint   `yaml:"version"`
 	PkgDir        string `yaml:"pkgdir"`
 	Manifest      string `yaml:"manifest"`
+	BuildDir      string `yaml:"build.dir"`
 	BuildCfgDir   string `yaml:"build.cfgdir"`
 	SchrootCfgDir string `yaml:"schroot.cfgdir"`
 }
@@ -40,6 +41,14 @@ func (m *manager) Parse(c *Main) error {
 	}
 	if c.Manifest == "" {
 		c.Manifest = "manifest.yml"
+	}
+	if c.BuildDir == "" {
+		c.BuildDir = filepath.FromSlash("/srv/uwspkg")
+	} else {
+		c.BuildDir, err = filepath.Abs(filepath.Clean(c.BuildDir))
+		if err != nil {
+			return err
+		}
 	}
 	if c.BuildCfgDir == "" {
 		c.BuildCfgDir = filepath.FromSlash("/uws/etc/schroot")
