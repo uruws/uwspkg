@@ -46,8 +46,8 @@ func (s *TSuite) TestPackage(c *C) {
 }
 
 func (s *TSuite) TestPackageLoad(c *C) {
-	pkg := New("testing/package_load", s.cfg)
-	c.Assert(pkg.orig, Equals, "testing/package_load")
+	pkg := New("testdata/base", s.cfg)
+	c.Assert(pkg.orig, Equals, "testdata/base")
 	err := pkg.Load()
 	c.Assert(err, IsNil)
 }
