@@ -5,6 +5,7 @@
 package setup
 
 import (
+	"os"
 	"path/filepath"
 
 	"uwspkg/config"
@@ -12,7 +13,7 @@ import (
 )
 
 func init() {
-	log.Init("testing")
+	log.Init(filepath.Base(os.Args[0]))
 	config.Files = map[int]string{
 		0: filepath.FromSlash("/go/src/uwspkg/testdata/uwspkg.yml"),
 		1: filepath.FromSlash("./testdata/uwspkg.yml"),
