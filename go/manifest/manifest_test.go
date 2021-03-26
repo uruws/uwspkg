@@ -27,6 +27,7 @@ func (s *TSuite) TestNewConfig(c *C) {
 	m := newConfig("testing")
 	c.Check(m.Origin, Equals, "testing")
 	c.Check(m.Name, Equals, "")
+	c.Check(m.Image, Equals, "default")
 }
 
 func (s *TSuite) TestLoad(c *C) {

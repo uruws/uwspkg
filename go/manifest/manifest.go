@@ -17,10 +17,15 @@ import (
 type Config struct {
 	Origin string
 	Name   string
+	Image  string
 }
 
 func newConfig(origin string) *Config {
-	return &Config{Origin: origin}
+	return &Config{
+		Origin: origin,
+		Name: "",
+		Image: "default",
+	}
 }
 
 type Manifest struct {

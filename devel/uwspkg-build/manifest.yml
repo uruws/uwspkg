@@ -1,2 +1,3 @@
 origin: devel/uwspkg-build
 name: uwspkg-build
+image: golang
