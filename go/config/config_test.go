@@ -31,4 +31,5 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	cfg := newConfig()
 	c.Check(cfg.Version, Equals, uint(0))
 	c.Check(cfg.PkgDir, Equals, ".")
+	c.Check(cfg.Manifest, NotNil)
 }
