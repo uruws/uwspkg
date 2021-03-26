@@ -8,6 +8,7 @@ import (
 	"path"
 	"path/filepath"
 
+	"uwspkg/build"
 	"uwspkg/config"
 	"uwspkg/log"
 	"uwspkg/manifest"
@@ -37,4 +38,8 @@ func (p *Package) Load() error {
 	pkgman := filepath.Join(pkgdir, p.cfg.Manifest)
 	log.Debug("pkg manifest: %s", pkgman)
 	return p.man.Load(pkgman)
+}
+
+func (p *Package) Build() error {
+	return build.Package(p.man.Config())
 }

@@ -40,6 +40,10 @@ func New(origin string) *Manifest {
 	}
 }
 
+func (m *Manifest) Config() *Config {
+	return m.c
+}
+
 func (m *Manifest) Load(filename string) error {
 	log.Debug("load %s", filename)
 	m.x.Lock()
