@@ -92,5 +92,8 @@ func (m *Manager) Parse(c *Config) error {
 	if err != nil {
 		return err
 	}
+	if err := manifest.Parse(c.Manifest); err != nil {
+		return err
+	}
 	return nil
 }

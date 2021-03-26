@@ -12,3 +12,7 @@ type Config struct {
 func New() *Config {
 	return &Config{}
 }
+
+func Parse(m *Config) error {
+	return nil
+}
