@@ -2,15 +2,25 @@
 set -eu
 PATH=/usr/sbin:$PATH
 REPO=http://deb.debian.org/debian
+SECREPO=http://security.debian.org/debian-security
 SRV=/srv/uwspkg
-mkdir -vp ${SRV}
-debinst='debootstrap --variant=minbase'
+mkdir -vp ${SRV} ${SRV}/cache/debootstrap
+debinst="debootstrap --variant=minbase --cache-dir=${SRV}/cache/debootstrap"
+debinst="${debinst} --force-check-gpg"
 
-if ! test -d ${SRV}/chroot/debian-buster; then
-	${debinst} buster ${SRV}/chroot/debian-buster ${REPO}
+baseroot=${SRV}/chroot/debian-buster
+schroot_default='schroot -c source:uwspkg-default -d /root'
+
+if ! test -d ${baseroot}; then
+	${debinst} buster ${baseroot} ${REPO}
 	oldwd=${PWD}
-	cd ${SRV}/chroot/debian-buster
-	rm -rfv ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
+	cd ${baseroot}
+	printf 'deb %s/ buster main\n' "${REPO}" >./etc/apt/sources.list
+	printf 'deb %s/ buster-updates main\n' "${REPO}" >>./etc/apt/sources.list
+	printf 'deb %s buster/updates main\n' "${SECREPO}" >>./etc/apt/sources.list
+	${schroot_default} apt-get update
+	${schroot_default} apt-get install bash
+	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
 fi
@@ -29,6 +39,11 @@ if test -s ${schroot_conf}; then
 		rm -rf ${dst}
 		install -m 0755 -d ${dst}
 		install -m 0644 ${schsrc}/uwspkg-${prof}/* ${dst}
+		dstroot=`dirname ${baseroot}`/${prof}
+		if test 'Xdefault' != "X${prof}"; then
+			rsync -vax --delete-before ${baseroot}/ ${dstroot}/
+			echo "uwspkg-${prof}" >${dstroot}/etc/debian_chroot
+		fi
 	done
 fi
 
