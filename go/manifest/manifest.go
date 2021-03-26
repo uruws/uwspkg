@@ -15,9 +15,9 @@ import (
 )
 
 type Config struct {
-	Origin string
-	Name   string
-	Image  string
+	Origin string `yaml:"origin"`
+	Name   string `yaml:"name"`
+	Image  string `yaml:"image"`
 }
 
 func newConfig(origin string) *Config {
@@ -67,5 +67,9 @@ func (m *Manifest) Load(filename string) error {
 }
 
 func (m *Manifest) Parse(c *Config) error {
+	orig := c.Origin
+	if c.Name == "" {
+		return fmt.Errorf("%s: empty package name", orig)
+	}
 	return nil
 }
