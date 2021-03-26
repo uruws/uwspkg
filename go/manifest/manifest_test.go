@@ -1,13 +1,14 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-package manifest
+package manifest_test
 
 import (
-	"path/filepath"
 	"testing"
 
 	_ "uwspkg/_testing/setup"
+
+	"uwspkg/manifest"
 
 	. "gopkg.in/check.v1"
 )
@@ -24,9 +25,7 @@ func init() {
 }
 
 func (s *TSuite) TestNew(c *C) {
-	m, err := New("testing/manifest", "manifest",
-		filepath.FromSlash("testing/manifest/manifest.yml"))
-	c.Assert(err, IsNil)
-	c.Check(m.Origin, Equals, "testing/manifest")
-	c.Check(m.Name, Equals, "manifest")
+	m := manifest.New()
+	c.Check(m.Origin, Equals, "")
+	c.Check(m.Name, Equals, "")
 }

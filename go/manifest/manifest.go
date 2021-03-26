@@ -9,9 +9,6 @@ type Config struct {
 	Name   string
 }
 
-func New(origin, pkgname, filename string) (*Config, error) {
-	return &Config{
-		Origin: origin,
-		Name:   pkgname,
-	}, nil
+func New() *Config {
+	return &Config{}
 }

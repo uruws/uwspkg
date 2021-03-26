@@ -14,6 +14,7 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"uwspkg/log"
+	"uwspkg/manifest"
 )
 
 var ConfigFiles map[int]string = map[int]string{
@@ -45,16 +46,16 @@ func Load() error {
 const Version uint = 1
 
 type Config struct {
-	Version  uint   `yaml:version`
-	PkgDir   string `yaml:"pkgdir"`
-	Manifest string `yaml:"manifest"`
+	Version     uint   `yaml:version`
+	PkgDir      string `yaml:"pkgdir"`
+	Manifest    *manifest.Config `yaml:"manifest"`
 }
 
 func newConfig() *Config {
 	return &Config{
 		Version:  0,
 		PkgDir:   ".",
-		Manifest: "manifest.yml",
+		Manifest: manifest.New(),
 	}
 }
 
@@ -100,6 +101,5 @@ func (m *Manager) Parse(c *Config) error {
 	if err != nil {
 		return err
 	}
-	c.Manifest = filepath.Clean(c.Manifest)
 	return nil
 }
