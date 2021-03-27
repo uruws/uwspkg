@@ -9,6 +9,10 @@ clean:
 fmt:
 	@gofmt -s -w -l .
 
+.PHONY: test
+test:
+	@go test ./...
+
 .PHONY: check
 check:
 	@go test -i ./...
