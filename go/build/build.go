@@ -46,7 +46,7 @@ func debianInstall(cfg *config.Main, dist string) error {
 		1: cfg.DebianInstallVariant,
 		2: cfg.DebianRepo,
 		3: cfg.DebianSecRepo,
-		4: "bullseye",
+		4: dist,
 	}
 	if err := libexec.Run("build/debian-install", args...); err != nil {
 		return err
