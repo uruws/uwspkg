@@ -2,3 +2,7 @@
 // See LICENSE file.
 
 package build
+
+import (
+	_ "uwspkg/_testing/tset"
+)
