@@ -9,12 +9,28 @@ if test 'Xdefault' = "X${prof}"; then
 	exit 0
 fi
 
-distro=$(cat ${cfgdir}/uwspkg-${prof}/debian.distro)
+profdir=${cfgdir}/uwspkg-${prof}
+distro=$(cat ${profdir}/debian.distro)
 
 baseroot=${builddir}/chroot/debian/${distro}
 dstroot=${builddir}/chroot/${prof}
 
 rsync -ax --delete-before ${baseroot}/ ${dstroot}/
 echo "uwspkg-${prof}" | tee ${dstroot}/etc/debian_chroot
+
+debpkg=${profdir}/debian.install
+schroot_source="schroot -c source:uwspkg-${prof} -d /root"
+
+if test -s ${debpkg}; then
+	cat ${debpkg} | xargs ${schroot_source} -- \
+		apt-get install --no-install-recommends -yy --purge
+	${schroot_source} -- apt-get autoremove --purge -yy
+	${schroot_source} -- apt-get clean -yy
+	oldwd=${PWD}
+	cd ${dstroot}
+	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
+		./var/cache/apt/*cache.bin
+	cd ${oldwd}
+fi
 
 exit 0
