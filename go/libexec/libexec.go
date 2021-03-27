@@ -5,7 +5,10 @@
 package libexec
 
 import (
+	"context"
 	"fmt"
+	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -34,7 +37,15 @@ type impl struct {
 }
 
 func (r *impl) Exec(cmdpath string, args []string) error {
-	log.Debug("exec: %s %v", cmdpath, args)
+	ctx, cancel := context.WithTimeout(context.Background(), cfg.Timeout)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, cmdpath, args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	log.Debug("exec: %s", cmd.String())
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("%s: %v", cmdpath, err)
+	}
 	return nil
 }
 
