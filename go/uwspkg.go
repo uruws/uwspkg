@@ -58,14 +58,21 @@ func (p *Package) Build() error {
 			return fmt.Errorf("%s invalid build profile: %s", p.orig, m.Profile)
 		}
 	}
-	if err := build.SetUp(m); err != nil {
+	var err error
+	defer func() {
+		if xerr := build.TearDown(m); xerr != nil {
+			if err == nil {
+				err = xerr
+			} else {
+				log.Error("TearDown: %v", xerr)
+			}
+		}
+	}()
+	if err = build.SetUp(m); err != nil {
 		return err
 	}
-	if err := build.Package(m); err != nil {
+	if err = build.Package(m); err != nil {
 		return err
 	}
-	if err := build.TearDown(m); err != nil {
-		return err
-	}
-	return nil
+	return err
 }
