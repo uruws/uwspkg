@@ -5,9 +5,11 @@
 package manifest
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"io/ioutil"
 	"sync"
+	"time"
 
 	"gopkg.in/yaml.v3"
 
@@ -18,14 +20,11 @@ type Config struct {
 	Origin  string `yaml:"origin"`
 	Name    string `yaml:"name"`
 	Profile string `yaml:"profile"`
+	Session string `yaml:"-"`
 }
 
 func newConfig(origin string) *Config {
-	return &Config{
-		Origin:  origin,
-		Name:    "",
-		Profile: "default",
-	}
+	return &Config{Origin:  origin}
 }
 
 type Manifest struct {
@@ -71,5 +70,10 @@ func (m *Manifest) Parse(c *Config) error {
 	if c.Name == "" {
 		return fmt.Errorf("%s: empty package name", orig)
 	}
+	if c.Profile == "" {
+		c.Profile = "default"
+	}
+	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
+	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
 	return nil
 }
