@@ -95,15 +95,18 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
-	if err := profile.Create(cfg, m); err != nil {
+	sess := "uwspkg-build-"+m.Session
+	if err := profile.Create(cfg, m, sess); err != nil {
 		return err
 	}
-	err := libexec.Run("build/session-start", "uwspkg-build-"+m.Session, m.Profile)
+	err := libexec.Run("build/session-start", sess, m.Profile)
 	if err != nil {
 		return err
 	}
 	m.SessionStart = time.Now()
 	return nil
+	//~ dst := m.Name+"-"+m.Session
+	//~ return libexec.Run("build/source-copy", m.Origin, sess, dst)
 }
 
 func TearDown(cfg *config.Main, m *manifest.Config) []error {
@@ -112,10 +115,11 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	if m.SessionStart.IsZero() {
 		return errlist
 	}
-	if err := libexec.Run("build/session-stop", "uwspkg-build-"+m.Session); err != nil {
+	sess := "uwspkg-build-"+m.Session
+	if err := libexec.Run("build/session-stop", sess); err != nil {
 		errlist = append(errlist, err)
 	} else {
-		if err := profile.Remove(cfg, m); err != nil {
+		if err := profile.Remove(cfg, m, sess); err != nil {
 			errlist = append(errlist, err)
 		}
 	}
