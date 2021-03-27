@@ -22,7 +22,14 @@ if test -d ${dstroot}; then
 fi
 
 profdir=${cfgdir}/${profname}
-distro=$(cat ${profdir}/debian.distro)
+distrofn=${profdir}/debian.distro
+
+if ! test -s ${distrofn}; then
+	echo "${distrofn}: file not found or empty" >&2
+	exit 1
+fi
+
+distro=$(cat ${distrofn})
 baseroot=${builddir}/chroot/debian/${distro}
 
 rsync -ax --delete-before ${baseroot}/ ${dstroot}/
