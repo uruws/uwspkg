@@ -44,4 +44,9 @@ func (s *TSuite) TearDownTest(c *C) {
 func (s *TSuite) TestEnvSetUp(c *C) {
 	err := EnvSetUp(s.cfg)
 	c.Assert(err, IsNil)
+	c.Assert(s.mockRunner.Calls, HasLen, 2)
+	c.Assert(s.mockRunner.Calls, DeepEquals, map[uint]string{
+		0: "/uws/libexec/uwspkg/build/setup /srv/uwspkg /uws/etc/schroot /etc/schroot",
+		1: "/uws/libexec/uwspkg/build/debian-install /srv/uwspkg minbase http://deb.debian.org/debian http://security.debian.org/debian-security testing",
+	})
 }

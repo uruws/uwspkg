@@ -14,23 +14,23 @@ import (
 var _ libexec.Runner = &LibexecMockRunner{}
 
 type LibexecMockRunner struct {
-	calls     map[uint]string
 	next      uint
 	x         *sync.Mutex
+	Calls     map[uint]string
 	WithError error
 }
 
 func NewLibexecMockRunner() *LibexecMockRunner {
 	return &LibexecMockRunner{
-		calls: make(map[uint]string),
 		x:     new(sync.Mutex),
+		Calls: make(map[uint]string),
 	}
 }
 
 func (r *LibexecMockRunner) Exec(cmd string, args []string) error {
 	r.x.Lock()
 	defer r.x.Unlock()
-	r.calls[r.next] = fmt.Sprintf("%s %s", cmd, strings.Join(args, " "))
+	r.Calls[r.next] = fmt.Sprintf("%s %s", cmd, strings.Join(args, " "))
 	r.next += 1
 	return r.WithError
 }
