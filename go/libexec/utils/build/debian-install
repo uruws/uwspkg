@@ -23,8 +23,8 @@ if ! test -d ${baseroot}; then
 	printf 'deb %s/ %s main\n' ${repo} ${distro} >./etc/apt/sources.list
 	printf 'deb %s/ %s-updates main\n' ${repo} ${distro} >>./etc/apt/sources.list
 	printf 'deb %s %s/updates main\n' ${secrepo} ${distro}>>./etc/apt/sources.list
-	${schroot_default} -- apt-get update -yy
-	${schroot_default} -- apt-get install -yy --no-install-recommends bash
+	${schroot_source} -- apt-get update -yy
+	${schroot_source} -- apt-get install -yy --no-install-recommends apt bash
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}

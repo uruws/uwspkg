@@ -1,3 +1,5 @@
 pkgdir: ../
 build.cfgdir: ./etc/schroot
 libexec: ./libexec/utils
+debian.distro:
+  - bullseye
