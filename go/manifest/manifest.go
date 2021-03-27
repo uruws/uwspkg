@@ -18,6 +18,7 @@ import (
 
 type Config struct {
 	Session string   `yaml:"-"`
+	SessionStart time.Time `yaml:"-"`
 	Origin  string   `yaml:"origin"`
 	Name    string   `yaml:"name"`
 	Profile string   `yaml:"profile"`

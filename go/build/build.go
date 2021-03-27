@@ -6,6 +6,7 @@ package build
 
 import (
 	"strings"
+	"time"
 
 	"uwspkg/build/profile"
 	"uwspkg/config"
@@ -94,12 +95,20 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	if err := profile.Create(cfg, m); err != nil {
 		return err
 	}
-	return libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
+	err := libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
+	if err != nil {
+		return err
+	}
+	m.SessionStart = time.Now()
+	return nil
 }
 
 func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	log.Info("TearDown %s build.", m.Origin)
 	errlist := make([]error, 0)
+	if m.SessionStart.IsZero() {
+		return errlist
+	}
 	if err := libexec.Run("build/session-stop", "build-"+m.Session); err != nil {
 		errlist = append(errlist, err)
 	} else {
