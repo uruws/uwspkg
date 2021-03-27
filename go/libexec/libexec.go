@@ -14,11 +14,28 @@ import (
 	"uwspkg/log"
 )
 
-var cfg *Config
+var (
+	cfg *Config
+	lib Runner
+)
 
 type Config struct {
 	Dir     string
 	Timeout time.Duration
+}
+
+var _ Runner = &impl{}
+
+type Runner interface {
+	Exec(string, []string) error
+}
+
+type impl struct {
+}
+
+func (r *impl) Exec(cmdpath string, args []string) error {
+	log.Debug("exec: %s %v", cmdpath, args)
+	return nil
 }
 
 func init() {
@@ -26,6 +43,7 @@ func init() {
 		Dir: filepath.FromSlash("/uws/libexec/uwspkg"),
 		Timeout: 3 * time.Minute,
 	}
+	lib = &impl{}
 }
 
 func Configure(c *config.Main) error {
@@ -56,5 +74,5 @@ func Run(cmdname string, args ...string) error {
 	if !strings.HasPrefix(cmdpath, cfg.Dir) {
 		return fmt.Errorf("%s: cmd path outside of libexec dir", cmdpath)
 	}
-	return nil
+	return lib.Exec(cmdpath, args)
 }
