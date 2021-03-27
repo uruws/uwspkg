@@ -40,4 +40,11 @@ rm -rf ${intprof_dst}
 install -d -m 0755 ${intprof_dst}
 install -m 0644 ${intprof_src}/* ${intprof_dst}/
 
+intfstab=${intprof_dst}/fstab
+libexec_dir=`realpath -e $(dirname $0)/../`
+
+echo "" >>${intfstab}
+echo "# internal setup" >>${intfstab}
+echo "${libexec_dir} /uwspkg/libexec none ro,bind 0 0" >>${intfstab}
+
 exit 0

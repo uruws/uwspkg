@@ -11,13 +11,20 @@ fi
 
 dstroot=${builddir}/chroot/${prof}
 
+intprof='false'
 profname="uwspkg-${prof}"
 if test 'Xinternal' = "X${prof}"; then
+	intprof='true'
 	profname="${prof}-uwspkg"
 	dstroot=${builddir}/chroot/${profname}
 fi
 
+schroot_cmd="schroot -c source:${profname} -d /root"
+
 if test -d ${dstroot}; then
+	if test 'Xtrue' = "X${intprof}"; then
+		${schroot_cmd} -- mkdir -vp /uwspkg/libexec
+	fi
 	exit 0
 fi
 
@@ -36,7 +43,6 @@ rsync -ax --delete-before ${baseroot}/ ${dstroot}/
 echo "${profname}" | tee ${dstroot}/etc/debian_chroot
 
 debpkg=${profdir}/debian.install
-schroot_cmd="schroot -c source:${profname} -d /root"
 
 if test -s ${debpkg}; then
 	cat ${debpkg} | xargs ${schroot_cmd} -- \
