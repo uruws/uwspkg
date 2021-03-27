@@ -59,8 +59,11 @@ func (p *Package) Build() error {
 		}
 	}
 	defer func() {
-		if err := build.TearDown(m); err != nil {
-			log.Fatal("TearDown: %v", err)
+		if errlist := build.TearDown(p.cfg, m); len(errlist) > 0 {
+			for _, err := range errlist {
+				log.Error("%v", err)
+			}
+			log.Fatal("build tear down failed with %d error(s)", len(errlist))
 		}
 	}()
 	if err := build.SetUp(p.cfg, m); err != nil {

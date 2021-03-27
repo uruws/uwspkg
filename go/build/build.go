@@ -97,9 +97,16 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	return libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
 }
 
-func TearDown(m *manifest.Config) error {
+func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	log.Info("TearDown %s build.", m.Origin)
-	return libexec.Run("build/session-stop", "build-"+m.Session)
+	errlist := make([]error, 0)
+	if err := profile.Remove(cfg, m); err != nil {
+		errlist = append(errlist, err)
+	}
+	if err := libexec.Run("build/session-stop", "build-"+m.Session); err != nil {
+		errlist = append(errlist, err)
+	}
+	return errlist
 }
 
 func Package(m *manifest.Config) error {
