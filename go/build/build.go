@@ -90,12 +90,12 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 
 func SetUp(m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
-	return libexec.Run("build/session-start", "build-" + m.Session, m.Profile)
+	return libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
 }
 
 func TearDown(m *manifest.Config) error {
 	log.Info("TearDown %s build.", m.Origin)
-	return libexec.Run("build/session-stop", "build-" + m.Session)
+	return libexec.Run("build/session-stop", "build-"+m.Session)
 }
 
 func Package(m *manifest.Config) error {

@@ -8,8 +8,8 @@ import (
 
 	_ "uwspkg/_testing/setup"
 
-	"uwspkg/config"
 	"uwspkg/_testing/tset"
+	"uwspkg/config"
 
 	. "gopkg.in/check.v1"
 )

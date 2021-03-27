@@ -46,7 +46,7 @@ func (p *Package) Build() error {
 	log.Info("Build %s.", p.orig)
 	m := p.man.Config()
 	log.Debug("build profile: %s", m.Profile)
-	profile := filepath.Join(p.cfg.SchrootCfgDir, "uwspkg-" + m.Profile)
+	profile := filepath.Join(p.cfg.SchrootCfgDir, "uwspkg-"+m.Profile)
 	if st, err := os.Stat(profile); err != nil {
 		if os.IsNotExist(err) {
 			return fmt.Errorf("%s invalid build profile: %s", p.orig, m.Profile)
@@ -54,7 +54,7 @@ func (p *Package) Build() error {
 			return err
 		}
 	} else {
-		if ! st.IsDir() {
+		if !st.IsDir() {
 			return fmt.Errorf("%s invalid build profile: %s", p.orig, m.Profile)
 		}
 	}

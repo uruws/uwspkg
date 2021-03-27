@@ -25,7 +25,7 @@ type Config struct {
 }
 
 func newConfig(origin string) *Config {
-	return &Config{Origin:  origin}
+	return &Config{Origin: origin}
 }
 
 type Manifest struct {
