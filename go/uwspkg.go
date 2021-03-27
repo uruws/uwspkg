@@ -63,7 +63,7 @@ func (p *Package) Build() error {
 			log.Fatal("TearDown: %v", err)
 		}
 	}()
-	if err := build.SetUp(m); err != nil {
+	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
 	if err := build.Package(m); err != nil {

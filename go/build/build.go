@@ -88,7 +88,7 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 	return libexec.Run("build/debian-install-profile", args...)
 }
 
-func SetUp(m *manifest.Config) error {
+func SetUp(cfg *config.Main, m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
 	return libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
 }
