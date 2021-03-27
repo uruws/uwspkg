@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+builddir=${1:?'build dir?'}
+cfgdir=${2:?'config dir?'}
+dstdir=${3:?'config dest dir?'}
+
+schroot_conf=${cfgdir}/chroot.d/uwspkg.conf
+
+install -v -d -m 0755 ${builddir}/build
+install -v -d -m 0755 ${builddir}/cache/debootstrap
+install -v -d -m 0755 ${builddir}/union/overlay ${builddir}/union/underlay
+
+install -v -d -m 0755 ${dstdir}/chroot.d
+install -v -C -m 0644 ${schroot_conf} ${dstdir}/chroot.d/uwspkg.conf
+
+exit 0
