@@ -6,8 +6,8 @@ package libexec
 
 import (
 	"fmt"
-	"path"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"uwspkg/config"
@@ -45,11 +45,16 @@ func Configure(c *config.Main) error {
 	return nil
 }
 
-func Run(cmd string, args ...string) error {
-	log.Debug("run: %s %#v", cmd, args)
-	cmd = filepath.FromSlash(path.Clean(cmd))
-	if filepath.IsAbs(cmd) {
-		return fmt.Errorf("cmd should be a relative path: %s", cmd)
+func Run(cmdname string, args ...string) error {
+	cmdname = filepath.FromSlash(cmdname)
+	log.Debug("run: %s %v", cmdname, args)
+	if filepath.IsAbs(cmdname) {
+		return fmt.Errorf("cmd should be a relative path: %s", cmdname)
+	}
+	cmdpath := filepath.Join(cfg.Dir, cmdname)
+	log.Debug("cmd path: %s", cmdpath)
+	if !strings.HasPrefix(cmdpath, cfg.Dir) {
+		return fmt.Errorf("%s: cmd path outside of libexec dir", cmdpath)
 	}
 	return nil
 }

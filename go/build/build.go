@@ -6,6 +6,7 @@ package build
 
 import (
 	"uwspkg/config"
+	"uwspkg/libexec"
 	"uwspkg/log"
 	"uwspkg/manifest"
 )
@@ -14,6 +15,9 @@ func EnvSetUp(cfg *config.Main) error {
 	log.Info("Env setup: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
 	log.Debug("Build dir: %s", cfg.BuildDir)
 	log.Debug("Debian install: %s", cfg.DebianInstall)
+	if err := libexec.Run("build/setup"); err != nil {
+		return err
+	}
 	return nil
 }
 

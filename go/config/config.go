@@ -76,6 +76,12 @@ func (m *manager) Parse(c *Main) error {
 			return err
 		}
 	}
+	if c.Libexec != "" {
+		c.Libexec, err = filepath.Abs(filepath.Clean(c.Libexec))
+		if err != nil {
+			return err
+		}
+	}
 	if c.DebianRepo == "" {
 		c.DebianRepo = "http://deb.debian.org/debian"
 	}
