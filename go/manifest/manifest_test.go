@@ -29,9 +29,10 @@ func (s *TSuite) TestNewConfig(c *C) {
 	c.Check(m.Name, Equals, "")
 	c.Check(m.Profile, Equals, "")
 	c.Check(m.Session, Equals, "")
+	c.Check(len(m.Build), Equals, 0)
 }
 
-func (s *TSuite) TestLoad(c *C) {
+func (s *TSuite) TestDefaultConfig(c *C) {
 	m := New("testdata/load")
 	err := m.Load(filepath.FromSlash("testdata/load/manifest.yml"))
 	c.Assert(err, IsNil)
@@ -39,4 +40,6 @@ func (s *TSuite) TestLoad(c *C) {
 	c.Check(m.c.Name, Equals, "load")
 	c.Check(m.c.Profile, Equals, "build")
 	c.Check(len(m.c.Session), Equals, 64)
+	c.Check(len(m.c.Build), Equals, 1)
+	c.Check(m.c.Build[0], Equals, "make build")
 }

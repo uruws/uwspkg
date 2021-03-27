@@ -17,10 +17,11 @@ import (
 )
 
 type Config struct {
-	Origin  string `yaml:"origin"`
-	Name    string `yaml:"name"`
-	Profile string `yaml:"profile"`
-	Session string `yaml:"-"`
+	Session string   `yaml:"-"`
+	Origin  string   `yaml:"origin"`
+	Name    string   `yaml:"name"`
+	Profile string   `yaml:"profile"`
+	Build   []string `yaml:"build"`
 }
 
 func newConfig(origin string) *Config {
@@ -75,5 +76,8 @@ func (m *Manifest) Parse(c *Config) error {
 	}
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
+	if len(c.Build) == 0 {
+		c.Build = []string{"make build"}
+	}
 	return nil
 }
