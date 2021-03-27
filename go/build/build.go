@@ -100,10 +100,10 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	log.Info("TearDown %s build.", m.Origin)
 	errlist := make([]error, 0)
-	if err := profile.Remove(cfg, m); err != nil {
+	if err := libexec.Run("build/session-stop", "build-"+m.Session); err != nil {
 		errlist = append(errlist, err)
 	}
-	if err := libexec.Run("build/session-stop", "build-"+m.Session); err != nil {
+	if err := profile.Remove(cfg, m); err != nil {
 		errlist = append(errlist, err)
 	}
 	return errlist
