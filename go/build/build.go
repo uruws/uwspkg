@@ -91,7 +91,7 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
-	if err := profile.SetUp(cfg, m); err != nil {
+	if err := profile.Create(cfg, m); err != nil {
 		return err
 	}
 	return libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
