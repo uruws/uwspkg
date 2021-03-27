@@ -71,7 +71,7 @@ func (m *Manifest) Parse(c *Config) error {
 		return fmt.Errorf("%s: empty package name", orig)
 	}
 	if c.Profile == "" {
-		c.Profile = "default"
+		c.Profile = "build"
 	}
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))

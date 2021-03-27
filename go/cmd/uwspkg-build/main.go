@@ -68,7 +68,7 @@ func parseOrigin(o string) (string, string) {
 
 func usage() {
 	log.Error("no package origin")
-	fmt.Fprintf(os.Stderr, "Usage: %s pkg/origin\n", os.Args[0])
+	fmt.Fprintf(os.Stderr, "Usage: uwspkg-build pkg/origin\n")
 	flag.PrintDefaults()
 	os.Exit(1)
 }
