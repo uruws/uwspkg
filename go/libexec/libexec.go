@@ -54,7 +54,16 @@ func init() {
 		Dir:     filepath.FromSlash("/uws/libexec/uwspkg"),
 		Timeout: 3 * time.Minute,
 	}
-	lib = &impl{}
+	SetDefaultRunner()
+}
+
+func SetRunner(r Runner) {
+	lib = nil
+	lib = r
+}
+
+func SetDefaultRunner() {
+	SetRunner(&impl{})
 }
 
 func Configure(c *config.Main) error {
