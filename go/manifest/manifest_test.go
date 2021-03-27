@@ -27,7 +27,8 @@ func (s *TSuite) TestNewConfig(c *C) {
 	m := newConfig("testing")
 	c.Check(m.Origin, Equals, "testing")
 	c.Check(m.Name, Equals, "")
-	c.Check(m.Profile, Equals, "default")
+	c.Check(m.Profile, Equals, "")
+	c.Check(m.Session, Equals, "")
 }
 
 func (s *TSuite) TestLoad(c *C) {

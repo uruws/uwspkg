@@ -52,10 +52,7 @@ func buildSetup(cfg *config.Main) error {
 		1: cfg.BuildCfgDir,
 		2: cfg.SchrootCfgDir,
 	}
-	if err := libexec.Run("build/setup", args...); err != nil {
-		return err
-	}
-	return nil
+	return libexec.Run("build/setup", args...)
 }
 
 func setupProfile(cfg *config.Main, prof string) error {
@@ -66,10 +63,7 @@ func setupProfile(cfg *config.Main, prof string) error {
 		2: cfg.SchrootCfgDir,
 		3: prof,
 	}
-	if err := libexec.Run("build/setup-profile", args...); err != nil {
-		return err
-	}
-	return nil
+	return libexec.Run("build/setup-profile", args...)
 }
 
 func debianInstall(cfg *config.Main, dist string) error {
@@ -81,10 +75,7 @@ func debianInstall(cfg *config.Main, dist string) error {
 		3: cfg.DebianSecRepo,
 		4: dist,
 	}
-	if err := libexec.Run("build/debian-install", args...); err != nil {
-		return err
-	}
-	return nil
+	return libexec.Run("build/debian-install", args...)
 }
 
 func debianInstallProfile(cfg *config.Main, prof string) error {
@@ -94,15 +85,12 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 		1: cfg.BuildCfgDir,
 		2: prof,
 	}
-	if err := libexec.Run("build/debian-install-profile", args...); err != nil {
-		return err
-	}
-	return nil
+	return libexec.Run("build/debian-install-profile", args...)
 }
 
 func SetUp(m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
-	return nil
+	return libexec.Run("build/session-start", "build-" + m.Session, m.Profile)
 }
 
 func Package(m *manifest.Config) error {
@@ -112,5 +100,5 @@ func Package(m *manifest.Config) error {
 
 func TearDown(m *manifest.Config) error {
 	log.Info("TearDown %s build.", m.Origin)
-	return nil
+	return libexec.Run("build/session-stop", "build-" + m.Session)
 }

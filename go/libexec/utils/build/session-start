@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+name=${1:?'session name?'}
+prof=${2:?'build profile?'}
+schroot -d /build -b -n ${name} -c "uwspkg-${prof}"
+exit 0
