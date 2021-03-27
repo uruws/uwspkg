@@ -15,9 +15,9 @@ if test -d ${dstdir}; then
 	exit 1
 fi
 
-rsync -vax ${srcdir}/ ${dstdir}/
+rsync -ax ${srcdir}/ ${dstdir}/
 
-mkdir -v /build/${sess}
+mkdir /build/${sess}
 
 fstab=${dstdir}/fstab
 

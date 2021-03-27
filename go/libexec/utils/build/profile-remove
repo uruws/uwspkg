@@ -1,16 +1,16 @@
 #!/bin/sh
 set -u
 
-prof=${1:?'profile name?'}
-sess=${2:?'session name?'}
+sess=${1:?'session name?'}
+builddir=${2:?'build dir?'}
 
 sessname="internal-${sess}"
 schroot_cmd='schroot -d /root -u root'
 
-${schroot_cmd} -b -c internal-uwspkg -n ${sessname}
+${schroot_cmd} -b -c internal-uwspkg -n ${sessname} >/dev/null
 schroot_sess="${schroot_cmd} -r -c ${sessname}"
 
-${schroot_sess} -- /uwspkg/libexec/internal/profile-remove ${prof} ${sess}
+${schroot_sess} -- /uwspkg/libexec/internal/profile-remove ${sess} ${builddir}
 exit_status=$?
 
 ${schroot_cmd} -e -c ${sessname}

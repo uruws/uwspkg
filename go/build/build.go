@@ -98,7 +98,7 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	if err := profile.Create(cfg, m); err != nil {
 		return err
 	}
-	err := libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
+	err := libexec.Run("build/session-start", "uwspkg-build-"+m.Session, m.Profile)
 	if err != nil {
 		return err
 	}
@@ -112,7 +112,7 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	if m.SessionStart.IsZero() {
 		return errlist
 	}
-	if err := libexec.Run("build/session-stop", "build-"+m.Session); err != nil {
+	if err := libexec.Run("build/session-stop", "uwspkg-build-"+m.Session); err != nil {
 		errlist = append(errlist, err)
 	} else {
 		if err := profile.Remove(cfg, m); err != nil {

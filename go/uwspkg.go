@@ -80,6 +80,6 @@ func (p *Package) Build() error {
 		return err
 	}
 	failed = false
-	log.Info("Build %s took %s.", p.orig, time.Now().Sub(m.SessionStart).Milliseconds())
+	log.Info("Build %s took %s.", p.orig, time.Now().Sub(m.SessionStart))
 	return nil
 }

@@ -20,5 +20,5 @@ func Create(cfg *config.Main, m *manifest.Config) error {
 func Remove(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s remove %s %s", m.Session, m.Origin, m.Profile)
 	sess := "uwspkg-build-"+m.Session
-	return libexec.Run("build/profile-remove", m.Profile, sess)
+	return libexec.Run("build/profile-remove", sess, cfg.BuildDir)
 }

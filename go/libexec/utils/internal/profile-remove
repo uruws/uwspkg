@@ -1,7 +1,11 @@
 #!/bin/sh
 set -eu
 
-prof=${1:?'profile name?'}
-sess=${2:?'session name?'}
+sess=${1:?'session name?'}
+
+profdir=/etc/schroot/${sess}
+profcfg=/etc/schroot/chroot.d/${sess}.conf
+
+rm -rf ${profcfg} ${profdir} /build/${sess}
 
 exit 0
