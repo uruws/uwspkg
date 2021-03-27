@@ -101,16 +101,16 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 }
 
 func SetUp(m *manifest.Config) error {
-	log.Info("SetUp %s", m.Origin)
+	log.Info("SetUp %s build.", m.Origin)
 	return nil
 }
 
 func Package(m *manifest.Config) error {
-	log.Info("Build %s", m.Origin)
+	log.Info("Make %s.", m.Origin)
 	return nil
 }
 
 func TearDown(m *manifest.Config) error {
-	log.Info("TearDown %s", m.Origin)
+	log.Info("TearDown %s build.", m.Origin)
 	return nil
 }

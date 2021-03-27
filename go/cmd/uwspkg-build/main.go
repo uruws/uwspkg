@@ -6,6 +6,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"path"
 
@@ -67,6 +68,7 @@ func parseOrigin(o string) (string, string) {
 
 func usage() {
 	log.Error("no package origin")
+	fmt.Fprintf(os.Stderr, "Usage: %s pkg/origin\n", os.Args[0])
 	flag.PrintDefaults()
 	os.Exit(1)
 }
