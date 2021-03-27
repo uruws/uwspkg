@@ -25,16 +25,16 @@ var Files map[int]string = map[int]string{
 const Version uint = 0
 
 type Main struct {
-	Version       uint   `yaml:"version"`
-	PkgDir        string `yaml:"pkgdir"`
-	Manifest      string `yaml:"manifest"`
-	BuildDir      string `yaml:"build.dir"`
-	BuildCfgDir   string `yaml:"build.cfgdir"`
-	BuildEnvPath  string `yaml:"build.env.path"`
-	SchrootCfgDir string `yaml:"schroot.cfgdir"`
-	DebianRepo    string `yaml:"debian.repo"`
-	DebianSecRepo string `yaml:"debian.secrepo"`
-	DebianInstall string `yaml:"debian.install"`
+	Version              uint   `yaml:"version"`
+	PkgDir               string `yaml:"pkgdir"`
+	Manifest             string `yaml:"manifest"`
+	BuildDir             string `yaml:"build.dir"`
+	BuildCfgDir          string `yaml:"build.cfgdir"`
+	BuildEnvPath         string `yaml:"build.env.path"`
+	SchrootCfgDir        string `yaml:"schroot.cfgdir"`
+	DebianRepo           string `yaml:"debian.repo"`
+	DebianSecRepo        string `yaml:"debian.secrepo"`
+	DebianInstall        string `yaml:"debian.install"`
 	DebianInstallVariant string `yaml:"debian.install.variant"`
 }
 
