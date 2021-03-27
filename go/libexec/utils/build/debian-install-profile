@@ -3,18 +3,16 @@ set -eu
 
 builddir=${1:?'build dir?'}
 cfgdir=${2:?'config dir?'}
-dstdir=${3:?'config dest dir?'}
-prof=${4:?'profile?'}
-distro=${5:?'distro?'}
+prof=${3:?'profile?'}
+
+if test 'Xdefault' = "X${prof}"; then
+	exit 0
+fi
+
+distro=$(cat ${cfgdir}/uwspkg-${prof}/debian.distro)
 
 baseroot=${builddir}/chroot/debian/${distro}
 dstroot=${builddir}/chroot/${prof}
-cfgdst=${dstdir}/uwspkg-${prof}
-
-rm -rf ${cfgdst}
-
-install -v -m 0755 -d ${cfgdst}
-install -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
 
 rsync -ax --delete-before ${baseroot}/ ${dstroot}/
 echo "uwspkg-${prof}" | tee ${dstroot}/etc/debian_chroot
