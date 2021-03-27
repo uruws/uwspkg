@@ -4,6 +4,10 @@ set -eu
 builddir=${1:?'build dir?'}
 cfgdir=${2:?'config dir?'}
 dstdir=${3:?'config dest dir?'}
+shift 3
+debpkgs="$@"
+
+echo ${debpkgs} | xargs apt-get install -yy --no-install-recommends
 
 schroot_conf=${cfgdir}/chroot.d/uwspkg.conf
 

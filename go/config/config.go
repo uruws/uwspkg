@@ -35,6 +35,7 @@ type Main struct {
 	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
 	Libexec              string   `yaml:"libexec"`
 	LibexecTimeout       string   `yaml:"libexec.timeout"`
+	DebianDeps           []string `yaml:"debian.deps"`
 	DebianRepo           string   `yaml:"debian.repo"`
 	DebianSecRepo        string   `yaml:"debian.secrepo"`
 	DebianInstall        string   `yaml:"debian.install"`
@@ -85,6 +86,12 @@ func (m *manager) Parse(c *Main) error {
 		c.Libexec, err = filepath.Abs(filepath.Clean(c.Libexec))
 		if err != nil {
 			return err
+		}
+	}
+	if len(c.DebianDeps) == 0 {
+		c.DebianDeps = []string{
+			"schroot",
+			"debootstrap",
 		}
 	}
 	if c.DebianRepo == "" {
