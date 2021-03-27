@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
 name=${1:?'session name?'}
-prof=${2:?'build profile?'}
-schroot -d /build -b -n ${name} -c "uwspkg-${prof}"
+schroot -d /build -b -n ${name} -c ${name}
 exit 0

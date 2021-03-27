@@ -99,7 +99,7 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	if err := profile.Create(cfg, m, sess); err != nil {
 		return err
 	}
-	err := libexec.Run("build/session-start", sess, m.Profile)
+	err := libexec.Run("build/session-start", sess)
 	if err != nil {
 		return err
 	}
