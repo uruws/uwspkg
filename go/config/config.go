@@ -34,6 +34,8 @@ type Main struct {
 	SchrootCfgDir string `yaml:"schroot.cfgdir"`
 	DebianRepo    string `yaml:"debian.repo"`
 	DebianSecRepo string `yaml:"debian.secrepo"`
+	DebianInstall string `yaml:"debian.install"`
+	DebianInstallVariant string `yaml:"debian.install.variant"`
 }
 
 func (m *manager) Parse(c *Main) error {
@@ -77,6 +79,15 @@ func (m *manager) Parse(c *Main) error {
 	}
 	if c.DebianSecRepo == "" {
 		c.DebianSecRepo = "http://security.debian.org/debian-security"
+	}
+	if c.DebianInstallVariant == "" {
+		c.DebianInstallVariant = "minbase"
+	}
+	cacheDir := filepath.Join(c.BuildDir, "cache", "debootstrap")
+	if c.DebianInstall == "" {
+		c.DebianInstall = fmt.Sprintf(
+			"debootstrap --force-check-gpg --variant=%s --cache-dir=%s",
+			c.DebianInstallVariant, cacheDir)
 	}
 	return nil
 }

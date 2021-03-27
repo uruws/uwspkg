@@ -13,6 +13,7 @@ import (
 func EnvSetUp(cfg *config.Main) error {
 	log.Info("Env setup: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
 	log.Debug("Build dir: %s", cfg.BuildDir)
+	log.Debug("Debian install: %s", cfg.DebianInstall)
 	return nil
 }
 
