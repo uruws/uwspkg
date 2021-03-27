@@ -42,4 +42,6 @@ func (s *TSuite) TearDownTest(c *C) {
 }
 
 func (s *TSuite) TestEnvSetUp(c *C) {
+	err := EnvSetUp(s.cfg)
+	c.Assert(err, IsNil)
 }
