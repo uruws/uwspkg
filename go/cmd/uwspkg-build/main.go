@@ -42,6 +42,7 @@ func main() {
 	if err != nil {
 		log.Fatal("%v", err)
 	}
+	log.Debug("end")
 }
 
 func pkgBuild(cfg *config.Main, pkgorig string) error {

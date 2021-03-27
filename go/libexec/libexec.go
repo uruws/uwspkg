@@ -75,6 +75,7 @@ func Configure(c *config.Main) error {
 }
 
 func Run(cmdname string, args ...string) error {
+	log.Info("Exec %s", cmdname)
 	cmdname = filepath.FromSlash(cmdname)
 	log.Debug("run: %s %v", cmdname, args)
 	if filepath.IsAbs(cmdname) {
