@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"time"
 
 	"uwspkg/build"
 	"uwspkg/config"
@@ -66,11 +67,19 @@ func (p *Package) Build() error {
 			log.Fatal("build tear down failed with %d error(s)", len(errlist))
 		}
 	}()
+	failed := true
+	defer func() {
+		if failed {
+			log.Error("Build %s failed.", p.orig)
+		}
+	}()
 	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
 	if err := build.Package(m); err != nil {
 		return err
 	}
+	failed = false
+	log.Info("Build %s took %s.", p.orig, time.Now().Sub(m.SessionStart).Milliseconds())
 	return nil
 }
