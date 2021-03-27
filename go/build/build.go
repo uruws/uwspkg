@@ -37,6 +37,9 @@ func EnvSetUp(cfg *config.Main) error {
 			return err
 		}
 	}
+	if err := debianInstallProfile(cfg, "internal"); err != nil {
+		return err
+	}
 	for _, prof := range cfg.BuildProfile {
 		if prof == "default" {
 			continue

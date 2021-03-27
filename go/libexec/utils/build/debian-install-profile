@@ -9,27 +9,33 @@ if test 'Xdefault' = "X${prof}"; then
 	exit 0
 fi
 
-profdir=${cfgdir}/uwspkg-${prof}
-distro=$(cat ${profdir}/debian.distro)
-
-baseroot=${builddir}/chroot/debian/${distro}
 dstroot=${builddir}/chroot/${prof}
+
+profname="uwspkg-${prof}"
+if test 'Xinternal' = "X${prof}"; then
+	profname="${prof}-uwspkg"
+	dstroot=${builddir}/chroot/${profname}
+fi
 
 if test -d ${dstroot}; then
 	exit 0
 fi
 
+profdir=${cfgdir}/${profname}
+distro=$(cat ${profdir}/debian.distro)
+baseroot=${builddir}/chroot/debian/${distro}
+
 rsync -ax --delete-before ${baseroot}/ ${dstroot}/
-echo "uwspkg-${prof}" | tee ${dstroot}/etc/debian_chroot
+echo "${profname}" | tee ${dstroot}/etc/debian_chroot
 
 debpkg=${profdir}/debian.install
-schroot_source="schroot -c source:uwspkg-${prof} -d /root"
+schroot_cmd="schroot -c source:${profname} -d /root"
 
 if test -s ${debpkg}; then
-	cat ${debpkg} | xargs ${schroot_source} -- \
+	cat ${debpkg} | xargs ${schroot_cmd} -- \
 		apt-get install --no-install-recommends -yy --purge
-	${schroot_source} -- apt-get autoremove --purge -yy
-	${schroot_source} -- apt-get clean -yy
+	${schroot_cmd} -- apt-get autoremove --purge -yy
+	${schroot_cmd} -- apt-get clean -yy
 	oldwd=${PWD}
 	cd ${dstroot}
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
