@@ -5,6 +5,8 @@
 package build
 
 import (
+	"strings"
+
 	"uwspkg/config"
 	"uwspkg/libexec"
 	"uwspkg/log"
@@ -16,6 +18,7 @@ func EnvSetUp(cfg *config.Main) error {
 	log.Debug("schroot config: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
 	log.Debug("build dir: %s", cfg.BuildDir)
 	log.Debug("debian install: %s", cfg.DebianInstall)
+	log.Info("Debian deps: %s", strings.Join(cfg.DebianDeps, " "))
 	if err := buildSetup(cfg); err != nil {
 		return err
 	}

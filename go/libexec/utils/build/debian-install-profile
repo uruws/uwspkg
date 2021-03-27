@@ -15,6 +15,10 @@ distro=$(cat ${profdir}/debian.distro)
 baseroot=${builddir}/chroot/debian/${distro}
 dstroot=${builddir}/chroot/${prof}
 
+if test -d ${dstroot}; then
+	exit 0
+fi
+
 rsync -ax --delete-before ${baseroot}/ ${dstroot}/
 echo "uwspkg-${prof}" | tee ${dstroot}/etc/debian_chroot
 
