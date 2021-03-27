@@ -102,9 +102,10 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	errlist := make([]error, 0)
 	if err := libexec.Run("build/session-stop", "build-"+m.Session); err != nil {
 		errlist = append(errlist, err)
-	}
-	if err := profile.Remove(cfg, m); err != nil {
-		errlist = append(errlist, err)
+	} else {
+		if err := profile.Remove(cfg, m); err != nil {
+			errlist = append(errlist, err)
+		}
 	}
 	return errlist
 }
