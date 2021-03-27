@@ -7,6 +7,3 @@
 /sys            /sys            none    rw,bind         0       0
 /dev/pts        /dev/pts        none    rw,bind         0       0
 tmpfs           /dev/shm        tmpfs   defaults        0       0
-
-/etc/schroot        /etc/schroot none    rw,bind         0 0
-/srv/uwspkg/build   /build       none    rw,bind         0 0
