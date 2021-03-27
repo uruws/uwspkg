@@ -29,11 +29,11 @@ func EnvSetUp(cfg *config.Main) error {
 			return err
 		}
 	}
-	//~ for _, prof := range cfg.BuildProfile {
-		//~ if err := debianInstallProfile(cfg, prof); err != nil {
-			//~ return err
-		//~ }
-	//~ }
+	for _, prof := range cfg.BuildProfile {
+		if err := debianInstallProfile(cfg, prof); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -73,6 +73,19 @@ func debianInstall(cfg *config.Main, dist string) error {
 		4: dist,
 	}
 	if err := libexec.Run("build/debian-install", args...); err != nil {
+		return err
+	}
+	return nil
+}
+
+func debianInstallProfile(cfg *config.Main, prof string) error {
+	log.Info("Debian install profile %s.", prof)
+	args := []string{
+		0: cfg.BuildDir,
+		1: cfg.BuildCfgDir,
+		2: prof,
+	}
+	if err := libexec.Run("build/debian-install-profile", args...); err != nil {
 		return err
 	}
 	return nil
