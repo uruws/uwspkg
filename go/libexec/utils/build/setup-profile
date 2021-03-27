@@ -16,7 +16,7 @@ profcfg=${dstdir}/chroot.d/uwspkg-${prof}.conf
 rm -rf ${cfgdst}
 
 install -m 0755 -d ${cfgdst}
-install -C -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
+install -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
 
 if ! test -s ${cfgdir}/chroot.d/uwspkg-${prof}.conf; then
 	echo "${cfgdir}/chroot.d/uwspkg-${prof}.conf: file not found" >&2

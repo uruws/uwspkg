@@ -33,4 +33,11 @@ cat ${schroot_conf} |
 install -v -C -m 0644 ${cfgtmp} ${dstdir}/chroot.d/uwspkg.conf
 rm -f ${cfgtmp}
 
+intprof_src=${cfgdir}/internal-uwspkg
+intprof_dst=${dstdir}/internal-uwspkg
+
+rm -rf ${intprof_dst}
+install -d -m 0755 ${intprof_dst}
+install -m 0644 ${intprof_src}/* ${intprof_dst}/
+
 exit 0
