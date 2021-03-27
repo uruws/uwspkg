@@ -15,16 +15,16 @@ import (
 )
 
 type Config struct {
-	Origin string `yaml:"origin"`
-	Name   string `yaml:"name"`
-	Image  string `yaml:"image"`
+	Origin  string `yaml:"origin"`
+	Name    string `yaml:"name"`
+	Profile string `yaml:"profile"`
 }
 
 func newConfig(origin string) *Config {
 	return &Config{
-		Origin: origin,
-		Name:   "",
-		Image:  "default",
+		Origin:  origin,
+		Name:    "",
+		Profile: "default",
 	}
 }
 
