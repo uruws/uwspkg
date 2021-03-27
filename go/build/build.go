@@ -7,6 +7,7 @@ package build
 import (
 	"strings"
 
+	"uwspkg/build/profile"
 	"uwspkg/config"
 	"uwspkg/libexec"
 	"uwspkg/log"
@@ -90,6 +91,9 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
+	if err := profile.SetUp(cfg, m); err != nil {
+		return err
+	}
 	return libexec.Run("build/session-start", "build-"+m.Session, m.Profile)
 }
 
