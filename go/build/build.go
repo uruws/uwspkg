@@ -101,6 +101,9 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	}
 	err := libexec.Run("build/session-start", sess)
 	if err != nil {
+		if err := profile.Remove(cfg, m, sess); err != nil {
+			log.Error("%v", err)
+		}
 		return err
 	}
 	m.SessionStart = time.Now()
