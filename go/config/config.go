@@ -139,12 +139,20 @@ func Load() (*Main, error) {
 	log.Debug("load")
 	m := newManager()
 	flen := len(Files)
+	loaded := false
 	for idx := 0; idx < flen; idx += 1 {
 		fn := Files[idx]
 		if err := m.LoadFile(fn); err != nil {
 			if !os.IsNotExist(err) {
 				return nil, err
 			}
+		} else {
+			loaded = true
+		}
+	}
+	if !loaded {
+		if err := m.Parse(m.c); err != nil {
+			return nil, err
 		}
 	}
 	return m.c, nil
