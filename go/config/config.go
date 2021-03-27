@@ -92,6 +92,7 @@ func (m *manager) Parse(c *Main) error {
 		c.DebianDeps = []string{
 			"schroot",
 			"debootstrap",
+			"rsync",
 		}
 	}
 	if c.DebianRepo == "" {

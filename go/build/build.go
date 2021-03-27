@@ -93,12 +93,12 @@ func SetUp(m *manifest.Config) error {
 	return libexec.Run("build/session-start", "build-" + m.Session, m.Profile)
 }
 
-func Package(m *manifest.Config) error {
-	log.Info("Make %s.", m.Origin)
-	return nil
-}
-
 func TearDown(m *manifest.Config) error {
 	log.Info("TearDown %s build.", m.Origin)
 	return libexec.Run("build/session-stop", "build-" + m.Session)
+}
+
+func Package(m *manifest.Config) error {
+	log.Info("Make %s.", m.Origin)
+	return nil
 }
