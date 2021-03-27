@@ -43,3 +43,14 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(len(m.c.Build), Equals, 1)
 	c.Check(m.c.Build[0], Equals, "make build")
 }
+
+func (s *TSuite) TestBuildScript(c *C) {
+	m := New("testdata/build-script")
+	err := m.Load(filepath.FromSlash("testdata/build-script/manifest.yml"))
+	c.Assert(err, IsNil)
+	c.Check(m.c.Origin, Equals, "testdata/build-script")
+	c.Check(len(m.c.Build), Equals, 100)
+	c.Check(m.c.Build[0], Equals, "l1")
+	c.Check(m.c.Build[49], Equals, "l50")
+	c.Check(m.c.Build[99], Equals, "l100")
+}
