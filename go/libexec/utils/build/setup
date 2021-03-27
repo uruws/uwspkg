@@ -47,6 +47,6 @@ echo "" >>${intfstab}
 echo "# internal setup" >>${intfstab}
 echo "${dstdir} /etc/schroot none rw,bind 0 0" >>${intfstab}
 echo "${builddir}/build /build none rw,bind 0 0" >>${intfstab}
-echo "${libexec_dir} /uwspkg/libexec none ro,bind 0 0" >>${intfstab}
+echo "${libexec_dir}/internal /uwspkg/libexec/internal none ro,bind 0 0" >>${intfstab}
 
 exit 0

@@ -13,20 +13,12 @@ import (
 
 func Create(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
-	args := []string{
-		0: m.Profile,
-		1: "uwspkg-build-"+m.Session,
-		2: cfg.SchrootCfgDir,
-	}
-	return libexec.Run("build/profile-create", args...)
+	sess := "uwspkg-build-"+m.Session
+	return libexec.Run("build/profile-create", m.Profile, sess)
 }
 
 func Remove(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s remove %s %s", m.Session, m.Origin, m.Profile)
-	args := []string{
-		0: m.Profile,
-		1: "uwspkg-build-"+m.Session,
-		2: cfg.SchrootCfgDir,
-	}
-	return libexec.Run("build/profile-remove", args...)
+	sess := "uwspkg-build-"+m.Session
+	return libexec.Run("build/profile-remove", m.Profile, sess)
 }
