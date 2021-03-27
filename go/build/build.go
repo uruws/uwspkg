@@ -19,8 +19,10 @@ func EnvSetUp(cfg *config.Main) error {
 	if err := buildSetup(cfg); err != nil {
 		return err
 	}
-	if err := debianInstall(cfg); err != nil {
-		return err
+	for _, dist := range cfg.DebianDistro {
+		if err := debianInstall(cfg, dist); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -37,7 +39,8 @@ func buildSetup(cfg *config.Main) error {
 	return nil
 }
 
-func debianInstall(cfg *config.Main) error {
+func debianInstall(cfg *config.Main, dist string) error {
+	log.Info("Debian install %s.", dist)
 	args := []string{
 		0: cfg.BuildDir,
 		1: cfg.DebianInstallVariant,

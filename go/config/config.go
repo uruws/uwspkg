@@ -25,19 +25,20 @@ var Files map[int]string = map[int]string{
 const Version uint = 0
 
 type Main struct {
-	Version              uint   `yaml:"version"`
-	PkgDir               string `yaml:"pkgdir"`
-	Manifest             string `yaml:"manifest"`
-	BuildDir             string `yaml:"build.dir"`
-	BuildCfgDir          string `yaml:"build.cfgdir"`
-	BuildEnvPath         string `yaml:"build.env.path"`
-	SchrootCfgDir        string `yaml:"schroot.cfgdir"`
-	Libexec              string `yaml:"libexec"`
-	LibexecTimeout       string `yaml:"libexec.timeout"`
-	DebianRepo           string `yaml:"debian.repo"`
-	DebianSecRepo        string `yaml:"debian.secrepo"`
-	DebianInstall        string `yaml:"debian.install"`
-	DebianInstallVariant string `yaml:"debian.install.variant"`
+	Version              uint     `yaml:"version"`
+	PkgDir               string   `yaml:"pkgdir"`
+	Manifest             string   `yaml:"manifest"`
+	BuildDir             string   `yaml:"build.dir"`
+	BuildCfgDir          string   `yaml:"build.cfgdir"`
+	BuildEnvPath         string   `yaml:"build.env.path"`
+	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
+	Libexec              string   `yaml:"libexec"`
+	LibexecTimeout       string   `yaml:"libexec.timeout"`
+	DebianRepo           string   `yaml:"debian.repo"`
+	DebianSecRepo        string   `yaml:"debian.secrepo"`
+	DebianInstall        string   `yaml:"debian.install"`
+	DebianInstallVariant string   `yaml:"debian.install.variant"`
+	DebianDistro         []string `yaml:"debian.distro"`
 }
 
 func (m *manager) Parse(c *Main) error {
@@ -96,6 +97,9 @@ func (m *manager) Parse(c *Main) error {
 		c.DebianInstall = fmt.Sprintf(
 			"debootstrap --force-check-gpg --variant=%s --cache-dir=%s",
 			c.DebianInstallVariant, cacheDir)
+	}
+	if len(c.DebianDistro) == 0 {
+		c.DebianDistro = []string{"testing"}
 	}
 	return nil
 }

@@ -51,7 +51,7 @@ func (r *impl) Exec(cmdpath string, args []string) error {
 
 func init() {
 	cfg = &Config{
-		Dir: filepath.FromSlash("/uws/libexec/uwspkg"),
+		Dir:     filepath.FromSlash("/uws/libexec/uwspkg"),
 		Timeout: 3 * time.Minute,
 	}
 	lib = &impl{}

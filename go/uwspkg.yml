@@ -1,4 +1,3 @@
 pkgdir: ../
 build.cfgdir: ./etc/schroot
 libexec: ./libexec/utils
-libexec.timeout: 1m
