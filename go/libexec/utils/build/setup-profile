@@ -12,13 +12,13 @@ proftmp=$(mktemp /tmp/uwspkg-setup-profile.XXXXXXXX)
 
 rm -rf ${cfgdst}
 
-install -v -m 0755 -d ${cfgdst}
-install -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
+install -m 0755 -d ${cfgdst}
+install -C -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
 
 cat ${cfgdir}/chroot.d/uwspkg-${prof}.conf |
 	sed "s#@BUILDDIR@#${builddir}#g" >${proftmp}
 
-install -v -m 0644 ${proftmp} ${profcfg}
+install -v -C -m 0644 ${proftmp} ${profcfg}
 rm -f ${proftmp}
 
 exit 0

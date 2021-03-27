@@ -12,6 +12,12 @@ install -v -d -m 0755 ${builddir}/cache/debootstrap
 install -v -d -m 0755 ${builddir}/union/overlay ${builddir}/union/underlay
 
 install -v -d -m 0755 ${dstdir}/chroot.d
-install -v -C -m 0644 ${schroot_conf} ${dstdir}/chroot.d/uwspkg.conf
+
+cfgtmp=$(mktemp /tmp/uwspkg-build-setup.XXXXXXXX)
+cat ${schroot_conf} |
+	sed "s#@BUILDDIR#${builddir}#g" >${cfgtmp}
+
+install -v -C -m 0644 ${cfgtmp} ${dstdir}/chroot.d/uwspkg.conf
+rm -f ${cfgtmp}
 
 exit 0
