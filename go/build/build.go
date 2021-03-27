@@ -15,7 +15,12 @@ func EnvSetUp(cfg *config.Main) error {
 	log.Info("Env setup: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
 	log.Debug("Build dir: %s", cfg.BuildDir)
 	log.Debug("Debian install: %s", cfg.DebianInstall)
-	if err := libexec.Run("build/setup"); err != nil {
+	args := []string{
+		0: cfg.BuildDir,
+		1: cfg.BuildCfgDir,
+		2: cfg.SchrootCfgDir,
+	}
+	if err := libexec.Run("build/setup", args...); err != nil {
 		return err
 	}
 	return nil
