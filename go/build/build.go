@@ -18,11 +18,14 @@ func EnvSetUp(cfg *config.Main) error {
 	log.Debug("schroot config: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
 	log.Debug("build dir: %s", cfg.BuildDir)
 	log.Debug("debian install: %s", cfg.DebianInstall)
-	log.Info("Debian deps: %s", strings.Join(cfg.DebianDeps, " "))
+	log.Info("Debian deps: %s.", strings.Join(cfg.DebianDeps, " "))
 	if err := buildSetup(cfg); err != nil {
 		return err
 	}
 	for _, prof := range cfg.BuildProfile {
+		if prof == "default" {
+			continue
+		}
 		if err := setupProfile(cfg, prof); err != nil {
 			return err
 		}
@@ -33,6 +36,9 @@ func EnvSetUp(cfg *config.Main) error {
 		}
 	}
 	for _, prof := range cfg.BuildProfile {
+		if prof == "default" {
+			continue
+		}
 		if err := debianInstallProfile(cfg, prof); err != nil {
 			return err
 		}
@@ -53,7 +59,7 @@ func buildSetup(cfg *config.Main) error {
 }
 
 func setupProfile(cfg *config.Main, prof string) error {
-	log.Info("Setup profile %s.", prof)
+	log.Info("Setup profile: %s.", prof)
 	args := []string{
 		0: cfg.BuildDir,
 		1: cfg.BuildCfgDir,
@@ -82,7 +88,7 @@ func debianInstall(cfg *config.Main, dist string) error {
 }
 
 func debianInstallProfile(cfg *config.Main, prof string) error {
-	log.Info("Debian install profile %s.", prof)
+	log.Info("Debian install profile: %s.", prof)
 	args := []string{
 		0: cfg.BuildDir,
 		1: cfg.BuildCfgDir,

@@ -7,7 +7,11 @@ dstdir=${3:?'config dest dir?'}
 shift 3
 debpkgs="$@"
 
-echo ${debpkgs} | xargs apt-get install -yy --no-install-recommends
+for pkg in ${debpkgs}; do
+	dpkg -s ${pkg} >/dev/null 2>/dev/null || {
+		apt-get install -yy --no-install-recommends ${pkg}
+	}
+done
 
 schroot_conf=${cfgdir}/chroot.d/uwspkg.conf
 
