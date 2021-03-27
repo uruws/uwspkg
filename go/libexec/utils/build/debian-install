@@ -7,6 +7,8 @@ repo=${3:?'repo?'}
 secrepo=${4:?'secrepo?'}
 distro=${5:?'distro?'}
 
+export PATH=/usr/sbin:/usr/bin:/sbin:/bin
+
 debinst="/usr/sbin/debootstrap --force-check-gpg --variant=${variant}"
 debinst="${debinst} --cache-dir=${builddir}/cache/debootstrap"
 
@@ -26,28 +28,6 @@ if ! test -d ${baseroot}; then
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
-fi
-
-mkdir -vp ${SRV}/build ${SRV}/union/overlay ${SRV}/union/underlay
-
-schsrc=./etc/schroot
-schdst=/etc/schroot
-schroot_conf=${schsrc}/chroot.d/uwspkg.conf
-PROFILES='default build'
-
-if test -s ${schroot_conf}; then
-	install -v -C -m 0644 ${schroot_conf} ${schdst}/chroot.d/uwspkg.conf
-	for prof in ${PROFILES}; do
-		dst="${schdst}/uwspkg-${prof}"
-		rm -rf ${dst}
-		install -m 0755 -d ${dst}
-		install -v -m 0644 ${schsrc}/uwspkg-${prof}/* ${dst}
-		dstroot=`dirname ${baseroot}`/${prof}
-		if test 'Xdefault' != "X${prof}"; then
-			rsync -vax --delete-before ${baseroot}/ ${dstroot}/
-			echo "uwspkg-${prof}" >${dstroot}/etc/debian_chroot
-		fi
-	done
 fi
 
 exit 0
