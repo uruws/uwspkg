@@ -37,4 +37,6 @@ func (s *TSuite) TestLoad(c *C) {
 	c.Assert(err, IsNil)
 	c.Check(m.c.Origin, Equals, "testdata/load")
 	c.Check(m.c.Name, Equals, "load")
+	c.Check(m.c.Profile, Equals, "build")
+	c.Check(len(m.c.Session), Equals, 64)
 }
