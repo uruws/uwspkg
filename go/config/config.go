@@ -31,6 +31,7 @@ type Main struct {
 	BuildDir             string   `yaml:"build.dir"`
 	BuildCfgDir          string   `yaml:"build.cfgdir"`
 	BuildEnvPath         string   `yaml:"build.env.path"`
+	BuildProfile         []string `yaml:"build.profile"`
 	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
 	Libexec              string   `yaml:"libexec"`
 	LibexecTimeout       string   `yaml:"libexec.timeout"`
@@ -68,6 +69,9 @@ func (m *manager) Parse(c *Main) error {
 	}
 	if c.BuildEnvPath == "" {
 		c.BuildEnvPath = "/bin:/usr/bin:/usr/sbin"
+	}
+	if len(c.BuildProfile) == 0 {
+		c.BuildProfile = []string{"default"}
 	}
 	if c.SchrootCfgDir == "" {
 		c.SchrootCfgDir = filepath.FromSlash("/etc/schroot")

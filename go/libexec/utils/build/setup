@@ -13,6 +13,11 @@ install -v -d -m 0755 ${builddir}/union/overlay ${builddir}/union/underlay
 
 install -v -d -m 0755 ${dstdir}/chroot.d
 
+if ! test -s ${schroot_conf}; then
+	echo "${schroot_conf}: file not found" >&2
+	exit 1
+fi
+
 cfgtmp=$(mktemp /tmp/uwspkg-build-setup.XXXXXXXX)
 cat ${schroot_conf} |
 	sed "s#@BUILDDIR#${builddir}#g" >${cfgtmp}

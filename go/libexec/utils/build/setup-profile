@@ -6,15 +6,24 @@ cfgdir=${2:?'config dir?'}
 dstdir=${3:?'config dest dir?'}
 prof=${4:?'profile?'}
 
+if test 'Xdefault' = "X${prof}"; then
+	exit 0
+fi
+
 cfgdst=${dstdir}/uwspkg-${prof}
 profcfg=${dstdir}/chroot.d/uwspkg-${prof}.conf
-proftmp=$(mktemp /tmp/uwspkg-setup-profile.XXXXXXXX)
 
 rm -rf ${cfgdst}
 
 install -m 0755 -d ${cfgdst}
 install -C -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
 
+if ! test -s ${cfgdir}/chroot.d/uwspkg-${prof}.conf; then
+	echo "${cfgdir}/chroot.d/uwspkg-${prof}.conf: file not found" >&2
+	exit 2
+fi
+
+proftmp=$(mktemp /tmp/uwspkg-setup-profile.XXXXXXXX)
 cat ${cfgdir}/chroot.d/uwspkg-${prof}.conf |
 	sed "s#@BUILDDIR@#${builddir}#g" >${proftmp}
 

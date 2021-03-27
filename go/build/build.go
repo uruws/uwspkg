@@ -19,11 +19,21 @@ func EnvSetUp(cfg *config.Main) error {
 	if err := buildSetup(cfg); err != nil {
 		return err
 	}
+	for _, prof := range cfg.BuildProfile {
+		if err := setupProfile(cfg, prof); err != nil {
+			return err
+		}
+	}
 	for _, dist := range cfg.DebianDistro {
 		if err := debianInstall(cfg, dist); err != nil {
 			return err
 		}
 	}
+	//~ for _, prof := range cfg.BuildProfile {
+		//~ if err := debianInstallProfile(cfg, prof); err != nil {
+			//~ return err
+		//~ }
+	//~ }
 	return nil
 }
 
@@ -34,6 +44,20 @@ func buildSetup(cfg *config.Main) error {
 		2: cfg.SchrootCfgDir,
 	}
 	if err := libexec.Run("build/setup", args...); err != nil {
+		return err
+	}
+	return nil
+}
+
+func setupProfile(cfg *config.Main, prof string) error {
+	log.Info("Setup profile %s.", prof)
+	args := []string{
+		0: cfg.BuildDir,
+		1: cfg.BuildCfgDir,
+		2: cfg.SchrootCfgDir,
+		3: prof,
+	}
+	if err := libexec.Run("build/setup-profile", args...); err != nil {
 		return err
 	}
 	return nil
