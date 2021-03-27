@@ -12,6 +12,7 @@ import (
 	"uwspkg"
 	"uwspkg/build"
 	"uwspkg/config"
+	"uwspkg/libexec"
 	"uwspkg/log"
 )
 
@@ -28,6 +29,9 @@ func main() {
 		err error
 	)
 	if cfg, err = config.Load(); err != nil {
+		log.Fatal("%v", err)
+	}
+	if err = libexec.Configure(cfg); err != nil {
 		log.Fatal("%v", err)
 	}
 	if buildSetup {

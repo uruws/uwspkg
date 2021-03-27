@@ -32,6 +32,8 @@ type Main struct {
 	BuildCfgDir          string `yaml:"build.cfgdir"`
 	BuildEnvPath         string `yaml:"build.env.path"`
 	SchrootCfgDir        string `yaml:"schroot.cfgdir"`
+	Libexec              string `yaml:"libexec"`
+	LibexecTimeout       string `yaml:"libexec.timeout"`
 	DebianRepo           string `yaml:"debian.repo"`
 	DebianSecRepo        string `yaml:"debian.secrepo"`
 	DebianInstall        string `yaml:"debian.install"`
