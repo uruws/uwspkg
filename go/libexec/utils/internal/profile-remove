@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+prof=${1:?'profile name?'}
+sess=${2:?'session name?'}
+
+exit 0

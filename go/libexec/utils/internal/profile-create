@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+prof=${1:?'profile name?'}
+sess=${2:?'session name?'}
+builddir=${3:?'build dir?'}
+
+srcdir=/etc/schroot/uwspkg-${prof}
+dstdir=/etc/schroot/${sess}
+cfgsrc=/etc/schroot/chroot.d/uwspkg-${prof}.conf
+cfgdst=/etc/schroot/chroot.d/${sess}.conf
+
+if test -d ${dstdir}; then
+	echo "${dstdir}: already exists" >&2
+	exit 1
+fi
+
+rsync -vax ${srcdir}/ ${dstdir}/
+
+mkdir -v /build/${sess}
+
+fstab=${dstdir}/fstab
+
+echo "" >>${fstab}
+echo "# internal setup" >>${fstab}
+echo "${builddir}/build/${sess} /build none rw,bind 0 0" >>${fstab}
+
+echo "[${sess}]" >${cfgdst}
+tail -n +2 ${cfgsrc} >>${cfgdst}
+
+exit 0

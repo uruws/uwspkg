@@ -3,6 +3,7 @@ set -u
 
 prof=${1:?'profile name?'}
 sess=${2:?'session name?'}
+builddir=${3:?'build dir?'}
 
 sessname="internal-${sess}"
 schroot_cmd='schroot -d /root -u root'
@@ -10,7 +11,7 @@ schroot_cmd='schroot -d /root -u root'
 ${schroot_cmd} -b -c internal-uwspkg -n ${sessname}
 schroot_sess="${schroot_cmd} -r -c ${sessname}"
 
-${schroot_sess} -- /uwspkg/libexec/internal/profile-create ${prof} ${sess}
+${schroot_sess} -- /uwspkg/libexec/internal/profile-create ${prof} ${sess} ${builddir}
 exit_status=$?
 
 ${schroot_cmd} -e -c ${sessname}
