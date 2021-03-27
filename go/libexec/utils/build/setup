@@ -28,7 +28,7 @@ fi
 
 cfgtmp=$(mktemp /tmp/uwspkg-build-setup.XXXXXXXX)
 cat ${schroot_conf} |
-	sed "s#@BUILDDIR#${builddir}#g" >${cfgtmp}
+	sed "s#@BUILDDIR@#${builddir}#g" >${cfgtmp}
 
 install -v -C -m 0644 ${cfgtmp} ${dstdir}/chroot.d/uwspkg.conf
 rm -f ${cfgtmp}
