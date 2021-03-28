@@ -15,9 +15,11 @@ if test -d ${dstdir}; then
 	exit 1
 fi
 
+install -o root -g root -d -m 0750 ${dstdir}
 rsync -ax ${srcdir}/ ${dstdir}/
 
-mkdir /build/${sess}
+mkdir -v -m 0750 /build/${sess}
+chgrp uws /build/${sess}
 
 fstab=${dstdir}/fstab
 
