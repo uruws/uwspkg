@@ -59,6 +59,9 @@ func buildSetup(cfg *config.Main) error {
 		2: cfg.SchrootCfgDir,
 		3: cfg.PkgDir,
 	}
+	for _, pkg := range cfg.DebianDeps {
+		args = append(args, pkg)
+	}
 	return libexec.Run("build/setup", args...)
 }
 
