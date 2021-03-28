@@ -133,6 +133,12 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 }
 
 func Package(m *manifest.Config) error {
+	var err error
 	log.Info("Make %s.", m.Origin)
+	//~ sess := "uwspkg-build-" + m.Session
+	err = libexec.Run("build/make-fetch", m.Origin, m.Fetch)
+	if err != nil {
+		return err
+	}
 	return nil
 }

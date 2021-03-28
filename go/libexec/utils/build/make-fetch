@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+origin=${1:?'pkg origin?'}
+fetch_cmd=${2:?'fetch command?'}
+srcdir=/uwspkg/src/${origin}
+schroot -d ${srcdir} -c internal-uwspkg -- ${fetch_cmd}
+exit 0
