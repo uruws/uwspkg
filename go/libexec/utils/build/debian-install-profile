@@ -23,7 +23,7 @@ schroot_cmd="schroot -c source:${profname} -d /root"
 
 if test -d ${dstroot}; then
 	if test 'Xtrue' = "X${intprof}"; then
-		${schroot_cmd} -- mkdir -vp /uwspkg/libexec/internal
+		${schroot_cmd} -- mkdir -vp /uwspkg/libexec/internal /uwspkg/src
 	fi
 	exit 0
 fi

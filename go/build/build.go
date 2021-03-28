@@ -19,6 +19,7 @@ func EnvSetUp(cfg *config.Main) error {
 	log.Info("Setup build environment.")
 	log.Debug("schroot config: %s -> %s", cfg.BuildCfgDir, cfg.SchrootCfgDir)
 	log.Debug("build dir: %s", cfg.BuildDir)
+	log.Debug("packages dir: %s", cfg.PkgDir)
 	log.Debug("debian install: %s", cfg.DebianInstall)
 	log.Info("Debian deps: %s.", strings.Join(cfg.DebianDeps, " "))
 	if err := buildSetup(cfg); err != nil {
@@ -56,6 +57,7 @@ func buildSetup(cfg *config.Main) error {
 		0: cfg.BuildDir,
 		1: cfg.BuildCfgDir,
 		2: cfg.SchrootCfgDir,
+		3: cfg.PkgDir,
 	}
 	return libexec.Run("build/setup", args...)
 }
@@ -109,7 +111,7 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	m.SessionStart = time.Now()
 	return nil
 	//~ srcd := m.Name+"-"+m.Session
-	//~ return libexec.Run("build/source-copy", m.Origin, sess, srcd)
+	//~ return libexec.Run("build/source-copy", m.Origin, srcd)
 }
 
 func TearDown(cfg *config.Main, m *manifest.Config) []error {

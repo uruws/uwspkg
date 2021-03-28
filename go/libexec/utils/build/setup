@@ -4,7 +4,9 @@ set -eu
 builddir=${1:?'build dir?'}
 cfgdir=${2:?'config dir?'}
 dstdir=${3:?'config dest dir?'}
-shift 3
+pkgdir=${4:?'packages dir?'}
+
+shift 4
 debpkgs="$@"
 
 for pkg in ${debpkgs}; do
@@ -45,8 +47,9 @@ libexec_dir=`realpath -e $(dirname $0)/../`
 
 echo "" >>${intfstab}
 echo "# internal setup" >>${intfstab}
+echo "${pkgdir} /uwspkg/src none ro,bind 0 0" >>${intfstab}
+echo "${libexec_dir}/internal /uwspkg/libexec/internal none ro,bind 0 0" >>${intfstab}
 echo "${dstdir} /etc/schroot none rw,bind 0 0" >>${intfstab}
 echo "${builddir}/build /build none rw,bind 0 0" >>${intfstab}
-echo "${libexec_dir}/internal /uwspkg/libexec/internal none ro,bind 0 0" >>${intfstab}
 
 exit 0
