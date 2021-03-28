@@ -76,6 +76,9 @@ func (p *Package) Build() error {
 	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
+	if err := build.Source(m); err != nil {
+		return err
+	}
 	if err := build.Package(m); err != nil {
 		return err
 	}
