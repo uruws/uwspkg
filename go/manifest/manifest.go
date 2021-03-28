@@ -24,7 +24,7 @@ type Config struct {
 	Profile string   `yaml:"profile"`
 	Source  string   `yaml:"source"`
 	Fetch   string   `yaml:"fetch"`
-	Build   []string `yaml:"build"`
+	Build   string `yaml:"build"`
 }
 
 func newConfig(origin string) *Config {
@@ -85,8 +85,8 @@ func (m *Manifest) Parse(c *Config) error {
 	if c.Fetch == "" {
 		c.Fetch = "make fetch"
 	}
-	if len(c.Build) == 0 {
-		c.Build = []string{"make"}
+	if c.Build == "" {
+		c.Build = "make"
 	}
 	return nil
 }

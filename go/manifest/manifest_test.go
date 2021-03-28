@@ -43,25 +43,5 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(len(m.c.Session), Equals, 64)
 	c.Check(m.c.Source, Equals, "./files")
 	c.Check(m.c.Fetch, Equals, "make fetch")
-	c.Check(len(m.c.Build), Equals, 1)
-	c.Check(m.c.Build[0], Equals, "make")
-}
-
-func (s *TSuite) TestBuildScript(c *C) {
-	m := New("testdata/build-script")
-	err := m.Load(filepath.FromSlash("testdata/build-script/manifest.yml"))
-	c.Assert(err, IsNil)
-	c.Check(m.c.Origin, Equals, "testdata/build-script")
-	c.Check(len(m.c.Build), Equals, 100)
-	c.Assert(m.c.Build[0], Equals, "l1")
-	c.Assert(m.c.Build[49], Equals, "l50")
-	c.Assert(m.c.Build[99], Equals, "l100")
-	for i := 0; i < 10; i += 1 {
-		m := New("testdata/build-script")
-		err := m.Load(filepath.FromSlash("testdata/build-script/manifest.yml"))
-		c.Assert(err, IsNil)
-		for j := 0; j < 100; j += 1 {
-			c.Assert(m.c.Build[j], Equals, fmt.Sprintf("l%d", j+1))
-		}
-	}
+	c.Check(m.c.Build, Equals, "make")
 }
