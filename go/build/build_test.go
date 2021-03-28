@@ -45,10 +45,10 @@ func (s *TSuite) TestEnvSetUp(c *C) {
 	err := EnvSetUp(s.cfg)
 	c.Assert(err, IsNil)
 	c.Assert(len(s.mockRunner.Calls), Equals, 3)
-	c.Assert(s.mockRunner.Calls, DeepEquals, map[uint]string{
-		0: "/uws/libexec/uwspkg/build/setup /srv/uwspkg /uws/etc/schroot /etc/schroot",
-		1: "/uws/libexec/uwspkg/build/debian-install /srv/uwspkg minbase http://deb.debian.org/debian http://security.debian.org/debian-security testing",
-		2: "/uws/libexec/uwspkg/build/debian-install-profile /srv/uwspkg /uws/etc/schroot internal",
+	c.Assert(s.mockRunner.Commands, DeepEquals, map[uint]string{
+		0: "/uws/libexec/uwspkg/build/setup [7]",
+		1: "/uws/libexec/uwspkg/build/debian-install [5]",
+		2: "/uws/libexec/uwspkg/build/debian-install-profile [3]",
 	})
 }
 
@@ -60,11 +60,11 @@ func (s *TSuite) TestEnvSetUpConfig(c *C) {
 	err := EnvSetUp(s.cfg)
 	c.Assert(err, IsNil)
 	c.Assert(len(s.mockRunner.Calls), Equals, 5)
-	c.Assert(s.mockRunner.Calls, DeepEquals, map[uint]string{
-		0: "/uws/libexec/uwspkg/build/setup /srv/uwspkg /uws/etc/schroot /etc/schroot",
-		1: "/uws/libexec/uwspkg/build/setup-profile /srv/uwspkg /uws/etc/schroot /etc/schroot build",
-		2: "/uws/libexec/uwspkg/build/debian-install /srv/uwspkg minbase http://deb.debian.org/debian http://security.debian.org/debian-security testing",
-		3: "/uws/libexec/uwspkg/build/debian-install-profile /srv/uwspkg /uws/etc/schroot internal",
-		4: "/uws/libexec/uwspkg/build/debian-install-profile /srv/uwspkg /uws/etc/schroot build",
+	c.Assert(s.mockRunner.Commands, DeepEquals, map[uint]string{
+		0: "/uws/libexec/uwspkg/build/setup [7]",
+		1: "/uws/libexec/uwspkg/build/setup-profile [4]",
+		2: "/uws/libexec/uwspkg/build/debian-install [5]",
+		3: "/uws/libexec/uwspkg/build/debian-install-profile [3]",
+		4: "/uws/libexec/uwspkg/build/debian-install-profile [3]",
 	})
 }
