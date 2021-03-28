@@ -25,6 +25,7 @@ type Config struct {
 	Source       string    `yaml:"source"`
 	Fetch        string    `yaml:"fetch"`
 	Build        string    `yaml:"build"`
+	Install      string    `yaml:"install"`
 }
 
 func newConfig(origin string) *Config {
@@ -87,6 +88,9 @@ func (m *Manifest) Parse(c *Config) error {
 	}
 	if c.Build == "" {
 		c.Build = "make"
+	}
+	if c.Install == "" {
+		c.Install = "make install"
 	}
 	return nil
 }

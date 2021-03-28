@@ -43,4 +43,5 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.Source, Equals, "./files")
 	c.Check(m.c.Fetch, Equals, "make fetch")
 	c.Check(m.c.Build, Equals, "make")
+	c.Check(m.c.Install, Equals, "make install")
 }
