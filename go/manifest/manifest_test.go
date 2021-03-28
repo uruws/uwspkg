@@ -4,7 +4,6 @@
 package manifest
 
 import (
-	"fmt"
 	"path/filepath"
 	"testing"
 
