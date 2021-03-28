@@ -23,6 +23,7 @@ type Config struct {
 	Name    string   `yaml:"name"`
 	Profile string   `yaml:"profile"`
 	Source  string   `yaml:"source"`
+	Fetch   string   `yaml:"fetch"`
 	Build   []string `yaml:"build"`
 }
 
@@ -80,6 +81,9 @@ func (m *Manifest) Parse(c *Config) error {
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
 	if c.Source == "" {
 		c.Source = "./files"
+	}
+	if c.Fetch == "" {
+		c.Fetch = "make fetch"
 	}
 	if len(c.Build) == 0 {
 		c.Build = []string{"make"}
