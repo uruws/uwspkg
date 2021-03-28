@@ -21,6 +21,7 @@ type Config struct {
 	SessionStart time.Time `yaml:"-"`
 	Origin       string    `yaml:"origin"`
 	Name         string    `yaml:"name"`
+	Version      string    `yaml:"version"`
 	Profile      string    `yaml:"profile"`
 	Source       string    `yaml:"source"`
 	Fetch        string    `yaml:"fetch"`
@@ -74,6 +75,9 @@ func (m *Manifest) Parse(c *Config) error {
 	orig := c.Origin
 	if c.Name == "" {
 		return fmt.Errorf("%s: empty package name", orig)
+	}
+	if c.Version == "" {
+		return fmt.Errorf("%s: empty package version", orig)
 	}
 	if c.Profile == "" {
 		c.Profile = "build"

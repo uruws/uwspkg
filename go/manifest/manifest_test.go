@@ -27,9 +27,13 @@ func (s *TSuite) TestNewConfig(c *C) {
 	m := newConfig("testing")
 	c.Check(m.Origin, Equals, "testing")
 	c.Check(m.Name, Equals, "")
+	c.Check(m.Version, Equals, "")
 	c.Check(m.Profile, Equals, "")
 	c.Check(m.Session, Equals, "")
-	c.Check(len(m.Build), Equals, 0)
+	c.Check(m.Source, Equals, "")
+	c.Check(m.Fetch, Equals, "")
+	c.Check(m.Build, Equals, "")
+	c.Check(m.Install, Equals, "")
 }
 
 func (s *TSuite) TestDefaultConfig(c *C) {
@@ -38,6 +42,7 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Assert(err, IsNil)
 	c.Check(m.c.Origin, Equals, "testdata/load")
 	c.Check(m.c.Name, Equals, "load")
+	c.Check(m.c.Version, Equals, "0")
 	c.Check(m.c.Profile, Equals, "build")
 	c.Check(len(m.c.Session), Equals, 64)
 	c.Check(m.c.Source, Equals, "./files")
