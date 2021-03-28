@@ -26,6 +26,7 @@ fi
 
 install -v -o root -g root -d -m 0750 ${builddir}
 install -v -o root -g root -d -m 0750 ${builddir}/build ${builddir}/repo
+install -v -o root -g root -d -m 0750 ${builddir}/repo/src ${builddir}/repo/pkg
 install -v -o root -g root -d -m 0750 ${builddir}/cache ${builddir}/union
 install -v -o root -g root -d -m 0750 ${builddir}/cache/debootstrap
 install -v -o root -g root -d -m 0750 ${builddir}/union/overlay ${builddir}/union/underlay
