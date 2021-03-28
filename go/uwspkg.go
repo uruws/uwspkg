@@ -76,8 +76,18 @@ func (p *Package) Build() error {
 	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
-	if err := build.Source(m); err != nil {
-		return err
+	if m.Source == m.Origin {
+		if err := build.Source(m); err != nil {
+			return err
+		}
+	} else {
+		src := New(m.Source, p.cfg)
+		if err := src.Load(); err != nil {
+			return err
+		}
+		if err := build.Source(src.man.Config()); err != nil {
+			return err
+		}
 	}
 	if err := build.Package(m); err != nil {
 		return err
