@@ -41,8 +41,10 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.Name, Equals, "load")
 	c.Check(m.c.Profile, Equals, "build")
 	c.Check(len(m.c.Session), Equals, 64)
+	c.Check(len(m.c.Source), Equals, 1)
+	c.Check(m.c.Source[0], Equals, "./files")
 	c.Check(len(m.c.Build), Equals, 1)
-	c.Check(m.c.Build[0], Equals, "make build")
+	c.Check(m.c.Build[0], Equals, "make")
 }
 
 func (s *TSuite) TestBuildScript(c *C) {

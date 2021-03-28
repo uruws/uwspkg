@@ -22,6 +22,7 @@ type Config struct {
 	Origin  string   `yaml:"origin"`
 	Name    string   `yaml:"name"`
 	Profile string   `yaml:"profile"`
+	Source  []string `yaml:"source"`
 	Build   []string `yaml:"build"`
 }
 
@@ -77,8 +78,11 @@ func (m *Manifest) Parse(c *Config) error {
 	}
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
+	if len(c.Source) == 0 {
+		c.Source = []string{"./files"}
+	}
 	if len(c.Build) == 0 {
-		c.Build = []string{"make build"}
+		c.Build = []string{"make"}
 	}
 	return nil
 }
