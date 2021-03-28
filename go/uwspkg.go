@@ -76,6 +76,7 @@ func (p *Package) Build() error {
 	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
+	log.Print("Make %s source %s.", m.Origin, m.Source)
 	if m.Source == m.Origin {
 		if err := build.Source(m); err != nil {
 			return err
