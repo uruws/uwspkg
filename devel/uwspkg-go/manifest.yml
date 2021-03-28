@@ -1,4 +1,3 @@
 origin: devel/uwspkg-go
 name: uwspkg-go
 version: 20210328
-fetch: /usr/bin/true
