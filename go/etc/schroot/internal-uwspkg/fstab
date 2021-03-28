@@ -7,3 +7,9 @@
 /sys            /sys            none    rw,bind         0       0
 /dev/pts        /dev/pts        none    rw,bind         0       0
 tmpfs           /dev/shm        tmpfs   defaults        0       0
+
+# internal setup
+@LIBEXEC@/internal /uwspkg/libexec/internal none ro,bind 0 0
+@PKGDIR@           /uwspkg/src              none rw,bind 0 0
+@CFGDIR@           /etc/schroot             none rw,bind 0 0
+@BUILDDIR@/build   /build                   none rw,bind 0 0

@@ -17,16 +17,19 @@ done
 
 schroot_conf=${cfgdir}/chroot.d/uwspkg.conf
 
-install -v -d -m 0755 ${builddir}/build
-install -v -d -m 0755 ${builddir}/cache/debootstrap
-install -v -d -m 0755 ${builddir}/union/overlay ${builddir}/union/underlay
-
-install -v -d -m 0755 ${dstdir}/chroot.d
-
 if ! test -s ${schroot_conf}; then
 	echo "${schroot_conf}: file not found" >&2
 	exit 1
 fi
+
+# dirs structure
+
+install -v -d -m 0755 ${builddir}/build
+install -v -d -m 0755 ${builddir}/cache/debootstrap
+install -v -d -m 0755 ${builddir}/union/overlay ${builddir}/union/underlay
+install -v -d -m 0755 ${dstdir}/chroot.d
+
+# main schroot conf
 
 cfgtmp=$(mktemp /tmp/uwspkg-build-setup.XXXXXXXX)
 cat ${schroot_conf} |
@@ -35,21 +38,29 @@ cat ${schroot_conf} |
 install -v -C -m 0644 ${cfgtmp} ${dstdir}/chroot.d/uwspkg.conf
 rm -f ${cfgtmp}
 
+# internal profile
+
 intprof_src=${cfgdir}/internal-uwspkg
 intprof_dst=${dstdir}/internal-uwspkg
+
+intfstab=${intprof_dst}/fstab
+libexec_dir=`realpath -e $(dirname $0)/../`
 
 rm -rf ${intprof_dst}
 install -d -m 0755 ${intprof_dst}
 install -m 0644 ${intprof_src}/* ${intprof_dst}/
 
-intfstab=${intprof_dst}/fstab
-libexec_dir=`realpath -e $(dirname $0)/../`
+if ! test -s ${intfstab}; then
+	echo "${intfstab}: file not found or empty" >&2
+	exit 2
+fi
 
-echo "" >>${intfstab}
-echo "# internal setup" >>${intfstab}
-echo "${pkgdir} /uwspkg/src none ro,bind 0 0" >>${intfstab}
-echo "${libexec_dir}/internal /uwspkg/libexec/internal none ro,bind 0 0" >>${intfstab}
-echo "${dstdir} /etc/schroot none rw,bind 0 0" >>${intfstab}
-echo "${builddir}/build /build none rw,bind 0 0" >>${intfstab}
+cat ${intfstab} >${intfstab}.tmp
+cat ${intfstab}.tmp |
+	sed "s#@PKGDIR@#${pkgdir}#g" |
+	sed "s#@LIBEXEC@#${libexec_dir}#g" |
+	sed "s#@CFGDIR@#${dstdir}#g" |
+	sed "s#@BUILDDIR@#${builddir}#g" >${intfstab}
+rm -f ${intfstab}.tmp
 
 exit 0
