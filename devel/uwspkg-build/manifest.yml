@@ -1,3 +1,4 @@
 origin: devel/uwspkg-build
 name: uwspkg-build
 profile: golang
+fetch: /usr/bin/true
