@@ -100,7 +100,7 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
 	log.Info("SetUp %s build.", m.Origin)
-	sess := "uwspkg-build-"+m.Session
+	sess := "uwspkg-build-" + m.Session
 	if err := profile.Create(cfg, m, sess); err != nil {
 		return err
 	}
@@ -121,7 +121,7 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 	if m.SessionStart.IsZero() {
 		return errlist
 	}
-	sess := "uwspkg-build-"+m.Session
+	sess := "uwspkg-build-" + m.Session
 	if err := libexec.Run("build/session-stop", sess); err != nil {
 		errlist = append(errlist, err)
 	} else {

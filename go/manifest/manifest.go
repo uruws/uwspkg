@@ -17,14 +17,14 @@ import (
 )
 
 type Config struct {
-	Session string   `yaml:"-"`
+	Session      string    `yaml:"-"`
 	SessionStart time.Time `yaml:"-"`
-	Origin  string   `yaml:"origin"`
-	Name    string   `yaml:"name"`
-	Profile string   `yaml:"profile"`
-	Source  string   `yaml:"source"`
-	Fetch   string   `yaml:"fetch"`
-	Build   string `yaml:"build"`
+	Origin       string    `yaml:"origin"`
+	Name         string    `yaml:"name"`
+	Profile      string    `yaml:"profile"`
+	Source       string    `yaml:"source"`
+	Fetch        string    `yaml:"fetch"`
+	Build        string    `yaml:"build"`
 }
 
 func newConfig(origin string) *Config {

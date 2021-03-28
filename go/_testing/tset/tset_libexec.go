@@ -23,8 +23,8 @@ type LibexecMockRunner struct {
 
 func NewLibexecMockRunner() *LibexecMockRunner {
 	return &LibexecMockRunner{
-		x:     new(sync.Mutex),
-		Calls: make(map[uint]string),
+		x:        new(sync.Mutex),
+		Calls:    make(map[uint]string),
 		Commands: make(map[uint]string),
 	}
 }
