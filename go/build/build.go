@@ -108,8 +108,8 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	}
 	m.SessionStart = time.Now()
 	return nil
-	//~ dst := m.Name+"-"+m.Session
-	//~ return libexec.Run("build/source-copy", m.Origin, sess, dst)
+	//~ srcd := m.Name+"-"+m.Session
+	//~ return libexec.Run("build/source-copy", m.Origin, sess, srcd)
 }
 
 func TearDown(cfg *config.Main, m *manifest.Config) []error {
