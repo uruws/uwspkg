@@ -85,7 +85,7 @@ func (m *Manifest) Parse(c *Config) error {
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
 	if c.Source == "" {
-		c.Source = "./files"
+		c.Source = c.Origin
 	}
 	if c.Fetch == "" {
 		c.Fetch = "make fetch"

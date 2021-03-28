@@ -45,7 +45,7 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.Version, Equals, "0")
 	c.Check(m.c.Profile, Equals, "build")
 	c.Check(len(m.c.Session), Equals, 64)
-	c.Check(m.c.Source, Equals, "./files")
+	c.Check(m.c.Source, Equals, "testdata/load")
 	c.Check(m.c.Fetch, Equals, "make fetch")
 	c.Check(m.c.Build, Equals, "make")
 	c.Check(m.c.Install, Equals, "make install")
