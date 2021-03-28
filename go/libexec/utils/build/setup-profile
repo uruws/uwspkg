@@ -15,8 +15,8 @@ profcfg=${dstdir}/chroot.d/uwspkg-${prof}.conf
 
 rm -rf ${cfgdst}
 
-install -m 0755 -d ${cfgdst}
-install -m 0644 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
+install -o root -g root -m 0750 -d ${cfgdst}
+install -o root -g root -m 0640 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
 
 if ! test -s ${cfgdir}/chroot.d/uwspkg-${prof}.conf; then
 	echo "${cfgdir}/chroot.d/uwspkg-${prof}.conf: file not found" >&2
@@ -27,7 +27,7 @@ proftmp=$(mktemp /tmp/uwspkg-setup-profile.XXXXXXXX)
 cat ${cfgdir}/chroot.d/uwspkg-${prof}.conf |
 	sed "s#@BUILDDIR@#${builddir}#g" >${proftmp}
 
-install -v -C -m 0644 ${proftmp} ${profcfg}
+install -v -C -o root -g root -m 0640 ${proftmp} ${profcfg}
 rm -f ${proftmp}
 
 exit 0

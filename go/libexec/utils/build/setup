@@ -24,10 +24,11 @@ fi
 
 # dirs structure
 
-install -v -d -m 0755 ${builddir}/build
-install -v -d -m 0755 ${builddir}/cache/debootstrap
-install -v -d -m 0755 ${builddir}/union/overlay ${builddir}/union/underlay
-install -v -d -m 0755 ${dstdir}/chroot.d
+install -v -o root -g root -d -m 0750 ${builddir}
+install -v -o root -g root -d -m 0750 ${builddir}/build ${builddir}/repo
+install -v -o root -g root -d -m 0750 ${builddir}/cache ${builddir}/union
+install -v -o root -g root -d -m 0750 ${builddir}/cache/debootstrap
+install -v -o root -g root -d -m 0750 ${builddir}/union/overlay ${builddir}/union/underlay
 
 # main schroot conf
 
@@ -35,7 +36,7 @@ cfgtmp=$(mktemp /tmp/uwspkg-build-setup.XXXXXXXX)
 cat ${schroot_conf} |
 	sed "s#@BUILDDIR@#${builddir}#g" >${cfgtmp}
 
-install -v -C -m 0644 ${cfgtmp} ${dstdir}/chroot.d/uwspkg.conf
+install -v -C -o root -g root -m 0640 ${cfgtmp} ${dstdir}/chroot.d/uwspkg.conf
 rm -f ${cfgtmp}
 
 # internal profile
@@ -47,8 +48,8 @@ intfstab=${intprof_dst}/fstab
 libexec_dir=`realpath -e $(dirname $0)/../`
 
 rm -rf ${intprof_dst}
-install -d -m 0755 ${intprof_dst}
-install -m 0644 ${intprof_src}/* ${intprof_dst}/
+install -o root -g root -d -m 0750 ${intprof_dst}
+install -o root -g root -m 0640 ${intprof_src}/* ${intprof_dst}/
 
 if ! test -s ${intfstab}; then
 	echo "${intfstab}: file not found or empty" >&2

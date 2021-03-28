@@ -1,5 +1,5 @@
 origin: devel/uwspkg-build
 name: uwspkg-build
 profile: golang
-version: 20210328-0
+version: 20210328
 fetch: /usr/bin/true
