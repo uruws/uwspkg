@@ -99,7 +99,7 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 }
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
-	log.Info("SetUp %s build.", m.Origin)
+	log.Print("SetUp %s build.", m.Origin)
 	sess := "uwspkg-build-" + m.Session
 	if err := profile.Create(cfg, m, sess); err != nil {
 		return err
@@ -116,7 +116,7 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 }
 
 func TearDown(cfg *config.Main, m *manifest.Config) []error {
-	log.Info("TearDown %s build.", m.Origin)
+	log.Print("TearDown %s build.", m.Origin)
 	errlist := make([]error, 0)
 	if m.SessionStart.IsZero() {
 		return errlist
@@ -134,7 +134,7 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 
 func Package(m *manifest.Config) error {
 	var err error
-	log.Info("Make %s.", m.Origin)
+	log.Print("Make %s.", m.Origin)
 	//~ sess := "uwspkg-build-" + m.Session
 	err = libexec.Run("build/make-fetch", m.Origin, m.Fetch)
 	if err != nil {

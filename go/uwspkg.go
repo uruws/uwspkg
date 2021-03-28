@@ -44,8 +44,8 @@ func (p *Package) Load() error {
 }
 
 func (p *Package) Build() error {
-	log.Info("Build %s.", p.orig)
 	m := p.man.Config()
+	log.Print("Build %s-%s.", p.orig, m.Version)
 	log.Debug("build profile: %s", m.Profile)
 	profile := filepath.Join(p.cfg.SchrootCfgDir, "uwspkg-"+m.Profile)
 	if st, err := os.Stat(profile); err != nil {
@@ -80,6 +80,6 @@ func (p *Package) Build() error {
 		return err
 	}
 	failed = false
-	log.Info("Build %s took %s.", p.orig, time.Now().Sub(m.SessionStart))
+	log.Info("Build %s-%s done in %s.", p.orig, m.Version, time.Now().Sub(m.SessionStart))
 	return nil
 }
