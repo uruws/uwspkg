@@ -26,3 +26,4 @@ check:
 uwspkg-build:
 	@GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) go build -i \
 		-o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
+	@echo "./_build/cmd/uwspkg-build done!"

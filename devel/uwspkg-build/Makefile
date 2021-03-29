@@ -16,4 +16,4 @@ fetch:
 	@mkdir -p $(BUILDDIR)
 	@rsync -ax --delete-before --exclude-from=$(EXCFILE) $(SOURCE_EXCLUDE) \
 		$(SOURCES) $(BUILDDIR)/
-#~ 	@cd $(BUILDDIR) && GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) go mod download -x
+	@cd $(BUILDDIR) && GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) go mod download -x
