@@ -22,7 +22,7 @@ if ! test -d ${baseroot}; then
 	cd ${baseroot}
 	printf 'deb %s/ %s main\n' ${repo} ${distro} >./etc/apt/sources.list
 	printf 'deb %s/ %s-updates main\n' ${repo} ${distro} >>./etc/apt/sources.list
-	printf 'deb %s %s/updates main\n' ${secrepo} ${distro}>>./etc/apt/sources.list
+	printf 'deb %s %s-security/updates main\n' ${secrepo} ${distro}>>./etc/apt/sources.list
 	${schroot_source} -- apt-get update -yy
 	${schroot_source} -- apt-get install -yy --no-install-recommends --purge apt bash
 	${schroot_source} -- apt-get clean -yy

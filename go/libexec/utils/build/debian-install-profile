@@ -42,6 +42,7 @@ echo "${profname}" | tee ${dstroot}/etc/debian_chroot
 debpkg=${profdir}/debian.install
 
 if test -s ${debpkg}; then
+	${schroot_cmd} -- apt-get update -yy
 	cat ${debpkg} | xargs ${schroot_cmd} -- \
 		apt-get install --no-install-recommends -yy --purge
 	${schroot_cmd} -- apt-get autoremove --purge -yy
