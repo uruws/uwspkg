@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-sess=${1:?'session name?'}
+sess=${UWSPKG_BUILD_SESSION}
 schroot_cmd='schroot -d /root -u root -c internal-uwspkg'
 ${schroot_cmd} -- /uwspkg/libexec/internal/profile-remove ${sess}
 exit 0

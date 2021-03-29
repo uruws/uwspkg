@@ -39,12 +39,16 @@ func newConfig(cfg *config.Main, origin string) *Config {
 
 func (c *Config) Environ() *libexec.Env {
 	e := libexec.NewEnv()
+	// from manifest
 	e.Set("UWSPKG_VERSION_NAME", c.Package)
 	e.Set("UWSPKG_BUILD_SESSION", c.BuildSession)
 	e.Set("UWSPKG_ORIGIN", c.Origin)
 	e.Set("UWSPKG_NAME", c.Name)
 	e.Set("UWSPKG_VERSION", c.Version)
 	e.Set("UWSPKG_PROFILE", c.Profile)
+	// from main config
+	e.Set("UWSPKG_BUILDDIR", c.cfg.BuildDir)
+	e.Set("UWSPKG_SRCDIR", c.cfg.PkgDir)
 	return e
 }
 

@@ -56,11 +56,11 @@ func NewEnv() *Env {
 func (e *Env) getEnviron() []string {
 	x := make([]string, 0)
 	for k, v := range e.d {
-		e.l = append(e.l, fmt.Sprintf("%s=%s", k, v))
+		x = append(x, fmt.Sprintf("%s=%s", k, v))
 	}
 	// force user settings
 	for _, v := range e.l {
-		e.l = append(e.l, v)
+		x = append(x, v)
 	}
 	return x
 }
@@ -91,6 +91,7 @@ func (r *impl) Exec(env *Env, cmdpath string, args []string) error {
 	defer cancel()
 	cmd := exec.CommandContext(ctx, cmdpath, args...)
 	cmd.Env = env.getEnviron()
+	//~ log.Debug("ENV: %v", cmd.Env)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	log.Debug("exec: %s", cmd.String())

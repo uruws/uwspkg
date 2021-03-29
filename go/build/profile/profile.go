@@ -5,19 +5,17 @@
 package profile
 
 import (
-	"uwspkg/config"
 	"uwspkg/libexec"
 	"uwspkg/log"
 	"uwspkg/manifest"
 )
 
-func Create(cfg *config.Main, m *manifest.Config) error {
+func Create(m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
-	return libexec.RunEnv(m.Environ(), "build/profile-create", m.Profile, m.BuildSession,
-		cfg.BuildDir, cfg.PkgDir, m.Origin)
+	return libexec.RunEnv(m.Environ(), "build/profile-create")
 }
 
-func Remove(cfg *config.Main, m *manifest.Config) error {
+func Remove(m *manifest.Config) error {
 	log.Debug("%s remove %s %s", m.Session, m.Origin, m.Profile)
-	return libexec.Run("build/profile-remove", m.BuildSession)
+	return libexec.RunEnv(m.Environ(), "build/profile-remove")
 }

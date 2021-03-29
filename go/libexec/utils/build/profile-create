@@ -1,11 +1,11 @@
 #!/bin/sh
 set -eu
 
-prof=${1:?'profile name?'}
-sess=${2:?'session name?'}
-builddir=${3:?'build dir?'}
-pkgsrc_dir=${4:?'package source dir?'}
-pkgorig=${5:?'package origin?'}
+prof=${UWSPKG_PROFILE}
+sess=${UWSPKG_BUILD_SESSION}
+builddir=${UWSPKG_BUILDDIR}
+pkgsrc_dir=${UWSPKG_SRCDIR}
+pkgorig=${UWSPKG_ORIGIN}
 
 mkdir -m 0770 ${builddir}/build/${sess}
 chgrp uws ${builddir}/build/${sess}
