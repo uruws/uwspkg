@@ -7,6 +7,7 @@ default:
 SOURCES := ../../go/ ../../LICENSE
 EXCFILE := ../../go/.gitignore
 SOURCE_EXCLUDE :=  --exclude=/.gitignore --exclude=/uwspkg.yml --exclude=Dockerfile
+SOURCE_EXCLUDE += --exclude=/docker
 
 .PHONY: fetch
 fetch:
