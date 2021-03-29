@@ -45,8 +45,7 @@ func (p *Package) Load() error {
 
 func (p *Package) Build() error {
 	m := p.man.Config()
-	log.Print("Build %s-%s.", p.orig, m.Version)
-	log.Debug("build profile: %s", m.Profile)
+	log.Debug("build: %s %s %s", m.Profile, p.orig, m.Version)
 	// check profile
 	profile := filepath.Join(p.cfg.SchrootCfgDir, "uwspkg-"+m.Profile)
 	if st, err := os.Stat(profile); err != nil {
@@ -80,24 +79,13 @@ func (p *Package) Build() error {
 	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
-	// build source package
-	log.Print("Make %s source %s.", m.Origin, m.Source)
-	if m.Source == m.Origin {
-		if err := build.Source(m); err != nil {
-			return err
-		}
-	} else {
-		src := New(m.Source, p.cfg)
-		if err := src.Load(); err != nil {
-			return err
-		}
-		sm := src.man.Config()
-		sm.Session = m.Session
-		if err := build.Source(sm); err != nil {
-			return err
-		}
+	// build source archive
+	log.Print("Make %s-%s source archive.", p.orig, m.Version)
+	if err := build.Source(m); err != nil {
+		return err
 	}
 	// build package
+	log.Print("Build %s-%s.", p.orig, m.Version)
 	if err := build.Package(m); err != nil {
 		return err
 	}
