@@ -4,7 +4,7 @@ GOPATH := $(BUILDDIR)/_build/go
 GOCACHE := $(BUILDDIR)/_build/go-cache
 
 .PHONY: default
-default:
+default: build
 
 SOURCES := ../../go/ ../../LICENSE
 EXCFILE := ../../go/.gitignore
@@ -17,3 +17,8 @@ fetch:
 	@rsync -ax --delete-before --exclude-from=$(EXCFILE) $(SOURCE_EXCLUDE) \
 		$(SOURCES) $(BUILDDIR)/
 	@cd $(BUILDDIR) && GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) go mod download -x
+
+.PHONY: build
+build:
+	@$(MAKE) -C $(BUILDDIR) uwspkg-build GOPATH=$(GOPATH) GOCACHE=$(GOCACHE)
+	@echo "$(BUILDDIR)/_build/cmd/uwspkg-build created!"

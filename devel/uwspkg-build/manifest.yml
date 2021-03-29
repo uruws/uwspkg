@@ -2,4 +2,3 @@ origin: devel/uwspkg-build
 name: uwspkg-build
 profile: golang
 version: 20210328
-build: make uwspkg-build
