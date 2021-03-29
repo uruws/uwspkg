@@ -25,10 +25,14 @@ if ! test -d ${srcdir}; then
 	exit 2
 fi
 
+# install profile
+
 rm -rf ${cfgdst}
 
 install -o root -g root -m 0750 -d ${cfgdst}
 install -o root -g root -m 0640 ${srcdir}/* ${cfgdst}
+
+# custom fstab
 
 libexec_dir=`realpath -e $(dirname $0)/../`
 
@@ -38,11 +42,22 @@ cat ${prof_fstab}.tmp |
 	sed "s#@LIBEXEC@#${libexec_dir}#g" >${prof_fstab}
 rm -f ${prof_fstab}.tmp
 
+# profile chroot definition
+
 proftmp=$(mktemp /tmp/uwspkg-setup-profile.XXXXXXXX)
 cat ${cfgsrc} |
 	sed "s#@BUILDDIR@#${builddir}#g" >${proftmp}
 
 install -v -C -o root -g root -m 0640 ${proftmp} ${profcfg}
 rm -f ${proftmp}
+
+# profile custom setup script
+
+setup_src=${srcdir}/setup.d/99uwspkg-${prof}
+setup_dst=${dstdir}/setup.d/99uwspkg-${prof}
+
+if test -s ${setup_src}; then
+	install -v -C -o root -g root -m 0750 ${setup_src} ${setup_dst}
+fi
 
 exit 0
