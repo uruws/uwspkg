@@ -4,12 +4,11 @@ set -eu
 prof=${1:?'profile name?'}
 sess=${2:?'session name?'}
 builddir=${3:?'build dir?'}
-libexec_dir=${4:?'libexec dir?'}
-pkgsrc_dir=${5:?'package source dir?'}
-pkgorig=${6:?'package origin?'}
+pkgsrc_dir=${4:?'package source dir?'}
+pkgorig=${5:?'package origin?'}
 
 schroot_cmd='schroot -d /root -u root -c internal-uwspkg'
 ${schroot_cmd} -- /uwspkg/libexec/internal/profile-create "${prof}" "${sess}" \
-	"${builddir}" "${libexec_dir}" "${pkgsrc_dir}" "${pkgorig}"
+	"${builddir}" "${pkgsrc_dir}" "${pkgorig}"
 
 exit 0

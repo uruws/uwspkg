@@ -4,9 +4,8 @@ set -eu
 prof=${1:?'profile name?'}
 sess=${2:?'session name?'}
 builddir=${3:?'build dir?'}
-libexec_dir=${4:?'libexec dir?'}
-pkgsrc_dir=${5:?'package source dir?'}
-pkgorig=${6:?'package origin?'}
+pkgsrc_dir=${4:?'package source dir?'}
+pkgorig=${5:?'package origin?'}
 
 srcdir=/etc/schroot/uwspkg-${prof}
 dstdir=/etc/schroot/${sess}
@@ -36,8 +35,7 @@ cat ${prof_fstab}.tmp |
 	sed "s#@SESSION@#${sess}#g" |
 	sed "s#@PKGORIGIN@#${pkgorig}#g" |
 	sed "s#@SRCDIR@#${pkgsrc_dir}#g" |
-	sed "s#@BUILDDIR@#${builddir}#g" |
-	sed "s#@LIBEXEC@#${libexec_dir}#g" >${prof_fstab}
+	sed "s#@BUILDDIR@#${builddir}#g" >${prof_fstab}
 rm -f ${prof_fstab}.tmp
 
 echo "[${sess}]" >${cfgdst}

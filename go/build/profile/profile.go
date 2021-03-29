@@ -14,7 +14,7 @@ import (
 func Create(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
 	return libexec.Run("build/profile-create", m.Profile, m.BuildSession,
-		cfg.BuildDir, cfg.Libexec, cfg.PkgDir, m.Origin)
+		cfg.BuildDir, cfg.PkgDir, m.Origin)
 }
 
 func Remove(cfg *config.Main, m *manifest.Config) error {
