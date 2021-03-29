@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
 build_cmd=${1:?'build cmd?'}
-${build_cmd}
+builddir=$(cat /build/.builddir)
+${build_cmd} BUILDDIR=/build/${builddir}
 exit 0
