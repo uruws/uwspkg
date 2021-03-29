@@ -1,5 +1,0 @@
-#!/bin/sh
-set -eu
-name=${1:?'session name?'}
-schroot -d /build -e -c ${name}
-exit 0
