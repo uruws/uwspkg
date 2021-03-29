@@ -72,7 +72,7 @@ func (p *Package) Build() error {
 	failed := true
 	defer func() {
 		if failed {
-			log.Error("Build %s failed.", p.orig)
+			log.Error("Build %s-%s failed.", p.orig, m.Version)
 		}
 	}()
 	// setup build env
@@ -80,7 +80,7 @@ func (p *Package) Build() error {
 		return err
 	}
 	// build source archive
-	log.Print("Make %s-%s source archive.", p.orig, m.Version)
+	log.Print("Build %s-%s source archive.", p.orig, m.Version)
 	if err := build.Source(m); err != nil {
 		return err
 	}
