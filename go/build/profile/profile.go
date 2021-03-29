@@ -11,12 +11,13 @@ import (
 	"uwspkg/manifest"
 )
 
-func Create(cfg *config.Main, m *manifest.Config, sess string) error {
+func Create(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
-	return libexec.Run("build/profile-create", m.Profile, sess, cfg.BuildDir)
+	return libexec.Run("build/profile-create", m.Profile, m.BuildSession,
+		cfg.BuildDir, cfg.Libexec, cfg.PkgDir, m.Origin)
 }
 
-func Remove(cfg *config.Main, m *manifest.Config, sess string) error {
+func Remove(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s remove %s %s", m.Session, m.Origin, m.Profile)
-	return libexec.Run("build/profile-remove", sess, cfg.BuildDir)
+	return libexec.Run("build/profile-remove", m.BuildSession)
 }

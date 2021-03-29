@@ -4,6 +4,9 @@ set -eu
 prof=${1:?'profile name?'}
 sess=${2:?'session name?'}
 builddir=${3:?'build dir?'}
+libexec_dir=${4:?'libexec dir?'}
+pkgsrc_dir=${5:?'package source dir?'}
+pkgorig=${6:?'package origin?'}
 
 srcdir=/etc/schroot/uwspkg-${prof}
 dstdir=/etc/schroot/${sess}
@@ -26,11 +29,16 @@ rsync -ax ${srcdir}/ ${dstdir}/
 mkdir -m 0770 /build/${sess}
 chgrp uws /build/${sess}
 
-fstab=${dstdir}/fstab
+prof_fstab=${dstdir}/fstab
 
-echo "" >>${fstab}
-echo "# internal setup" >>${fstab}
-echo "${builddir}/build/${sess} /build none rw,bind 0 0" >>${fstab}
+cat ${prof_fstab} >${prof_fstab}.tmp
+cat ${prof_fstab}.tmp |
+	sed "s#@SESSION@#${sess}#g" |
+	sed "s#@PKGORIGIN@#${pkgorig}#g" |
+	sed "s#@SRCDIR@#${pkgsrc_dir}#g" |
+	sed "s#@BUILDDIR@#${builddir}#g" |
+	sed "s#@LIBEXEC@#${libexec_dir}#g" >${prof_fstab}
+rm -f ${prof_fstab}.tmp
 
 echo "[${sess}]" >${cfgdst}
 tail -n +2 ${cfgsrc} | grep -Ev '^profile=' >>${cfgdst}
