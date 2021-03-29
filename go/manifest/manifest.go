@@ -37,6 +37,12 @@ func newConfig(origin string) *Config {
 
 func (c *Config) Environ() *libexec.Env {
 	e := libexec.NewEnv()
+	e.Set("UWSPKG_VERSION_NAME", c.Package)
+	e.Set("UWSPKG_BUILD_SESSION", c.BuildSession)
+	e.Set("UWSPKG_ORIGIN", c.Origin)
+	e.Set("UWSPKG_NAME", c.Name)
+	e.Set("UWSPKG_VERSION", c.Version)
+	e.Set("UWSPKG_PROFILE", c.Profile)
 	return e
 }
 
