@@ -99,20 +99,18 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 }
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
-	log.Print("SetUp %s build.", m.Origin)
+	log.Print("Build %s setup.", m.Package)
 	m.SessionStart = time.Now()
-	sess := "uwspkg-build-" + m.Session
-	if err := profile.Create(cfg, m, sess); err != nil {
+	if err := profile.Create(cfg, m, m.BuildSession); err != nil {
 		return err
 	}
 	return nil
 }
 
 func TearDown(cfg *config.Main, m *manifest.Config) []error {
-	log.Print("TearDown %s build.", m.Origin)
+	log.Print("Build %s tear down.", m.Package)
 	errlist := make([]error, 0)
-	sess := "uwspkg-build-" + m.Session
-	if err := profile.Remove(cfg, m, sess); err != nil {
+	if err := profile.Remove(cfg, m, m.BuildSession); err != nil {
 		errlist = append(errlist, err)
 	}
 	return errlist
@@ -120,13 +118,12 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 
 func Source(m *manifest.Config) error {
 	var err error
-	log.Debug("make source %s.", m.Origin)
-	sess := "uwspkg-build-" + m.Session
-	err = libexec.Run("build/make-fetch", sess, m.Origin, m.Name, m.Fetch)
+	log.Print("Build %s source archive.", m.Package)
+	err = libexec.Run("build/make-fetch", m.BuildSession, m.Origin, m.Name, m.Fetch)
 	if err != nil {
 		return err
 	}
-	err = libexec.Run("build/source-package", sess, m.Origin, m.Name, m.Fetch)
+	err = libexec.Run("build/source-package", m.BuildSession, m.Origin, m.Name, m.Fetch)
 	if err != nil {
 		return err
 	}
@@ -134,6 +131,6 @@ func Source(m *manifest.Config) error {
 }
 
 func Package(m *manifest.Config) error {
-	log.Print("Make %s.", m.Origin)
+	log.Print("Build %s.", m.Package)
 	return nil
 }

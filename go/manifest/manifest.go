@@ -17,13 +17,14 @@ import (
 )
 
 type Config struct {
+	Package      string    `yaml:"-"`
 	Session      string    `yaml:"-"`
+	BuildSession string    `yaml:"-"`
 	SessionStart time.Time `yaml:"-"`
 	Origin       string    `yaml:"origin"`
 	Name         string    `yaml:"name"`
 	Version      string    `yaml:"version"`
 	Profile      string    `yaml:"profile"`
-	Source       string    `yaml:"source"`
 	Fetch        string    `yaml:"fetch"`
 	Build        string    `yaml:"build"`
 	Install      string    `yaml:"install"`
@@ -79,13 +80,12 @@ func (m *Manifest) Parse(c *Config) error {
 	if c.Version == "" {
 		return fmt.Errorf("%s: empty package version", orig)
 	}
-	if c.Profile == "" {
-		c.Profile = "build"
-	}
+	c.Package = fmt.Sprintf("%s-%s", c.Name, c.Version)
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
-	if c.Source == "" {
-		c.Source = c.Origin
+	c.BuildSession = fmt.Sprintf("uwspkg-build-%s", c.Session)
+	if c.Profile == "" {
+		c.Profile = "build"
 	}
 	if c.Fetch == "" {
 		c.Fetch = "make fetch"
