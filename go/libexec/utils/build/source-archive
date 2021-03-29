@@ -2,6 +2,6 @@
 set -eu
 sess=${1:?'session name?'}
 pkgname=${2:?'pkg full name?'}
-schroot_cmd="schroot -d /build/${sess} -c internal-uwspkg"
+schroot_cmd="schroot -d /build/${sess} -c ${sess}"
 ${schroot_cmd} -- /uwspkg/libexec/internal/source-archive ${sess} ${pkgname}
 exit 0

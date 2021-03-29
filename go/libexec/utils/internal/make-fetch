@@ -1,9 +1,8 @@
 #!/bin/sh
 set -eu
-sess=${1:?'session name?'}
-pkgname=${2:?'pkg name?'}
-fetch_cmd=${3:?'fetch command?'}
-builddir=$(mktemp -p /build/${sess} -d ${pkgname}-XXXXXXXX)
+pkgname=${1:?'pkg name?'}
+fetch_cmd=${2:?'fetch command?'}
+builddir=$(mktemp -p /build -d ${pkgname}-XXXXXXXX)
 ${fetch_cmd} BUILDDIR=${builddir}
-basename ${builddir} >/build/${sess}/.builddir
+basename ${builddir} >/build/.builddir
 exit 0

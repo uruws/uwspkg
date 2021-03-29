@@ -7,6 +7,9 @@ builddir=${3:?'build dir?'}
 pkgsrc_dir=${4:?'package source dir?'}
 pkgorig=${5:?'package origin?'}
 
+mkdir -m 0770 ${builddir}/build/${sess}
+chgrp uws ${builddir}/build/${sess}
+
 schroot_cmd='schroot -d /root -u root -c internal-uwspkg'
 ${schroot_cmd} -- /uwspkg/libexec/internal/profile-create "${prof}" "${sess}" \
 	"${builddir}" "${pkgsrc_dir}" "${pkgorig}"

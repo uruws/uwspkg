@@ -89,6 +89,7 @@ func Run(cmdname string, args ...string) error {
 	if filepath.IsAbs(cmdname) {
 		return fmt.Errorf("cmd should be a relative path: %s", cmdname)
 	}
+	log.Print("Run %s.", cmdname)
 	cmdpath := filepath.Join(cfg.Dir, cmdname)
 	log.Debug("cmd path: %s", cmdpath)
 	if !strings.HasPrefix(cmdpath, cfg.Dir) {

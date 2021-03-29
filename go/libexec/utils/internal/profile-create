@@ -25,9 +25,6 @@ fi
 install -o root -g root -d -m 0750 ${dstdir}
 rsync -ax ${srcdir}/ ${dstdir}/
 
-mkdir -m 0770 /build/${sess}
-chgrp uws /build/${sess}
-
 prof_fstab=${dstdir}/fstab
 
 cat ${prof_fstab} >${prof_fstab}.tmp

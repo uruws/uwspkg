@@ -5,6 +5,6 @@ origin=${2:?'pkg origin?'}
 pkgname=${3:?'pkg name?'}
 fetch_cmd=${4:?'fetch command?'}
 srcdir=/uwspkg/src/${origin}
-schroot_cmd="schroot -d ${srcdir} -c internal-uwspkg"
-${schroot_cmd} -- /uwspkg/libexec/internal/make-fetch ${sess} ${pkgname} "${fetch_cmd}"
+schroot_cmd="schroot -d ${srcdir} -c ${sess}"
+${schroot_cmd} -- /uwspkg/libexec/internal/make-fetch ${pkgname} "${fetch_cmd}"
 exit 0

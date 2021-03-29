@@ -24,7 +24,8 @@ fi
 
 # dirs structure
 
-install -v -o root -g root -d -m 0750 ${builddir} ${builddir}/repo
+install -v -o root -g uws -d -m 0750 ${builddir} ${builddir}/repo
+
 install -v -o root -g root -d -m 0750 ${builddir}/cache ${builddir}/union
 install -v -o root -g root -d -m 0750 ${builddir}/cache/debootstrap
 install -v -o root -g root -d -m 0750 ${builddir}/union/overlay ${builddir}/union/underlay
