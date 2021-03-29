@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 	"strings"
 	"time"
@@ -29,16 +30,51 @@ type Config struct {
 
 type Env struct {
 	d map[string]string
+	l []string
 }
 
 func NewEnv() *Env {
-	return &Env{}
+	e := &Env{
+		d: make(map[string]string),
+		l: make([]string, 0),
+	}
+	u, err := user.Current()
+	if err != nil {
+		log.Panic("%v", err)
+	}
+	e.l = append(e.l, fmt.Sprintf("%s=%s", "USER", u.Username))
+	e.l = append(e.l, fmt.Sprintf("%s=%s", "LOGNAME", u.Username))
+	e.l = append(e.l, fmt.Sprintf("%s=%s", "HOME", u.HomeDir))
+	if term := os.Getenv("TERM"); term != "" {
+		e.l = append(e.l, fmt.Sprintf("%s=%s", "TERM", term))
+	}
+	e.l = append(e.l, "SHELL=/bin/sh")
+	e.l = append(e.l, "PATH=/bin:/usr/bin:/usr/local/bin")
+	return e
 }
 
 func (e *Env) getEnviron() []string {
-	//~ x := make([]string, 0)
-	//~ return x
-	return nil
+	x := make([]string, 0)
+	for k, v := range e.d {
+		e.l = append(e.l, fmt.Sprintf("%s=%s", k, v))
+	}
+	// force user settings
+	for _, v := range e.l {
+		e.l = append(e.l, v)
+	}
+	return x
+}
+
+func (e *Env) Set(key, val string) {
+	if key == "USER" ||
+		key == "LOGNAME" ||
+		key == "HOME" ||
+		key == "TERM" ||
+		key == "SHELL" ||
+		key == "PATH" {
+		return
+	}
+	e.d[key] = val
 }
 
 var _ Runner = &impl{}
