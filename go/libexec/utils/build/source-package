@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+sess=${1:?'session name?'}
+pkgname=${2:?'pkg name?'}
+pkgvers=${3:?'pkg version?'}
+schroot_cmd="schroot -r -d /build -c ${sess}"
+${schroot_cmd} -- /uwspkg/libexec/internal/source-package ${pkgname} ${pkgvers}
+exit 0

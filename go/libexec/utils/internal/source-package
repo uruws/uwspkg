@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+pkgname=${1:?'pkg name?'}
+pkgname=${2:?'pkg version?'}
+builddir=$(cat /build/.builddir)
+cd ${builddir}
+ls -lha
+exit 0

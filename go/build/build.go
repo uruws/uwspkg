@@ -140,6 +140,10 @@ func Source(m *manifest.Config) error {
 	if err != nil {
 		return err
 	}
+	err = libexec.Run("build/source-package", sess, m.Origin, m.Name, m.Fetch)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
