@@ -7,7 +7,6 @@ package log
 import (
 	"errors"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"strings"
@@ -145,10 +144,6 @@ func setColors(cfg string) {
 func setPrefix(name string) {
 	p := fmt.Sprintf("[%s:%d] ", name, os.Getpid())
 	l.SetPrefix(p)
-}
-
-func setOutput(out io.Writer) {
-	l.SetOutput(out)
 }
 
 func Init(progname string) {
