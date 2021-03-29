@@ -15,6 +15,11 @@ if test -d ${dstdir}; then
 	exit 1
 fi
 
+if test "X${dstdir}" = "X${srcdir}"; then
+	echo "source and dest dir are the same: ${dstdir}" >&2
+	exit 2
+fi
+
 install -o root -g root -d -m 0750 ${dstdir}
 rsync -ax ${srcdir}/ ${dstdir}/
 
