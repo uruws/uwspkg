@@ -6,6 +6,5 @@ pkgname=${3:?'pkg name?'}
 fetch_cmd=${4:?'fetch command?'}
 srcdir=/uwspkg/src/${origin}
 schroot_cmd="schroot -d ${srcdir} -c internal-uwspkg"
-builddir=$(${schroot_cmd} -- mktemp -p /build/${sess} -d ${pkgname}-XXXXXXXX)
-${schroot_cmd} -- ${fetch_cmd} BUILDDIR=${builddir}
+${schroot_cmd} -- /uwspkg/libexec/internal/make-fetch ${sess} ${pkgname} "${fetch_cmd}"
 exit 0
