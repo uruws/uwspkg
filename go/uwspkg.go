@@ -27,7 +27,7 @@ func New(origin string, cfg *config.Main) *Package {
 	return &Package{
 		cfg:  cfg,
 		orig: origin,
-		man:  manifest.New(origin),
+		man:  manifest.New(cfg, origin),
 	}
 }
 
