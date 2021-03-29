@@ -1,1 +1,3 @@
+coreutils
 make
+fakeroot

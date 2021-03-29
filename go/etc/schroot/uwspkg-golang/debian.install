@@ -1,2 +1,4 @@
+coreutils
 make
+fakeroot
 golang-go
