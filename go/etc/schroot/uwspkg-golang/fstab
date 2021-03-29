@@ -10,5 +10,3 @@ tmpfs           /dev/shm        tmpfs   defaults        0       0
 
 # internal setup
 @LIBEXEC@/internal         /uwspkg/libexec/internal none ro,bind 0 0
-@SRCDIR@/@PKGORIGIN@       /uwspkg/src/@PKGORIGIN@  none ro,bind 0 0
-@BUILDDIR@/build/@SESSION@ /build                   none rw,bind 0 0
