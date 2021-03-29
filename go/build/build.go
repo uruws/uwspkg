@@ -123,7 +123,7 @@ func Source(m *manifest.Config) error {
 	if err != nil {
 		return err
 	}
-	err = libexec.Run("build/source-package", m.BuildSession, m.Origin, m.Name, m.Fetch)
+	err = libexec.Run("build/source-archive", m.BuildSession, m.Package)
 	if err != nil {
 		return err
 	}

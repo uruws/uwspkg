@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+sess=${1:?'session name?'}
+pkgname=${2:?'pkg full name?'}
+schroot_cmd="schroot -d /build -c ${sess}"
+${schroot_cmd} -- /uwspkg/libexec/internal/source-archive ${pkgname}
+exit 0

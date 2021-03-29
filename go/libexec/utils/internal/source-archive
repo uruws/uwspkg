@@ -1,8 +1,8 @@
 #!/bin/sh
 set -eu
-pkgname=${1:?'pkg name?'}
-pkgname=${2:?'pkg version?'}
+pkgname=${1:?'pkg full name?'}
 builddir=$(cat /build/.builddir)
 cd ${builddir}
+echo "ARCHIVE: ${pkgname}"
 find . -ls | sort -k11
 exit 0
