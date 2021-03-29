@@ -26,6 +26,10 @@ if ! test -d ${baseroot}; then
 	printf 'deb %s/ %s main\n' ${repo} ${distro} >./etc/apt/sources.list
 	printf 'deb %s/ %s-updates main\n' ${repo} ${distro} >>./etc/apt/sources.list
 	printf 'deb %s %s-security/updates main\n' ${secrepo} ${distro}>>./etc/apt/sources.list
+	acng_conf=etc/apt/apt.conf.d/02apt-cacher-proxy
+	if test -s /${acng_conf}; then
+		install -v -m 0644 /${acng_conf} ./${acng_conf}
+	fi
 	${schroot_source} -- apt-get update -yy
 	cat ${default_debpkg} | xargs ${schroot_source} -- \
 		apt-get install -yy --no-install-recommends --purge
