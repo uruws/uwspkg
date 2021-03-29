@@ -1,8 +1,7 @@
 #!/bin/sh
 set -eu
-pkgname=${1:?'pkg full name?'}
-builddir=$(cat /build/.builddir)
-cd ${builddir}
-echo "ARCHIVE: ${pkgname}"
-find . -ls | sort -k11
+sess=${1:?'session name?'}
+pkgname=${2:?'pkg full name?'}
+builddir=$(cat .builddir)
+tar -C ${builddir} -czf ./${pkgname}.tgz ./
 exit 0

@@ -5,5 +5,5 @@ pkgname=${2:?'pkg name?'}
 fetch_cmd=${3:?'fetch command?'}
 builddir=$(mktemp -p /build/${sess} -d ${pkgname}-XXXXXXXX)
 ${fetch_cmd} BUILDDIR=${builddir}
-echo /build/$(basename ${builddir}) >/build/${sess}/.builddir
+basename ${builddir} >/build/${sess}/.builddir
 exit 0
