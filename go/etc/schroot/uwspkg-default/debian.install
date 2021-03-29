@@ -1,3 +1,4 @@
 coreutils
 make
-fakeroot
+rsync
+git

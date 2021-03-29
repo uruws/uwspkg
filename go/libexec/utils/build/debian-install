@@ -2,10 +2,11 @@
 set -eu
 
 builddir=${1:?'build dir?'}
-variant=${2:?'variant?'}
-repo=${3:?'repo?'}
-secrepo=${4:?'secrepo?'}
-distro=${5:?'distro?'}
+cfgdir=${2:?'config dir?'}
+variant=${3:?'variant?'}
+repo=${4:?'repo?'}
+secrepo=${5:?'secrepo?'}
+distro=${6:?'distro?'}
 
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -16,6 +17,8 @@ mkdir -vp ${builddir}/chroot/debian
 baseroot=${builddir}/chroot/debian/${distro}
 schroot_source="schroot -c source:uwspkg-debian-${distro} -d /root"
 
+default_debpkg=${cfgdir}/uwspkg-default/debian.install
+
 if ! test -d ${baseroot}; then
 	${debinst} ${distro} ${baseroot} ${repo}
 	oldwd=${PWD}
@@ -24,7 +27,9 @@ if ! test -d ${baseroot}; then
 	printf 'deb %s/ %s-updates main\n' ${repo} ${distro} >>./etc/apt/sources.list
 	printf 'deb %s %s-security/updates main\n' ${secrepo} ${distro}>>./etc/apt/sources.list
 	${schroot_source} -- apt-get update -yy
-	${schroot_source} -- apt-get install -yy --no-install-recommends --purge apt bash
+	cat ${default_debpkg} | xargs ${schroot_source} -- \
+		apt-get install -yy --no-install-recommends --purge
+	${schroot_source} -- apt-get autoremove -yy --purge
 	${schroot_source} -- apt-get clean -yy
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin

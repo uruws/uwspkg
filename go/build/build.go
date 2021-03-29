@@ -80,10 +80,11 @@ func debianInstall(cfg *config.Main, dist string) error {
 	log.Info("Debian install %s.", dist)
 	args := []string{
 		0: cfg.BuildDir,
-		1: cfg.DebianInstallVariant,
-		2: cfg.DebianRepo,
-		3: cfg.DebianSecRepo,
-		4: dist,
+		1: cfg.BuildCfgDir,
+		2: cfg.DebianInstallVariant,
+		3: cfg.DebianRepo,
+		4: cfg.DebianSecRepo,
+		5: dist,
 	}
 	return libexec.Run("build/debian-install", args...)
 }
