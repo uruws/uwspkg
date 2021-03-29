@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+pkgname=${1:?'pkg full name?'}
+make_cmd=${2:?'make cmd?'}
+builddir=$(cat .builddir)
+echo "BUILD: ${pkgname}"
+cd ${builddir}
+ls -lha
+${make_cmd}
+exit 0

@@ -131,6 +131,12 @@ func Source(m *manifest.Config) error {
 }
 
 func Package(m *manifest.Config) error {
+	var err error
 	log.Print("Build %s.", m.Package)
+	log.Debug("%s build: %s", m.Package, m.Build)
+	err = libexec.Run("build/make", m.BuildSession, m.Package, m.Build)
+	if err != nil {
+		return err
+	}
 	return nil
 }
