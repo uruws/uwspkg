@@ -13,6 +13,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
+	"uwspkg/libexec"
 	"uwspkg/log"
 )
 
@@ -32,6 +33,11 @@ type Config struct {
 
 func newConfig(origin string) *Config {
 	return &Config{Origin: origin}
+}
+
+func (c *Config) Environ() *libexec.Env {
+	e := libexec.NewEnv()
+	return e
 }
 
 type Manifest struct {
