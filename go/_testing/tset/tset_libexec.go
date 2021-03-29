@@ -29,7 +29,7 @@ func NewLibexecMockRunner() *LibexecMockRunner {
 	}
 }
 
-func (r *LibexecMockRunner) Exec(cmd string, args []string) error {
+func (r *LibexecMockRunner) Exec(env *libexec.Env, cmd string, args []string) error {
 	r.x.Lock()
 	defer r.x.Unlock()
 	r.Calls[r.next] = fmt.Sprintf("%s %s", cmd, strings.Join(args, " "))

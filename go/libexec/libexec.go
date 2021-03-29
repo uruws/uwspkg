@@ -27,19 +27,34 @@ type Config struct {
 	Timeout time.Duration
 }
 
+type Env struct {
+	d map[string]string
+}
+
+func NewEnv() *Env {
+	return &Env{}
+}
+
+func (e *Env) getEnviron() []string {
+	//~ x := make([]string, 0)
+	//~ return x
+	return nil
+}
+
 var _ Runner = &impl{}
 
 type Runner interface {
-	Exec(string, []string) error
+	Exec(*Env, string, []string) error
 }
 
 type impl struct {
 }
 
-func (r *impl) Exec(cmdpath string, args []string) error {
+func (r *impl) Exec(env *Env, cmdpath string, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), cfg.Timeout)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, cmdpath, args...)
+	cmd.Env = env.getEnviron()
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	log.Debug("exec: %s", cmd.String())
@@ -84,6 +99,10 @@ func Configure(c *config.Main) error {
 }
 
 func Run(cmdname string, args ...string) error {
+	return RunEnv(NewEnv(), cmdname, args...)
+}
+
+func RunEnv(env *Env, cmdname string, args ...string) error {
 	cmdname = filepath.FromSlash(cmdname)
 	log.Debug("run: %s %v", cmdname, args)
 	if filepath.IsAbs(cmdname) {
@@ -95,5 +114,5 @@ func Run(cmdname string, args ...string) error {
 	if !strings.HasPrefix(cmdpath, cfg.Dir) {
 		return fmt.Errorf("%s: cmd path outside of libexec dir", cmdpath)
 	}
-	return lib.Exec(cmdpath, args)
+	return lib.Exec(env, cmdpath, args)
 }
