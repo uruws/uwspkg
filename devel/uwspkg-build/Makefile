@@ -1,5 +1,5 @@
 DESTDIR ?=
-BUILDDIR ?= ./files
+BUILDDIR ?= ../../build/devel/uwspkg-build
 
 .PHONY: default
 default:
@@ -11,5 +11,6 @@ SOURCE_EXCLUDE += --exclude=/docker
 
 .PHONY: fetch
 fetch:
+	@mkdir -p $(BUILDDIR)
 	@rsync -ax --delete-before --exclude-from=$(EXCFILE) $(SOURCE_EXCLUDE) \
 		$(SOURCES) $(BUILDDIR)/
