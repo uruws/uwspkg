@@ -9,4 +9,4 @@ EXCFILE := ../../go/.gitignore
 
 .PHONY: fetch
 fetch:
-	@rsync -vax --delete-before --exclude-from=$(EXCFILE) $(SOURCES) $(BUILDDIR)/
+	@rsync -ax --delete-before --exclude-from=$(EXCFILE) $(SOURCES) $(BUILDDIR)/

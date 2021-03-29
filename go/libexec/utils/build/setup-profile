@@ -10,21 +10,36 @@ if test 'Xdefault' = "X${prof}"; then
 	exit 0
 fi
 
+srcdir=${cfgdir}/uwspkg-${prof}
+cfgsrc=${cfgdir}/chroot.d/uwspkg-${prof}.conf
 cfgdst=${dstdir}/uwspkg-${prof}
 profcfg=${dstdir}/chroot.d/uwspkg-${prof}.conf
+
+if ! test -s ${cfgsrc}; then
+	echo "${cfgsrc}: file not found or empty" >&2
+	exit 1
+fi
+
+if ! test -d ${srcdir}; then
+	echo "${srcdir}: dir not found" >&2
+	exit 2
+fi
 
 rm -rf ${cfgdst}
 
 install -o root -g root -m 0750 -d ${cfgdst}
-install -o root -g root -m 0640 ${cfgdir}/uwspkg-${prof}/* ${cfgdst}
+install -o root -g root -m 0640 ${srcdir}/* ${cfgdst}
 
-if ! test -s ${cfgdir}/chroot.d/uwspkg-${prof}.conf; then
-	echo "${cfgdir}/chroot.d/uwspkg-${prof}.conf: file not found" >&2
-	exit 2
-fi
+libexec_dir=`realpath -e $(dirname $0)/../`
+
+prof_fstab=${cfgdst}/fstab
+cat ${prof_fstab} >${prof_fstab}.tmp
+cat ${prof_fstab}.tmp |
+	sed "s#@LIBEXEC@#${libexec_dir}#g" >${prof_fstab}
+rm -f ${prof_fstab}.tmp
 
 proftmp=$(mktemp /tmp/uwspkg-setup-profile.XXXXXXXX)
-cat ${cfgdir}/chroot.d/uwspkg-${prof}.conf |
+cat ${cfgsrc} |
 	sed "s#@BUILDDIR@#${builddir}#g" >${proftmp}
 
 install -v -C -o root -g root -m 0640 ${proftmp} ${profcfg}
