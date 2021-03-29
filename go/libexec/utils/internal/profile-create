@@ -26,8 +26,8 @@ install -o root -g root -d -m 0750 ${dstdir}
 rsync -ax ${srcdir}/ ${dstdir}/
 
 prof_fstab=${dstdir}/fstab
-echo "${pkgsrc_dir}/${pkgorig}  /uwspkg/src/${pkgorig} none ro,bind 0 0" >>${prof_fstab}
-echo "${builddir}/build/${sess} /build                 none rw,bind 0 0" >>${prof_fstab}
+echo "${pkgsrc_dir}/            /uwspkg/src none ro,bind 0 0" >>${prof_fstab}
+echo "${builddir}/build/${sess} /build      none rw,bind 0 0" >>${prof_fstab}
 
 echo "[${sess}]" >${cfgdst}
 tail -n +2 ${cfgsrc} | grep -Ev '^profile=' >>${cfgdst}

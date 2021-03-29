@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
-sess=${1:?'session name?'}
-pkgname=${2:?'pkg full name?'}
+pkgname=${1:?'pkg full name?'}
 builddir=$(cat .builddir)
 tar -C ${builddir} -czf ./${pkgname}.tgz ./
 exit 0
