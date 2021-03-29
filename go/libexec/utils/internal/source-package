@@ -4,5 +4,5 @@ pkgname=${1:?'pkg name?'}
 pkgname=${2:?'pkg version?'}
 builddir=$(cat /build/.builddir)
 cd ${builddir}
-ls -lha
+find . -ls | sort -k11
 exit 0
