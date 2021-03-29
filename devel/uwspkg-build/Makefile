@@ -1,5 +1,7 @@
 DESTDIR ?=
 BUILDDIR ?= ../../build/devel/uwspkg-build
+GOPATH := $(BUILDDIR)/_build/go
+GOCACHE := $(BUILDDIR)/_build/go-cache
 
 .PHONY: default
 default:
@@ -14,3 +16,4 @@ fetch:
 	@mkdir -p $(BUILDDIR)
 	@rsync -ax --delete-before --exclude-from=$(EXCFILE) $(SOURCE_EXCLUDE) \
 		$(SOURCES) $(BUILDDIR)/
+#~ 	@cd $(BUILDDIR) && GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) go mod download -x
