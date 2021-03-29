@@ -86,7 +86,9 @@ func (p *Package) Build() error {
 		if err := src.Load(); err != nil {
 			return err
 		}
-		if err := build.Source(src.man.Config()); err != nil {
+		sm := src.man.Config()
+		sm.Session = m.Session
+		if err := build.Source(sm); err != nil {
 			return err
 		}
 	}

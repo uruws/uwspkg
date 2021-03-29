@@ -1,11 +1,11 @@
 #!/bin/sh
 set -eu
-set -x
-origin=${1:?'pkg origin?'}
-fetch_cmd=${2:?'fetch command?'}
+sess=${1:?'session name?'}
+origin=${2:?'pkg origin?'}
 pkgname=${3:?'pkg name?'}
+fetch_cmd=${4:?'fetch command?'}
 srcdir=/uwspkg/src/${origin}
 schroot_cmd="schroot -d ${srcdir} -c internal-uwspkg"
-builddir=$(${schroot_cmd} -- mktemp -p /build -d ${pkgname}-XXXXXXXX)
+builddir=$(${schroot_cmd} -- mktemp -p /build/${sess} -d ${pkgname}-XXXXXXXX)
 ${schroot_cmd} -- ${fetch_cmd} BUILDDIR=${builddir}
 exit 0
