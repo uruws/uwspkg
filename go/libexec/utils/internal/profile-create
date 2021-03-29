@@ -28,6 +28,7 @@ echo "# internal setup" >>${fstab}
 echo "${builddir}/build/${sess} /build none rw,bind 0 0" >>${fstab}
 
 echo "[${sess}]" >${cfgdst}
-tail -n +2 ${cfgsrc} >>${cfgdst}
+tail -n +2 ${cfgsrc} | grep -Ev '^profile=' >>${cfgdst}
+echo "profile=${sess}" >>${cfgdst}
 
 exit 0
