@@ -82,7 +82,9 @@ func (m *manager) Parse(c *Main) error {
 			return err
 		}
 	}
-	if c.Libexec != "" {
+	if c.Libexec == "" {
+		c.Libexec = filepath.FromSlash("/uws/libexec/uwspkg")
+	} else {
 		c.Libexec, err = filepath.Abs(filepath.Clean(c.Libexec))
 		if err != nil {
 			return err
