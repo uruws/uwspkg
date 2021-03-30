@@ -28,11 +28,11 @@ const Version uint = 0
 
 type Main struct {
 	Libexec              string   `yaml:"-"`
+	BuildCfgDir          string   `yaml:"-"`
 	Version              uint     `yaml:"version"`
 	PkgDir               string   `yaml:"pkgdir"`
 	Manifest             string   `yaml:"manifest"`
 	BuildDir             string   `yaml:"build.dir"`
-	BuildCfgDir          string   `yaml:"build.cfgdir"`
 	BuildEnvPath         string   `yaml:"build.env.path"`
 	BuildProfile         []string `yaml:"build.profile"`
 	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
@@ -51,6 +51,7 @@ func newMain() *Main {
 		PkgDir:   ".",
 		Manifest: "manifest.yml",
 		Libexec: defaultConfig.Libexec,
+		BuildCfgDir: defaultConfig.BuildCfgDir,
 	}
 }
 
@@ -67,14 +68,6 @@ func (m *manager) Parse(c *Main) error {
 		c.BuildDir = filepath.FromSlash("/srv/uwspkg")
 	} else {
 		c.BuildDir, err = filepath.Abs(filepath.Clean(c.BuildDir))
-		if err != nil {
-			return err
-		}
-	}
-	if c.BuildCfgDir == "" {
-		c.BuildCfgDir = filepath.FromSlash("/uws/etc/schroot")
-	} else {
-		c.BuildCfgDir, err = filepath.Abs(filepath.Clean(c.BuildCfgDir))
 		if err != nil {
 			return err
 		}

@@ -1,8 +1,5 @@
 pkgdir: ../
-libexec: ./libexec/utils
-build.cfgdir: ./etc/schroot
 build.profile:
-  - default
   - build
   - golang
 debian.distro:

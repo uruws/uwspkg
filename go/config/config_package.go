@@ -11,4 +11,5 @@ import (
 
 func init() {
 	defaultConfig.Libexec = filepath.FromSlash("/uws/libexec/uwspkg")
+	defaultConfig.BuildCfgDir = filepath.FromSlash("/uws/etc/schroot")
 }

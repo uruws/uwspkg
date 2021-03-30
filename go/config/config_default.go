@@ -6,13 +6,18 @@
 package config
 
 import (
-	"path/filepath"
+	fp "path/filepath"
 )
 
 func init() {
-	libxd, err := filepath.Abs(filepath.FromSlash("./libexec/utils"))
-	if err != nil {
+	if libxd, err := fp.Abs(fp.FromSlash("./libexec/utils")); err != nil {
 		panic(err)
+	} else {
+		defaultConfig.Libexec = libxd
 	}
-	defaultConfig.Libexec = libxd
+	if cfgd, err := fp.Abs(fp.FromSlash("./etc/schroot")); err != nil {
+		panic(err)
+	} else {
+		defaultConfig.BuildCfgDir = cfgd
+	}
 }
