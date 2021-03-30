@@ -31,17 +31,17 @@ install-uwspkg-build:
 	@install -d -m 0755 $(DESTDIR)$(PREFIX)
 	@install -d -m 0755 $(DESTDIR)$(PREFIX)/bin
 	@install -v -m 0755 ./_build/cmd/uwspkg-build $(DESTDIR)$(PREFIX)/bin/
-	@install -d -m 0755 $(DESTDIR)/etc
-	@install -d -m 0755 $(DESTDIR)/etc/schroot
-	@install -d -m 0755 $(DESTDIR)/etc/schroot/chroot.d
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/etc
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/etc/schroot
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/etc/schroot/chroot.d
 	@install -v -m 0644 ./etc/schroot/chroot.d/*.conf \
-		$(DESTDIR)/etc/schroot/chroot.d/
-	@install -d -m 0755 $(DESTDIR)/etc/schroot/internal-uwspkg
+		$(DESTDIR)$(PREFIX)/etc/schroot/chroot.d/
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/etc/schroot/internal-uwspkg
 	@install -v -m 0644 ./etc/schroot/internal-uwspkg/* \
-		$(DESTDIR)/etc/schroot/internal-uwspkg/
+		$(DESTDIR)$(PREFIX)/etc/schroot/internal-uwspkg/
 	@for profd in `ls -d etc/schroot/uwspkg-*`; do \
-		install -d -m 0755 $(DESTDIR)/$${profd}; \
-		install -v -m 0644 ./$${profd}/* $(DESTDIR)/$${profd}/; \
+		install -d -m 0755 $(DESTDIR)$(PREFIX)/$${profd}; \
+		install -v -m 0644 ./$${profd}/* $(DESTDIR)$(PREFIX)/$${profd}/; \
 	done
 	@install -d -m 0755 $(DESTDIR)$(PREFIX)/libexec
 	@install -d -m 0755 $(DESTDIR)$(PREFIX)/libexec/uwspkg
