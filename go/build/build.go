@@ -124,7 +124,7 @@ func Source(m *manifest.Config) error {
 	chroot := libexec.NewChroot()
 	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
 	chroot.Name(m.BuildSession)
-	err = chroot.Run(m.Environ(), "/uwspkg/libexec/internal/make-fetch", m.Fetch)
+	err = chroot.Run(m.Environ(), "internal/make-fetch", m.Fetch)
 	if err != nil {
 		return err
 	}

@@ -15,7 +15,7 @@ func Create(m *manifest.Config) error {
 	chroot := libexec.NewChroot()
 	chroot.User("root")
 	chroot.Name("internal-uwspkg")
-	return chroot.Run(m.Environ(), "/uwspkg/libexec/internal/profile-create")
+	return chroot.Run(m.Environ(), "internal/profile-create")
 }
 
 func Remove(m *manifest.Config) error {
@@ -23,5 +23,5 @@ func Remove(m *manifest.Config) error {
 	chroot := libexec.NewChroot()
 	chroot.User("root")
 	chroot.Name("internal-uwspkg")
-	return chroot.Run(m.Environ(), "/uwspkg/libexec/internal/profile-remove")
+	return chroot.Run(m.Environ(), "internal/profile-remove")
 }

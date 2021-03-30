@@ -3,6 +3,8 @@
 
 package libexec
 
+import "path"
+
 type Chroot struct {
 	cmd string
 	dir string
@@ -43,7 +45,8 @@ func (c *Chroot) Run(env *Env, cmd string, args ...string) error {
 	runargs = append(runargs, "-c")
 	runargs = append(runargs, c.name)
 	runargs = append(runargs, "--")
-	runargs = append(runargs, cmd)
+	cmdpath := path.Join("/uwspkg/libexec", cmd)
+	runargs = append(runargs, cmdpath)
 	for _, x := range args {
 		runargs = append(runargs, x)
 	}
