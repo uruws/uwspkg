@@ -16,6 +16,8 @@ import (
 	"uwspkg/log"
 )
 
+var defaultConfig *Main = &Main{}
+
 var Files map[int]string = map[int]string{
 	0: filepath.FromSlash("/uws/etc/uwspkg.yml"),
 	1: filepath.FromSlash("/uws/local/etc/uwspkg.yml"),
@@ -25,6 +27,7 @@ var Files map[int]string = map[int]string{
 const Version uint = 0
 
 type Main struct {
+	Libexec              string   `yaml:"-"`
 	Version              uint     `yaml:"version"`
 	PkgDir               string   `yaml:"pkgdir"`
 	Manifest             string   `yaml:"manifest"`
@@ -33,7 +36,6 @@ type Main struct {
 	BuildEnvPath         string   `yaml:"build.env.path"`
 	BuildProfile         []string `yaml:"build.profile"`
 	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
-	Libexec              string   `yaml:"libexec"`
 	LibexecTimeout       string   `yaml:"libexec.timeout"`
 	DebianDeps           []string `yaml:"debian.deps"`
 	DebianRepo           string   `yaml:"debian.repo"`
@@ -41,6 +43,15 @@ type Main struct {
 	DebianInstall        string   `yaml:"debian.install"`
 	DebianInstallVariant string   `yaml:"debian.install.variant"`
 	DebianDistro         []string `yaml:"debian.distro"`
+}
+
+func newMain() *Main {
+	return &Main{
+		Version:  0,
+		PkgDir:   ".",
+		Manifest: "manifest.yml",
+		Libexec: defaultConfig.Libexec,
+	}
 }
 
 func (m *manager) Parse(c *Main) error {
@@ -82,14 +93,6 @@ func (m *manager) Parse(c *Main) error {
 			return err
 		}
 	}
-	if c.Libexec == "" {
-		c.Libexec = filepath.FromSlash("/uws/libexec/uwspkg")
-	} else {
-		c.Libexec, err = filepath.Abs(filepath.Clean(c.Libexec))
-		if err != nil {
-			return err
-		}
-	}
 	if len(c.DebianDeps) == 0 {
 		c.DebianDeps = []string{
 			"schroot",
@@ -116,14 +119,6 @@ func (m *manager) Parse(c *Main) error {
 		c.DebianDistro = []string{"testing"}
 	}
 	return nil
-}
-
-func newMain() *Main {
-	return &Main{
-		Version:  0,
-		PkgDir:   ".",
-		Manifest: "manifest.yml",
-	}
 }
 
 type manager struct {
