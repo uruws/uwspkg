@@ -14,7 +14,7 @@ func NewChroot() *Chroot {
 	return &Chroot{
 		cmd: "/usr/bin/schroot",
 		dir: "/root",
-		user: "root",
+		user: "",
 		name: "uwspkg-default",
 	}
 }
@@ -36,8 +36,10 @@ func (c *Chroot) Run(env *Env, cmd string, args ...string) error {
 	runargs = append(runargs, "-p")
 	runargs = append(runargs, "-d")
 	runargs = append(runargs, c.dir)
-	runargs = append(runargs, "-u")
-	runargs = append(runargs, c.user)
+	if c.user != "" {
+		runargs = append(runargs, "-u")
+		runargs = append(runargs, c.user)
+	}
 	runargs = append(runargs, "-c")
 	runargs = append(runargs, c.name)
 	runargs = append(runargs, "--")
