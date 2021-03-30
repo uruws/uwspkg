@@ -9,8 +9,6 @@ import (
 
 	_ "uwspkg/_testing/setup"
 
-	"uwspkg/config"
-
 	. "gopkg.in/check.v1"
 )
 
@@ -23,21 +21,10 @@ func Test(t *testing.T) {
 }
 
 type TSuite struct {
-	cfg *config.Main
-}
-
-func (s *TSuite) SetUpTest(c *C) {
-	var err error
-	s.cfg, err = config.Load()
-	c.Assert(err, IsNil)
-}
-
-func (s *TSuite) TearDownTest(c *C) {
-	s.cfg = nil
 }
 
 func (s *TSuite) TestNewConfig(c *C) {
-	m := newConfig(s.cfg, "testing")
+	m := newConfig("testing")
 	c.Check(m.Origin, Equals, "testing")
 	c.Check(m.Name, Equals, "")
 	c.Check(m.Version, Equals, "")
@@ -50,7 +37,7 @@ func (s *TSuite) TestNewConfig(c *C) {
 }
 
 func (s *TSuite) TestDefaultConfig(c *C) {
-	m := New(s.cfg, "testdata/load")
+	m := New("testdata/load")
 	err := m.Load(filepath.FromSlash("testdata/load/manifest.yml"))
 	c.Assert(err, IsNil)
 	c.Check(m.c.Origin, Equals, "testdata/load")

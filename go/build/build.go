@@ -100,10 +100,10 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 	return libexec.Run("build/debian-install-profile", args...)
 }
 
-func SetUp(m *manifest.Config) error {
+func SetUp(cfg *config.Main, m *manifest.Config) error {
 	log.Print("Build %s setup.", m.Package)
 	m.SessionStart = time.Now()
-	if err := profile.Create(m); err != nil {
+	if err := profile.Create(cfg, m); err != nil {
 		return err
 	}
 	return nil

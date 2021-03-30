@@ -6,16 +6,16 @@ package libexec
 import "path"
 
 type Chroot struct {
-	cmd string
-	dir string
+	cmd  string
+	dir  string
 	user string
 	name string
 }
 
 func NewChroot() *Chroot {
 	return &Chroot{
-		cmd: "/usr/bin/schroot",
-		dir: "/root",
+		cmd:  "/usr/bin/schroot",
+		dir:  "/root",
 		user: "",
 		name: "uwspkg-default",
 	}

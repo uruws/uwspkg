@@ -27,7 +27,7 @@ func New(origin string, cfg *config.Main) *Package {
 	return &Package{
 		cfg:  cfg,
 		orig: origin,
-		man:  manifest.New(cfg, origin),
+		man:  manifest.New(origin),
 	}
 }
 
@@ -76,7 +76,7 @@ func (p *Package) Build() error {
 		}
 	}()
 	// setup build env
-	if err := build.SetUp(m); err != nil {
+	if err := build.SetUp(p.cfg, m); err != nil {
 		return err
 	}
 	// build source archive

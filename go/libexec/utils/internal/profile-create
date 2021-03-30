@@ -1,10 +1,11 @@
 #!/bin/sh
 set -eu
 
+builddir=${1:?'build dir?'}
+pkgsrc_dir=${2:?'pkg source dir?'}
+
 prof=${UWSPKG_PROFILE}
 sess=${UWSPKG_BUILD_SESSION}
-builddir=${UWSPKG_BUILDDIR}
-pkgsrc_dir=${UWSPKG_SRCDIR}
 pkgorig=${UWSPKG_ORIGIN}
 
 srcdir=/etc/schroot/uwspkg-${prof}

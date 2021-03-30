@@ -13,13 +13,11 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"uwspkg/config"
 	"uwspkg/libexec"
 	"uwspkg/log"
 )
 
 type Config struct {
-	cfg          *config.Main
 	Package      string    `yaml:"-"`
 	Session      string    `yaml:"-"`
 	BuildSession string    `yaml:"-"`
@@ -34,8 +32,8 @@ type Config struct {
 	Install      string    `yaml:"install"`
 }
 
-func newConfig(cfg *config.Main, origin string) *Config {
-	return &Config{cfg: cfg, Origin: origin}
+func newConfig(origin string) *Config {
+	return &Config{Origin: origin}
 }
 
 func (c *Config) Environ() *libexec.Env {
@@ -47,9 +45,6 @@ func (c *Config) Environ() *libexec.Env {
 	e.Set("UWSPKG_NAME", c.Name)
 	e.Set("UWSPKG_VERSION", c.Version)
 	e.Set("UWSPKG_PROFILE", c.Profile)
-	// from main config
-	e.Set("UWSPKG_BUILDDIR", c.cfg.BuildDir)
-	e.Set("UWSPKG_SRCDIR", c.cfg.PkgDir)
 	return e
 }
 
@@ -58,9 +53,9 @@ type Manifest struct {
 	x *sync.Mutex
 }
 
-func New(cfg *config.Main, origin string) *Manifest {
+func New(origin string) *Manifest {
 	return &Manifest{
-		c: newConfig(cfg, origin),
+		c: newConfig(origin),
 		x: new(sync.Mutex),
 	}
 }

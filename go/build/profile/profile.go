@@ -5,17 +5,18 @@
 package profile
 
 import (
+	"uwspkg/config"
 	"uwspkg/libexec"
 	"uwspkg/log"
 	"uwspkg/manifest"
 )
 
-func Create(m *manifest.Config) error {
+func Create(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
 	chroot := libexec.NewChroot()
 	chroot.User("root")
 	chroot.Name("internal-uwspkg")
-	return chroot.Run(m.Environ(), "internal/profile-create")
+	return chroot.Run(m.Environ(), "internal/profile-create", cfg.BuildDir, cfg.PkgDir)
 }
 
 func Remove(m *manifest.Config) error {
