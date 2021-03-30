@@ -3,5 +3,5 @@ set -eu
 make_cmd=${1:?'make cmd?'}
 builddir=$(cat /build/.builddir)
 . /uwspkg/libexec/internal/env.export
-make ${make_cmd} BUILDDIR=/build/${builddir}
+make "${make_cmd}" "BUILDDIR=/build/${builddir}"
 exit 0

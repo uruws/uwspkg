@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+install_cmd=${1:?'install cmd?'}
+pkgname=${UWSPKG_VERSION_NAME}
+builddir=$(cat /build/.builddir)
+. /uwspkg/libexec/internal/env.export
+destdir=$(mktemp -d -p /build ${pkgname}-destdir-XXXXXXXX)
+make "${install_cmd}" "BUILDDIR=/build/${builddir}" "DESTDIR=${destdir}"
+basename ${destdir} >/build/.destdir
+exit 0

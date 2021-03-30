@@ -2,5 +2,5 @@
 set -eu
 pkgname=${UWSPKG_VERSION_NAME}
 builddir=$(cat .builddir)
-tar -C ${builddir} -czf ./${pkgname}.tgz ./
+tar -C "${builddir}" -czf "./${pkgname}.tgz" ./
 exit 0

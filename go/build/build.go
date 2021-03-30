@@ -156,7 +156,7 @@ func Package(m *manifest.Config) error {
 		return err
 	}
 	// install
-	err = chroot.Run(m.Environ(), "internal/make", m.Install)
+	err = chroot.Run(m.Environ(), "internal/make-install", m.Install)
 	if err != nil {
 		return err
 	}
