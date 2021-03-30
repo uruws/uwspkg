@@ -1,5 +1,6 @@
 DESTDIR ?=
 PREFIX ?= /usr/local
+BUILD_TAGS ?=
 
 .PHONY: default
 default:
@@ -24,7 +25,7 @@ check:
 
 .PHONY: uwspkg-build
 uwspkg-build:
-	@go build -i -o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
+	@go build $(BUILD_TAGS) -i -o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
 
 .PHONY: install-uwspkg-build
 install-uwspkg-build:

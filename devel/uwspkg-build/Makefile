@@ -21,7 +21,8 @@ fetch:
 
 .PHONY: build
 build:
-	@$(MAKE) -C $(BUILDDIR) uwspkg-build GOPATH=$(GOPATH) GOCACHE=$(GOCACHE)
+	@$(MAKE) -C $(BUILDDIR) uwspkg-build GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) \
+		BUILD_TAGS='-tags uwspkg_build_package'
 	@echo "$(BUILDDIR)/_build/cmd/uwspkg-build created!"
 
 .PHONY: check
