@@ -30,6 +30,7 @@ type Config struct {
 	Profile      string    `yaml:"profile"`
 	Fetch        string    `yaml:"fetch"`
 	Build        string    `yaml:"build"`
+	Check        string    `yaml:"check"`
 	Install      string    `yaml:"install"`
 }
 
@@ -110,6 +111,9 @@ func (m *Manifest) Parse(c *Config) error {
 	}
 	if c.Build == "" {
 		c.Build = "make"
+	}
+	if c.Check == "" {
+		c.Check = "make check"
 	}
 	if c.Install == "" {
 		c.Install = "make install"

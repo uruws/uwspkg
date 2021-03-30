@@ -45,6 +45,7 @@ func (s *TSuite) TestNewConfig(c *C) {
 	c.Check(m.Session, Equals, "")
 	c.Check(m.Fetch, Equals, "")
 	c.Check(m.Build, Equals, "")
+	c.Check(m.Check, Equals, "")
 	c.Check(m.Install, Equals, "")
 }
 
@@ -59,5 +60,6 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(len(m.c.Session), Equals, 64)
 	c.Check(m.c.Fetch, Equals, "make fetch")
 	c.Check(m.c.Build, Equals, "make")
+	c.Check(m.c.Check, Equals, "make check")
 	c.Check(m.c.Install, Equals, "make install")
 }
