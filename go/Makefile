@@ -23,8 +23,13 @@ check:
 	@go test ./...
 	@go test -race ./...
 
+.PHONY: internal-mkpkg
+internal-mkpkg:
+	@go build $(BUILD_TAGS) -i -o ./_build/cmd/internal/mkpkg ./cmd/internal/mkpkg
+
 .PHONY: uwspkg-build
-uwspkg-build:
+uwspkg-build: internal-mkpkg
+	@install -m 0750 ./_build/cmd/internal/mkpkg ./libexec/utils/internal/
 	@go build $(BUILD_TAGS) -i -o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
 
 .PHONY: install-uwspkg-build
@@ -52,3 +57,5 @@ install-uwspkg-build:
 			$(DESTDIR)$(PREFIX)/libexec/uwspkg/$${libxd}/; \
 	done
 	@chmod 0644 $(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/env.export
+	@install -v -m 0755 ./_build/cmd/internal/mkpkg \
+		$(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/

@@ -1,0 +1,64 @@
+#!/bin/sh
+set -eu
+. /uwspkg/libexec/internal/env.export
+/uwspkg/libexec/internal/mkpkg
+exit 0
+
+#~ pkgname=${UWSPKG_VERSION_NAME}
+#~ pkgorig=${UWSPKG_ORIGIN}
+#~ sess=${UWSPKG_BUILD_SESSION}
+
+#~ builddir=/build/${sess}/$(cat /build/${sess}/.builddir)
+#~ install_dir=/build/${sess}/$(cat /build/${sess}/.destdir)
+#~ package_dir=$(mktemp -d /build/${sess}/${pkgname}-package-XXXXXXXX)
+
+#~ manifest_src=/build/${sess}/${pkgname}.manifest
+#~ manifest_dst=/${package_dir}/+MANIFEST
+
+#~ install -v -m 0644 ${manifest_src} ${manifest_dst}
+
+#~ plist_src=/build/${sess}/${pkgname}.plist
+#~ plist_dst=${package_dir}/pkg-plist
+
+#~ install -v -m 0644 ${plist_src} ${plist_dst}
+
+#~ cat ${manifest_dst}
+#~ cat ${plist_dst}
+
+#~ repo_src=/uwspkg/repo/src
+#~ repo_pkg=/uwspkg/repo/pkg
+#~ srcfn=${repo_src}/${pkgname}.tgz
+#~ pkgfn=${repo_pkg}/${pkgname}.txz
+
+#~ exit 0
+
+
+#~ manifest=${build}/+MANIFEST
+#~ cat ${files}/manifest >${manifest}
+#~ echo "version: ${UWSPKG_VERSION}" >>${manifest}
+
+#~ mkdir -vp /uws/var/db/pkg
+#~ echo '@dir /uws/var' >>${plist}
+#~ echo '@dir /uws/var/db' >>${plist}
+#~ echo '@dir /uws/var/db/pkg' >>${plist}
+
+#~ cd ${build}
+#~ cat ${manifest}
+#~ cat ${plist}
+
+#~ export PATH=/uws/sbin:${PATH}
+#~ export LD_LIBRARY_PATH=/uws/lib
+
+#~ pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
+#~ fakeroot pkg register -d -m . -f pkg-plist
+
+#~ cd ${oldwd}
+#~ rm -vf /uws/var/db/pkg/local.sqlite
+
+#~ fakeroot tar -C / -czf ${dstfn} ./usr/local/bin/uwspkg ./uws
+#~ tar -tzf ${dstfn} | sort
+
+#~ cd /home/uws/build
+#~ sha256sum $(basename ${dstfn}) >${dstfn}.sha256sum
+
+#~ cat ${dstfn}.sha256sum

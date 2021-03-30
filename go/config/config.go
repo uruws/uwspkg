@@ -47,12 +47,12 @@ type Main struct {
 
 func newMain() *Main {
 	return &Main{
-		Version:  0,
-		PkgDir:   ".",
-		Manifest: "manifest.yml",
-		Libexec: defaultConfig.Libexec,
-		BuildCfgDir: defaultConfig.BuildCfgDir,
-		BuildEnvPath: "/bin:/usr/bin:/usr/sbin",
+		Version:       0,
+		PkgDir:        ".",
+		Manifest:      "manifest.yml",
+		Libexec:       defaultConfig.Libexec,
+		BuildCfgDir:   defaultConfig.BuildCfgDir,
+		BuildEnvPath:  "/bin:/usr/bin:/usr/sbin",
 		SchrootCfgDir: filepath.FromSlash("/etc/schroot"),
 	}
 }

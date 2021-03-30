@@ -48,6 +48,11 @@ func (c *Config) Environ() *libexec.Env {
 	return e
 }
 
+func (c *Config) String() string {
+	m := ""
+	return m
+}
+
 type Manifest struct {
 	c *Config
 	x *sync.Mutex
