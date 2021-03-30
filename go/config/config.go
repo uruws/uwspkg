@@ -30,12 +30,12 @@ type Main struct {
 	Libexec              string   `yaml:"-"`
 	BuildCfgDir          string   `yaml:"-"`
 	BuildEnvPath         string   `yaml:"-"`
+	SchrootCfgDir        string   `yaml:"-"`
 	Version              uint     `yaml:"version"`
 	PkgDir               string   `yaml:"pkgdir"`
 	Manifest             string   `yaml:"manifest"`
 	BuildDir             string   `yaml:"build.dir"`
 	BuildProfile         []string `yaml:"build.profile"`
-	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
 	LibexecTimeout       string   `yaml:"libexec.timeout"`
 	DebianDeps           []string `yaml:"debian.deps"`
 	DebianRepo           string   `yaml:"debian.repo"`
@@ -53,6 +53,7 @@ func newMain() *Main {
 		Libexec: defaultConfig.Libexec,
 		BuildCfgDir: defaultConfig.BuildCfgDir,
 		BuildEnvPath: "/bin:/usr/bin:/usr/sbin",
+		SchrootCfgDir: filepath.FromSlash("/etc/schroot"),
 	}
 }
 
@@ -75,14 +76,6 @@ func (m *manager) Parse(c *Main) error {
 	}
 	if len(c.BuildProfile) == 0 {
 		c.BuildProfile = []string{"default"}
-	}
-	if c.SchrootCfgDir == "" {
-		c.SchrootCfgDir = filepath.FromSlash("/etc/schroot")
-	} else {
-		c.SchrootCfgDir, err = filepath.Abs(filepath.Clean(c.SchrootCfgDir))
-		if err != nil {
-			return err
-		}
 	}
 	if len(c.DebianDeps) == 0 {
 		c.DebianDeps = []string{
