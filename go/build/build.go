@@ -100,7 +100,7 @@ func debianInstallProfile(cfg *config.Main, prof string) error {
 	return libexec.Run("build/debian-install-profile", args...)
 }
 
-func SetUp(cfg *config.Main, m *manifest.Config) error {
+func SetUp(m *manifest.Config) error {
 	log.Print("Build %s setup.", m.Package)
 	m.SessionStart = time.Now()
 	if err := profile.Create(m); err != nil {
@@ -109,7 +109,7 @@ func SetUp(cfg *config.Main, m *manifest.Config) error {
 	return nil
 }
 
-func TearDown(cfg *config.Main, m *manifest.Config) []error {
+func TearDown(m *manifest.Config) []error {
 	log.Print("Build %s tear down.", m.Package)
 	errlist := make([]error, 0)
 	if err := profile.Remove(m); err != nil {

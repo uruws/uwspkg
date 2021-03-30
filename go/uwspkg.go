@@ -61,7 +61,7 @@ func (p *Package) Build() error {
 	}
 	// defer tear down
 	defer func() {
-		if errlist := build.TearDown(p.cfg, m); len(errlist) > 0 {
+		if errlist := build.TearDown(m); len(errlist) > 0 {
 			for _, err := range errlist {
 				log.Error("%v", err)
 			}
@@ -76,7 +76,7 @@ func (p *Package) Build() error {
 		}
 	}()
 	// setup build env
-	if err := build.SetUp(p.cfg, m); err != nil {
+	if err := build.SetUp(m); err != nil {
 		return err
 	}
 	// build source archive
