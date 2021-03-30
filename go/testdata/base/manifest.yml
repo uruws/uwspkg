@@ -1,3 +1,10 @@
 origin: testdata/base
 name: base
 version: "0"
+comment: test base
+licenses:
+  - BSD
+maintainer: test@uwspkg
+www: home.page
+categories:
+  - testing

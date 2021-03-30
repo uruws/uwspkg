@@ -8,6 +8,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"io/ioutil"
+	"path/filepath"
 	"sync"
 	"time"
 
@@ -18,14 +19,24 @@ import (
 )
 
 type Config struct {
+	// internal data
 	Package      string    `yaml:"-"`
 	Session      string    `yaml:"-"`
 	BuildSession string    `yaml:"-"`
 	SessionStart time.Time `yaml:"-"`
+	// pkg info
 	Origin       string    `yaml:"origin"`
 	Name         string    `yaml:"name"`
 	Version      string    `yaml:"version"`
 	Profile      string    `yaml:"profile"`
+	Prefix       string    `yaml:"prefix"`
+	Comment      string    `yaml:"comment"`
+	Description  string    `yaml:"desc"`
+	Licenses     []string  `yaml:"licenses"`
+	Maintainer   string    `yaml:"maintainer"`
+	WWW          string    `yaml:"www"`
+	Categories   []string  `yaml:"categories"`
+	// actions
 	Fetch        string    `yaml:"fetch"`
 	Build        string    `yaml:"build"`
 	Check        string    `yaml:"check"`
@@ -92,12 +103,28 @@ func (m *Manifest) Load(filename string) error {
 }
 
 func (m *Manifest) Parse(c *Config) error {
+	// pkg info
 	orig := c.Origin
 	if c.Name == "" {
 		return fmt.Errorf("%s: empty package name", orig)
 	}
 	if c.Version == "" {
 		return fmt.Errorf("%s: empty package version", orig)
+	}
+	if c.Comment == "" {
+		return fmt.Errorf("%s: empty package comment", orig)
+	}
+	if len(c.Licenses) == 0 {
+		return fmt.Errorf("%s: empty package licenses", orig)
+	}
+	if c.Maintainer == "" {
+		return fmt.Errorf("%s: empty package maintainer", orig)
+	}
+	if c.WWW == "" {
+		return fmt.Errorf("%s: empty package www", orig)
+	}
+	if len(c.Categories) == 0 {
+		return fmt.Errorf("%s: empty package categories", orig)
 	}
 	c.Package = fmt.Sprintf("%s-%s", c.Name, c.Version)
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
@@ -106,6 +133,13 @@ func (m *Manifest) Parse(c *Config) error {
 	if c.Profile == "" {
 		c.Profile = "build"
 	}
+	if c.Prefix == "" {
+		c.Prefix = filepath.FromSlash("/uws")
+	}
+	if c.Description == "" {
+		c.Description = c.Comment
+	}
+	// actions
 	if c.Fetch == "" {
 		c.Fetch = "fetch"
 	}
