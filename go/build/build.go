@@ -151,8 +151,12 @@ func Package(m *manifest.Config) error {
 		return err
 	}
 	// check
-	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
-	err = chroot.Run(m.Environ(), "internal/make-check", m.Check)
+	err = chroot.Run(m.Environ(), "internal/make", m.Check)
+	if err != nil {
+		return err
+	}
+	// install
+	err = chroot.Run(m.Environ(), "internal/make", m.Install)
 	if err != nil {
 		return err
 	}

@@ -102,16 +102,16 @@ func (m *Manifest) Parse(c *Config) error {
 		c.Profile = "build"
 	}
 	if c.Fetch == "" {
-		c.Fetch = "make fetch"
+		c.Fetch = "fetch"
 	}
 	if c.Build == "" {
-		c.Build = "make"
+		c.Build = "build"
 	}
 	if c.Check == "" {
-		c.Check = "make check"
+		c.Check = "check"
 	}
 	if c.Install == "" {
-		c.Install = "make install"
+		c.Install = "install"
 	}
 	return nil
 }

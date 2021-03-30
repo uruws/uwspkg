@@ -1,7 +1,0 @@
-#!/bin/sh
-set -eu
-check_cmd=${1:?'check cmd?'}
-builddir=$(cat /build/.builddir)
-. /uwspkg/libexec/internal/env.export
-${check_cmd} BUILDDIR=/build/${builddir}
-exit 0

@@ -4,6 +4,6 @@ fetch_cmd=${1:?'fetch command?'}
 . /uwspkg/libexec/internal/env.export
 pkgname=${UWSPKG_VERSION_NAME}
 builddir=$(mktemp -p /build -d ${pkgname}-XXXXXXXX)
-${fetch_cmd} BUILDDIR=${builddir}
+make ${fetch_cmd} BUILDDIR=${builddir}
 basename ${builddir} >/build/.builddir
 exit 0
