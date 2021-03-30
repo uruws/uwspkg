@@ -1,6 +1,8 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
+// +build !uwspkg_build_package
+
 package config
 
 import (
