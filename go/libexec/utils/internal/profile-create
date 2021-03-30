@@ -1,11 +1,11 @@
 #!/bin/sh
 set -eu
 
-prof=${1:?'profile name?'}
-sess=${2:?'session name?'}
-builddir=${3:?'build dir?'}
-pkgsrc_dir=${4:?'package source dir?'}
-pkgorig=${5:?'package origin?'}
+prof=${UWSPKG_PROFILE}
+sess=${UWSPKG_BUILD_SESSION}
+builddir=${UWSPKG_BUILDDIR}
+pkgsrc_dir=${UWSPKG_SRCDIR}
+pkgorig=${UWSPKG_ORIGIN}
 
 srcdir=/etc/schroot/uwspkg-${prof}
 dstdir=/etc/schroot/${sess}
@@ -32,5 +32,8 @@ echo "${builddir}/build/${sess} /build      none rw,bind 0 0" >>${prof_fstab}
 echo "[${sess}]" >${cfgdst}
 tail -n +2 ${cfgsrc} | grep -Ev '^profile=' >>${cfgdst}
 echo "profile=${sess}" >>${cfgdst}
+
+mkdir -m 0770 /build/${sess}
+chgrp uws /build/${sess}
 
 exit 0

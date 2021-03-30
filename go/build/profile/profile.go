@@ -12,7 +12,9 @@ import (
 
 func Create(m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
-	return libexec.RunEnv(m.Environ(), "build/profile-create")
+	chroot := libexec.NewChroot()
+	chroot.Name("internal-uwspkg")
+	return chroot.Run(m.Environ(), "/uwspkg/libexec/internal/profile-create")
 }
 
 func Remove(m *manifest.Config) error {
