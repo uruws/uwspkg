@@ -1,9 +1,0 @@
-#!/bin/sh
-set -eu
-sess=${1:?'session name?'}
-origin=${2:?'pkg origin?'}
-build_cmd=${3:?'build command?'}
-srcdir=/uwspkg/src/${origin}
-schroot_cmd="schroot -d ${srcdir} -c ${sess}"
-${schroot_cmd} -- /uwspkg/libexec/internal/make "${build_cmd}"
-exit 0

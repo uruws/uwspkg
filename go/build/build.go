@@ -140,7 +140,10 @@ func Package(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s.", m.Package)
 	log.Debug("%s build: %s", m.Package, m.Build)
-	err = libexec.Run("build/make", m.BuildSession, m.Origin, m.Build)
+	chroot := libexec.NewChroot()
+	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
+	chroot.Name(m.BuildSession)
+	err = chroot.Run(m.Environ(), "internal/make", m.Build)
 	if err != nil {
 		return err
 	}
