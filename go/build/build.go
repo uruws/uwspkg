@@ -121,6 +121,7 @@ func TearDown(m *manifest.Config) []error {
 func Source(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s source archive.", m.Package)
+	// fetch
 	chroot := libexec.NewChroot()
 	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
 	chroot.Name(m.BuildSession)
@@ -128,6 +129,7 @@ func Source(m *manifest.Config) error {
 	if err != nil {
 		return err
 	}
+	// archive
 	chroot.Dirname("/build")
 	err = chroot.Run(m.Environ(), "internal/source-archive")
 	if err != nil {
@@ -140,10 +142,17 @@ func Package(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s.", m.Package)
 	log.Debug("%s build: %s", m.Package, m.Build)
+	// build
 	chroot := libexec.NewChroot()
 	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
 	chroot.Name(m.BuildSession)
 	err = chroot.Run(m.Environ(), "internal/make", m.Build)
+	if err != nil {
+		return err
+	}
+	// check
+	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
+	err = chroot.Run(m.Environ(), "internal/make-check", m.Check)
 	if err != nil {
 		return err
 	}
