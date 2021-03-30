@@ -1,4 +1,5 @@
 DESTDIR ?=
+PREFIX ?= /uws
 BUILDDIR ?= ../../build/devel/uwspkg-build
 GOPATH := $(BUILDDIR)/_build/go
 GOCACHE := $(BUILDDIR)/_build/go-cache
@@ -25,4 +26,9 @@ build:
 
 .PHONY: check
 check:
+	@env | sort
 	@$(MAKE) -C $(BUILDDIR) test GOPATH=$(GOPATH) GOCACHE=$(GOCACHE)
+
+.PHONY: install
+install:
+	@$(MAKE) -C $(BUILDDIR) install-uwspkg-build DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)

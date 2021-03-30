@@ -1,3 +1,6 @@
+DESTDIR ?=
+PREFIX ?= /usr/local
+
 .PHONY: default
 default:
 
@@ -22,3 +25,9 @@ check:
 .PHONY: uwspkg-build
 uwspkg-build:
 	@go build -i -o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
+
+.PHONY: install-uwspkg-build
+install-uwspkg-build:
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/bin
+	@install -v -m 0755 ./_build/cmd/uwspkg-build $(DESTDIR)$(PREFIX)/bin/
