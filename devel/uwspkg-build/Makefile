@@ -22,3 +22,7 @@ fetch:
 build:
 	@$(MAKE) -C $(BUILDDIR) uwspkg-build GOPATH=$(GOPATH) GOCACHE=$(GOCACHE)
 	@echo "$(BUILDDIR)/_build/cmd/uwspkg-build created!"
+
+.PHONY: check
+check:
+	@$(MAKE) -C $(BUILDDIR) test GOPATH=$(GOPATH) GOCACHE=$(GOCACHE)
