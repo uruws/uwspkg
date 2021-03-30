@@ -29,11 +29,11 @@ const Version uint = 0
 type Main struct {
 	Libexec              string   `yaml:"-"`
 	BuildCfgDir          string   `yaml:"-"`
+	BuildEnvPath         string   `yaml:"-"`
 	Version              uint     `yaml:"version"`
 	PkgDir               string   `yaml:"pkgdir"`
 	Manifest             string   `yaml:"manifest"`
 	BuildDir             string   `yaml:"build.dir"`
-	BuildEnvPath         string   `yaml:"build.env.path"`
 	BuildProfile         []string `yaml:"build.profile"`
 	SchrootCfgDir        string   `yaml:"schroot.cfgdir"`
 	LibexecTimeout       string   `yaml:"libexec.timeout"`
@@ -52,6 +52,7 @@ func newMain() *Main {
 		Manifest: "manifest.yml",
 		Libexec: defaultConfig.Libexec,
 		BuildCfgDir: defaultConfig.BuildCfgDir,
+		BuildEnvPath: "/bin:/usr/bin:/usr/sbin",
 	}
 }
 
@@ -71,9 +72,6 @@ func (m *manager) Parse(c *Main) error {
 		if err != nil {
 			return err
 		}
-	}
-	if c.BuildEnvPath == "" {
-		c.BuildEnvPath = "/bin:/usr/bin:/usr/sbin"
 	}
 	if len(c.BuildProfile) == 0 {
 		c.BuildProfile = []string{"default"}
