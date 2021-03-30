@@ -1,1 +1,5 @@
 golang-go
+gcc
+g++
+libc-dev
+pkg-config
