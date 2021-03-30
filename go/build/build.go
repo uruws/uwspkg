@@ -5,6 +5,7 @@
 package build
 
 import (
+	"path"
 	"strings"
 	"time"
 
@@ -120,7 +121,10 @@ func TearDown(cfg *config.Main, m *manifest.Config) []error {
 func Source(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s source archive.", m.Package)
-	err = libexec.Run("build/make-fetch", m.BuildSession, m.Origin, m.Name, m.Fetch)
+	chroot := libexec.NewChroot()
+	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
+	chroot.Name(m.BuildSession)
+	err = chroot.Run(m.Environ(), "/uwspkg/libexec/internal/make-fetch", m.Fetch)
 	if err != nil {
 		return err
 	}
