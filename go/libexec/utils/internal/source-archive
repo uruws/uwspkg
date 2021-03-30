@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-pkgname=${1:?'pkg full name?'}
+pkgname=${UWSPKG_VERSION_NAME}
 builddir=$(cat .builddir)
 tar -C ${builddir} -czf ./${pkgname}.tgz ./
 exit 0

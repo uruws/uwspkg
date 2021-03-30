@@ -128,7 +128,8 @@ func Source(m *manifest.Config) error {
 	if err != nil {
 		return err
 	}
-	err = libexec.Run("build/source-archive", m.BuildSession, m.Package)
+	chroot.Dirname("/build")
+	err = chroot.Run(m.Environ(), "internal/source-archive")
 	if err != nil {
 		return err
 	}
