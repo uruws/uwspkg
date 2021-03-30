@@ -43,3 +43,11 @@ install-uwspkg-build:
 		install -d -m 0755 $(DESTDIR)/$${profd}; \
 		install -v -m 0644 ./$${profd}/* $(DESTDIR)/$${profd}/; \
 	done
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/libexec
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/libexec/uwspkg
+	@for libxd in `ls libexec/utils`; do \
+		install -d -m 0755 $(DESTDIR)$(PREFIX)/libexec/uwspkg/$${libxd}; \
+		install -v -m 0755 ./libexec/utils/$${libxd}/* \
+			$(DESTDIR)$(PREFIX)/libexec/uwspkg/$${libxd}/; \
+	done
+	@chmod 0644 $(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/env.export
