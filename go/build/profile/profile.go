@@ -17,5 +17,7 @@ func Create(m *manifest.Config) error {
 
 func Remove(m *manifest.Config) error {
 	log.Debug("%s remove %s %s", m.Session, m.Origin, m.Profile)
-	return libexec.RunEnv(m.Environ(), "build/profile-remove")
+	chroot := libexec.NewChroot()
+	chroot.Name("internal-uwspkg")
+	return chroot.Run(m.Environ(), "/uwspkg/libexec/internal/profile-remove")
 }

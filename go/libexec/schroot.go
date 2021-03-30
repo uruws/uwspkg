@@ -32,5 +32,18 @@ func (c *Chroot) Name(n string) {
 }
 
 func (c *Chroot) Run(env *Env, cmd string, args ...string) error {
-	return nil
+	runargs := make([]string, 0)
+	runargs = append(runargs, "-p")
+	runargs = append(runargs, "-d")
+	runargs = append(runargs, c.dir)
+	runargs = append(runargs, "-u")
+	runargs = append(runargs, c.user)
+	runargs = append(runargs, "-c")
+	runargs = append(runargs, c.name)
+	runargs = append(runargs, "--")
+	runargs = append(runargs, cmd)
+	for _, x := range args {
+		runargs = append(runargs, x)
+	}
+	return lib.Exec(env, c.cmd, runargs)
 }

@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-sess=${1:?'session name?'}
+sess=${UWSPKG_BUILD_SESSION}
 profdir=/etc/schroot/${sess}
 profcfg=/etc/schroot/chroot.d/${sess}.conf
 rm -rf ${profcfg} ${profdir} /build/${sess}
