@@ -1,9 +1,10 @@
 #!/bin/sh
 set -eu
 
-builddir=${1:?'build dir?'}
-cfgdir=${2:?'config dir?'}
-prof=${3:?'profile?'}
+prof=${1:?'profile?'}
+
+builddir=${UWSPKG_BUILDDIR}
+cfgdir=${UWSPKG_CONFIG_SRC}
 
 if test 'Xdefault' = "X${prof}"; then
 	exit 0
@@ -52,6 +53,10 @@ if test -s ${debpkg}; then
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
+fi
+
+if test 'Xtrue' = "X${intprof}"; then
+	echo "FIXME: uwspkg bootstrap inside internal chroot"
 fi
 
 exit 0

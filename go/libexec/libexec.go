@@ -140,6 +140,14 @@ func Configure(c *config.Main) error {
 	return nil
 }
 
+func EnvConfig(c *config.Main) *Env {
+	e := NewEnv()
+	for k, v := range c.GetEnviron() {
+		e.Set(k, v)
+	}
+	return e
+}
+
 func Run(cmdname string, args ...string) error {
 	return RunEnv(NewEnv(), cmdname, args...)
 }

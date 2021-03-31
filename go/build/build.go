@@ -92,12 +92,8 @@ func debianInstall(cfg *config.Main, dist string) error {
 
 func debianInstallProfile(cfg *config.Main, prof string) error {
 	log.Info("Debian install profile: %s.", prof)
-	args := []string{
-		0: cfg.BuildDir,
-		1: cfg.BuildCfgDir,
-		2: prof,
-	}
-	return libexec.Run("build/debian-install-profile", args...)
+	e := libexec.EnvConfig(cfg)
+	return libexec.RunEnv(e, "build/debian-install-profile", prof)
 }
 
 func SetUp(cfg *config.Main, m *manifest.Config) error {
