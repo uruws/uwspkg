@@ -40,6 +40,7 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	m := New("testdata/load")
 	err := m.Load(filepath.FromSlash("testdata/load/manifest.yml"))
 	c.Assert(err, IsNil)
+
 	c.Check(m.c.Origin, Equals, "testdata/load")
 	c.Check(m.c.Name, Equals, "load")
 	c.Check(m.c.Version, Equals, "0")
@@ -56,4 +57,16 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.Build, Equals, "build")
 	c.Check(m.c.Check, Equals, "check")
 	c.Check(m.c.Install, Equals, "install")
+
+	sm := `name: load
+origin: testdata/load
+comment: test load
+www: home.page
+maintainer: test@uwspkg
+prefix: /uws
+licenses: [BSD]
+categories: [testing]
+desc: test load
+`
+	c.Check(m.c.String(), Equals, sm)
 }

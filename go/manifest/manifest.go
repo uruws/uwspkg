@@ -61,6 +61,18 @@ func (c *Config) Environ() *libexec.Env {
 
 func (c *Config) String() string {
 	m := ""
+	madd := func(k, v interface{}) {
+		m = fmt.Sprintf("%s%s: %v\n", m, k, v)
+	}
+	madd("name", c.Name)
+	madd("origin", c.Origin)
+	madd("comment", c.Comment)
+	madd("www", c.WWW)
+	madd("maintainer", c.Maintainer)
+	madd("prefix", c.Prefix)
+	madd("licenses", c.Licenses)
+	madd("categories", c.Categories)
+	madd("desc", c.Description)
 	return m
 }
 
