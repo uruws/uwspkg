@@ -7,7 +7,6 @@ package main
 import (
 	"io/ioutil"
 	"os"
-	"os/exec"
 	"path"
 	"path/filepath"
 
@@ -67,8 +66,6 @@ func main() {
 	if err := writeManifest(m, buildDir); err != nil {
 		log.Fatal("%v", err)
 	}
-	// save generated files
-	saveSource(m)
 	log.Print("mkpkg end")
 }
 
@@ -76,26 +73,4 @@ func writeManifest(m *manifest.Config, buildDir string) error {
 	fn := filepath.Join(buildDir, "+MANIFEST")
 	log.Debug("%s write manifest: %s", m.Session, fn)
 	return ioutil.WriteFile(fn, []byte(m.String()), 0640)
-}
-
-func mv(src, dst string) {
-	log.Debug("mv %s %s", src, dst)
-	cmd := exec.Command("/usr/bin/mv", "-v", src, dst)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Fatal("mv %s %s: %v", src, dst, err)
-	}
-}
-
-func saveSource(m *manifest.Config) {
-	srcfn := filepath.Join("/build", m.BuildSession, m.Package+"-source.tgz")
-	dstfn := path.Join("/uwspkg/repo/src", path.Dir(m.Origin),
-		m.Package+"-source.tgz")
-	log.Debug("save source: %s -> %s", srcfn, dstfn)
-	dstd := path.Dir(dstfn)
-	if err := os.MkdirAll(dstd, 0750); err != nil {
-		log.Fatal("%v", err)
-	}
-	mv(srcfn, dstfn)
 }

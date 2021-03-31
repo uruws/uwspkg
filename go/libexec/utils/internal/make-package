@@ -3,9 +3,19 @@ set -eu
 . /uwspkg/libexec/internal/env.export
 sess=${UWSPKG_BUILD_SESSION}
 pkgname=${UWSPKG_VERSION_NAME}
+pkgorig=${UWSPKG_ORIGIN}
+
 export UWSPKG_DESTDIR=/build/$(cat /build/${sess}/.destdir)
 export UWSPKG_BUILDDIR=$(mktemp -d -p /build/${sess} ${pkgname}-package-XXXXXXXX)
+
 /uwspkg/libexec/internal/mkpkg
+
+pkg_section=$(dirname ${pkgorig})
+
+source_src=/build/${sess}/${pkgname}-source.tgz
+source_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-source.tgz
+install -v -m 0640 ${source_src} ${source_dst}
+
 exit 0
 
 #~ pkgname=${UWSPKG_VERSION_NAME}
