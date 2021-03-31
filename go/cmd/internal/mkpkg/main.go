@@ -62,8 +62,11 @@ func main() {
 	if m.Version != pkgver {
 		log.Fatal("invalid manifest version: %s", m.Version)
 	}
-	// write package +MANIFEST
+	// write package metadata
 	if err := writeManifest(m, buildDir); err != nil {
+		log.Fatal("%v", err)
+	}
+	if err := genPListFile(m, destDir, buildDir); err != nil {
 		log.Fatal("%v", err)
 	}
 	log.Print("mkpkg end")
@@ -73,4 +76,23 @@ func writeManifest(m *manifest.Config, buildDir string) error {
 	fn := filepath.Join(buildDir, "+MANIFEST")
 	log.Debug("%s write manifest: %s", m.Session, fn)
 	return ioutil.WriteFile(fn, []byte(m.String()), 0640)
+}
+
+func genPListFile(m *manifest.Config, installDir, buildDir string) error {
+	fn := filepath.Join(buildDir, "pkg-plist")
+	log.Debug("%s gen plist file: %s", m.Session, fn)
+	log.Debug("%s install dir: %s", m.Session, installDir)
+	plistFiles := func(p string, i os.FileInfo, e error) error {
+		if e != nil {
+			return e
+		}
+		if !i.IsDir() {
+			log.Debug("%s", p)
+		}
+		return nil
+	}
+	if err := filepath.Walk(installDir, plistFiles); err != nil {
+		return err
+	}
+	return nil
 }

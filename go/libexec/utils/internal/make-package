@@ -5,7 +5,7 @@ sess=${UWSPKG_BUILD_SESSION}
 pkgname=${UWSPKG_VERSION_NAME}
 pkgorig=${UWSPKG_ORIGIN}
 
-export UWSPKG_DESTDIR=/build/$(cat /build/${sess}/.destdir)
+export UWSPKG_DESTDIR=/build/${sess}/$(cat /build/${sess}/.destdir)
 export UWSPKG_BUILDDIR=$(mktemp -d -p /build/${sess} ${pkgname}-package-XXXXXXXX)
 
 /uwspkg/libexec/internal/mkpkg
