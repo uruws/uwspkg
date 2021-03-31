@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 
 	"uwspkg/log"
 	"uwspkg/manifest"
@@ -81,13 +82,29 @@ func writeManifest(m *manifest.Config, buildDir string) error {
 func genPListFile(m *manifest.Config, installDir, buildDir string) error {
 	fn := filepath.Join(buildDir, "pkg-plist")
 	log.Debug("%s gen plist file: %s", m.Session, fn)
+	fh, err := os.OpenFile(fn, os.O_WRONLY | os.O_CREATE, 0640)
+	if err != nil {
+		return err
+	}
+	defer fh.Close()
+	if err := write(fh, "@owner root"); err != nil {
+		return err
+	}
+	if err := write(fh, "@group root"); err != nil {
+		return err
+	}
+	if err := write(fh, "@mode"); err != nil {
+		return err
+	}
 	log.Debug("%s install dir: %s", m.Session, installDir)
 	plistFiles := func(p string, i os.FileInfo, e error) error {
 		if e != nil {
 			return e
 		}
 		if !i.IsDir() {
-			log.Debug("%s", p)
+			if err := write(fh, strings.Replace(p, installDir, "", 1)); err != nil {
+				return err
+			}
 		}
 		return nil
 	}
@@ -95,4 +112,9 @@ func genPListFile(m *manifest.Config, installDir, buildDir string) error {
 		return err
 	}
 	return nil
+}
+
+func write(fh *os.File, s string) error {
+	_, err := fh.WriteString(s+"\n")
+	return err
 }
