@@ -66,6 +66,7 @@ func (c *Config) String() string {
 	}
 	madd("name", c.Name)
 	madd("origin", c.Origin)
+	madd("version", c.Version)
 	madd("comment", c.Comment)
 	madd("www", c.WWW)
 	madd("maintainer", c.Maintainer)

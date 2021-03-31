@@ -60,6 +60,7 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 
 	sm := `name: load
 origin: testdata/load
+version: 0
 comment: test load
 www: home.page
 maintainer: test@uwspkg
