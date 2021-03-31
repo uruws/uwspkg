@@ -1,18 +1,42 @@
 #!/bin/sh
 set -eu
+
+# load env
+
 . /uwspkg/libexec/internal/env.export
+
 sess=${UWSPKG_BUILD_SESSION}
 pkgname=${UWSPKG_VERSION_NAME}
 pkgorig=${UWSPKG_ORIGIN}
+pkg_section=$(dirname ${pkgorig})
+
+# generate metadata files
 
 export UWSPKG_DESTDIR=/build/${sess}/$(cat /build/${sess}/.destdir)
 export UWSPKG_BUILDDIR=$(mktemp -d -p /build/${sess} ${pkgname}-package-XXXXXXXX)
 
 /uwspkg/libexec/internal/mkpkg
 
-pkg_section=$(dirname ${pkgorig})
+# save sources
 
 mkdir -vp /uwspkg/repo/src/${pkg_section}
+
+source_src=/build/${sess}/${pkgname}-source.tgz
+source_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-source.tgz
+install -v -m 0640 ${source_src} ${source_dst}
+
+# pkg create
+
+pkgdir=/uwspkg/repo/pkg/${pkg_section}
+mkdir -vp ${pkgdir}
+
+export PATH=/uws/sbin:${PATH}
+export LD_LIBRARY_PATH=/uws/lib
+
+cd ${UWSPKG_BUILDDIR}
+#~ pkg create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
+
+# save metadata
 
 metadir_src=${UWSPKG_BUILDDIR}
 metadir_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta
@@ -21,69 +45,6 @@ tar -C ${metadir_src} -czf ${meta_dst} ./
 rm -rf ${metadir_dst}
 mv -v ${metadir_src} ${metadir_dst}
 
-source_src=/build/${sess}/${pkgname}-source.tgz
-source_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-source.tgz
-install -v -m 0640 ${source_src} ${source_dst}
-
-#~ mkdir -vp /uwspkg/repo/pkg/${pkg_section}
+# save package
 
 exit 0
-
-#~ pkgname=${UWSPKG_VERSION_NAME}
-#~ pkgorig=${UWSPKG_ORIGIN}
-#~ sess=${UWSPKG_BUILD_SESSION}
-
-#~ builddir=/build/${sess}/$(cat /build/${sess}/.builddir)
-#~ install_dir=/build/${sess}/$(cat /build/${sess}/.destdir)
-#~ package_dir=$(mktemp -d /build/${sess}/${pkgname}-package-XXXXXXXX)
-
-#~ manifest_src=/build/${sess}/${pkgname}.manifest
-#~ manifest_dst=/${package_dir}/+MANIFEST
-
-#~ install -v -m 0644 ${manifest_src} ${manifest_dst}
-
-#~ plist_src=/build/${sess}/${pkgname}.plist
-#~ plist_dst=${package_dir}/pkg-plist
-
-#~ install -v -m 0644 ${plist_src} ${plist_dst}
-
-#~ cat ${manifest_dst}
-#~ cat ${plist_dst}
-
-#~ repo_src=/uwspkg/repo/src
-#~ repo_pkg=/uwspkg/repo/pkg
-#~ srcfn=${repo_src}/${pkgname}.tgz
-#~ pkgfn=${repo_pkg}/${pkgname}.txz
-
-#~ exit 0
-
-
-#~ manifest=${build}/+MANIFEST
-#~ cat ${files}/manifest >${manifest}
-#~ echo "version: ${UWSPKG_VERSION}" >>${manifest}
-
-#~ mkdir -vp /uws/var/db/pkg
-#~ echo '@dir /uws/var' >>${plist}
-#~ echo '@dir /uws/var/db' >>${plist}
-#~ echo '@dir /uws/var/db/pkg' >>${plist}
-
-#~ cd ${build}
-#~ cat ${manifest}
-#~ cat ${plist}
-
-#~ export PATH=/uws/sbin:${PATH}
-#~ export LD_LIBRARY_PATH=/uws/lib
-
-#~ pkg create -v -o /home/uws/build -m . -p pkg-plist -r /
-#~ fakeroot pkg register -d -m . -f pkg-plist
-
-#~ cd ${oldwd}
-#~ rm -vf /uws/var/db/pkg/local.sqlite
-
-#~ fakeroot tar -C / -czf ${dstfn} ./usr/local/bin/uwspkg ./uws
-#~ tar -tzf ${dstfn} | sort
-
-#~ cd /home/uws/build
-#~ sha256sum $(basename ${dstfn}) >${dstfn}.sha256sum
-
-#~ cat ${dstfn}.sha256sum
