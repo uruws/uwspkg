@@ -50,6 +50,11 @@ func NewEnv() *Env {
 	}
 	e.l = append(e.l, "SHELL=/bin/sh")
 	e.l = append(e.l, "PATH=/bin:/usr/bin:/usr/local/bin")
+	if loglvl := os.Getenv("UWSPKG_LOG"); loglvl == "" {
+		e.l = append(e.l, "UWSPKG_LOG=default")
+	} else {
+		e.l = append(e.l, fmt.Sprintf("UWSPKG_LOG=%s", loglvl))
+	}
 	return e
 }
 
