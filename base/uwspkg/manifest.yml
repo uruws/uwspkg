@@ -1,0 +1,11 @@
+origin: base/uwspkg
+name: uwspkg
+profile: clang
+version: 20210331
+comment: uws package manager
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - base
