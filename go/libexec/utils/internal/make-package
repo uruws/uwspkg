@@ -12,6 +12,12 @@ export UWSPKG_BUILDDIR=$(mktemp -d -p /build/${sess} ${pkgname}-package-XXXXXXXX
 
 pkg_section=$(dirname ${pkgorig})
 
+metadir_src=${UWSPKG_BUILDDIR}
+metadir_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta
+meta_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta.tgz
+tar -C ${metadir_src} -czf ${meta_dst} ./
+mv -v ${metadir_src} ${metadir_dst}
+
 source_src=/build/${sess}/${pkgname}-source.tgz
 source_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-source.tgz
 install -v -m 0640 ${source_src} ${source_dst}
