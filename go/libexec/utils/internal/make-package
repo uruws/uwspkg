@@ -34,7 +34,8 @@ export PATH=/uws/sbin:${PATH}
 export LD_LIBRARY_PATH=/uws/lib
 
 cd ${UWSPKG_BUILDDIR}
-#~ pkg create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
+pkg create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
+cd - >/dev/null
 
 # save metadata
 
