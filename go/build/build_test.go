@@ -48,7 +48,7 @@ func (s *TSuite) TestEnvSetUp(c *C) {
 	c.Assert(s.mockRunner.Commands, DeepEquals, map[uint]string{
 		0: "/uws/libexec/uwspkg/build/setup [7]",
 		1: "/uws/libexec/uwspkg/build/debian-install [6]",
-		2: "/uws/libexec/uwspkg/build/debian-install-profile [3]",
+		2: "/uws/libexec/uwspkg/build/debian-install-profile [1]",
 	})
 }
 
@@ -64,7 +64,7 @@ func (s *TSuite) TestEnvSetUpConfig(c *C) {
 		0: "/uws/libexec/uwspkg/build/setup [7]",
 		1: "/uws/libexec/uwspkg/build/setup-profile [4]",
 		2: "/uws/libexec/uwspkg/build/debian-install [6]",
-		3: "/uws/libexec/uwspkg/build/debian-install-profile [3]",
-		4: "/uws/libexec/uwspkg/build/debian-install-profile [3]",
+		3: "/uws/libexec/uwspkg/build/debian-install-profile [1]",
+		4: "/uws/libexec/uwspkg/build/debian-install-profile [1]",
 	})
 }
