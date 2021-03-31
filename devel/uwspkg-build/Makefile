@@ -2,7 +2,7 @@ DESTDIR ?=
 PREFIX ?= /uws
 BUILDDIR ?= ../../build/devel/uwspkg-build
 GOPATH := /cache/go
-GOCACHE := $(BUILDDIR)/_build/go-cache
+GOCACHE := /tmp/go-cache
 
 .PHONY: default
 default: build
