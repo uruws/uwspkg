@@ -7,6 +7,7 @@ package main
 import (
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path"
 	"path/filepath"
 
@@ -79,13 +80,11 @@ func writeManifest(m *manifest.Config, buildDir string) error {
 
 func mv(src, dst string) {
 	log.Debug("mv %s %s", src, dst)
-	blob, err := ioutil.ReadFile(src)
-	if err != nil {
-		log.Fatal("read %s: %v", src, err)
-	}
-	err = ioutil.WriteFile(dst, blob, 0640)
-	if err != nil {
-		log.Fatal("write %s: %v", dst, err)
+	cmd := exec.Command("/usr/bin/mv", "-v", src, dst)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		log.Fatal("mv %s %s: %v", src, dst, err)
 	}
 }
 
