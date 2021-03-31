@@ -1,5 +1,6 @@
 coreutils
 make
 ca-certificates
+wget
 rsync
 git
