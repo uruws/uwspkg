@@ -2,3 +2,4 @@ clang
 autoconf
 automake
 pkgconf
+libtool
