@@ -18,6 +18,11 @@ func main() {
 	log.Init("mkpkg")
 	log.Print("mkpkg init")
 	log.Debug("%v", os.Environ())
+	// load env
+	buildSess := os.Getenv("UWSPKG_BUILD_SESSION")
+	if buildSess == "" {
+		log.Fatal("UWSPKG_BUILD_SESSION not set")
+	}
 	buildDir := os.Getenv("UWSPKG_BUILDDIR")
 	if buildDir == "" {
 		log.Fatal("UWSPKG_BUILDDIR not set")
@@ -38,12 +43,16 @@ func main() {
 	if pkgver == "" {
 		log.Fatal("UWSPKG_VERSION not set")
 	}
+	// load manifest
 	mfn := path.Join("/uwspkg/src", pkgorig, "manifest.yml")
 	x := manifest.New(pkgorig)
 	if err := x.Load(mfn); err != nil {
 		log.Fatal("%v", err)
 	}
 	m := x.Config()
+	// build session settings
+	m.BuildSession = buildSess
+	// check laoded manifest
 	if m.Origin != pkgorig {
 		log.Fatal("invalid manifest origin: %s", m.Origin)
 	}
@@ -53,9 +62,12 @@ func main() {
 	if m.Version != pkgver {
 		log.Fatal("invalid manifest version: %s", m.Version)
 	}
+	// write package +MANIFEST
 	if err := writeManifest(m, buildDir); err != nil {
 		log.Fatal("%v", err)
 	}
+	// save generated files
+	saveSource(m)
 	log.Print("mkpkg end")
 }
 
@@ -63,4 +75,28 @@ func writeManifest(m *manifest.Config, buildDir string) error {
 	fn := filepath.Join(buildDir, "+MANIFEST")
 	log.Debug("%s write manifest: %s", m.Session, fn)
 	return ioutil.WriteFile(fn, []byte(m.String()), 0640)
+}
+
+func mv(src, dst string) {
+	log.Debug("mv %s %s", src, dst)
+	blob, err := ioutil.ReadFile(src)
+	if err != nil {
+		log.Fatal("read %s: %v", src, err)
+	}
+	err = ioutil.WriteFile(dst, blob, 0640)
+	if err != nil {
+		log.Fatal("write %s: %v", dst, err)
+	}
+}
+
+func saveSource(m *manifest.Config) {
+	srcfn := filepath.Join("/build", m.BuildSession, m.Package+"-source.tgz")
+	dstfn := path.Join("/uwspkg/repo/src", path.Dir(m.Origin),
+		m.Package+"-source.tgz")
+	log.Debug("save source: %s -> %s", srcfn, dstfn)
+	dstd := path.Dir(dstfn)
+	if err := os.MkdirAll(dstd, 0750); err != nil {
+		log.Fatal("%v", err)
+	}
+	mv(srcfn, dstfn)
 }
