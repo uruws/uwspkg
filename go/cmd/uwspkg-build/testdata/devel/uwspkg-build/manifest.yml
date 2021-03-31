@@ -1,6 +1,6 @@
 origin: devel/uwspkg-build
 name: uwspkg-build
-profile: default
+profile: golang
 version: 20210328
 comment: uwspkg builder
 licenses:

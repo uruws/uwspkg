@@ -28,6 +28,7 @@ build:
 .PHONY: check
 check:
 	@env | sort
+	@doas install -v -d -m 0755 /etc/schroot/uwspkg-golang
 	@$(MAKE) -C $(BUILDDIR) test GOPATH=$(GOPATH) GOCACHE=$(GOCACHE)
 
 .PHONY: install
