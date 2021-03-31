@@ -46,13 +46,13 @@ func (s *TSuite) TestBuildPackage(c *C) {
 	err = pkg.Build()
 	c.Assert(err, IsNil)
 	c.Assert(s.mockRunner.Commands, DeepEquals, map[uint]string{
-		0: "/uwspkg/libexec/internal/profile-create [2]",
-		1: "/uwspkg/libexec/internal/make-fetch [1]",
-		2: "/uwspkg/libexec/internal/source-archive [0]",
-		3: "/uwspkg/libexec/internal/make [1]",
-		4: "/uwspkg/libexec/internal/make [1]",
-		5: "/uwspkg/libexec/internal/make-install [1]",
-		6: "/uwspkg/libexec/internal/make-package [0]",
-		7: "/uwspkg/libexec/internal/profile-remove [0]",
+		0: "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/profile-create [2]",
+		1: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make-fetch [1]",
+		2: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/source-archive [0]",
+		3: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make [1]",
+		4: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make [1]",
+		5: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make-install [1]",
+		6: "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/make-package [0]",
+		7: "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/profile-remove [0]",
 	})
 }

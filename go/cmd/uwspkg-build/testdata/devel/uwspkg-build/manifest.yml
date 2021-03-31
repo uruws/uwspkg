@@ -1,0 +1,11 @@
+origin: devel/uwspkg-build
+name: uwspkg-build
+profile: default
+version: 20210328
+comment: uwspkg builder
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - devel

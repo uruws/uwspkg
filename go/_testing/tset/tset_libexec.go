@@ -36,6 +36,7 @@ func (r *LibexecMockRunner) Exec(env *libexec.Env, cmd string, args []string) er
 	r.Calls[r.next] = fmt.Sprintf("%s %s", cmd, strings.Join(args, " "))
 	alen := len(args)
 	if filepath.Base(cmd) == "schroot" {
+		cmd = "schroot"
 		aprev := ""
 		alen = 0
 		acount := false
@@ -44,8 +45,14 @@ func (r *LibexecMockRunner) Exec(env *libexec.Env, cmd string, args []string) er
 				alen += 1
 			}
 			if aprev == "--" {
-				cmd = a
+				cmd += " -- " + a
 				acount = true
+			} else if aprev == "-c" || aprev == "--chroot" {
+				if strings.HasPrefix(a, "uwspkg-build-") {
+					cmd += " -c uwspkg-build-ID"
+				} else {
+					cmd += " -c " + a
+				}
 			}
 			aprev = a
 		}
