@@ -22,6 +22,8 @@ fi
 
 schroot_cmd="schroot -c source:${profname} -d /root"
 
+# only create it if not exsits already
+
 if test -d ${dstroot}; then
 	exit 0
 fi
@@ -34,11 +36,42 @@ if ! test -s ${distrofn}; then
 	exit 1
 fi
 
+# sync base debian distro
+
 distro=$(cat ${distrofn})
 baseroot=${builddir}/chroot/debian/${distro}
 
 rsync -ax --delete-before ${baseroot}/ ${dstroot}/
 echo "${profname}" | tee ${dstroot}/etc/debian_chroot
+
+# install common build profile deps
+
+if test 'Xbuild' != "X${prof}" && test 'Xfalse' = "X${intprof}"; then
+	debpkg=${cfgdir}/uwspkg-build/debian.install
+	if test -s ${debpkg}; then
+		${schroot_cmd} -- apt-get update -yy
+		cat ${debpkg} | xargs ${schroot_cmd} -- \
+			apt-get install --no-install-recommends -yy --purge
+		${schroot_cmd} -- apt-get autoremove --purge -yy
+		${schroot_cmd} -- apt-get clean -yy
+		oldwd=${PWD}
+		cd ${dstroot}
+		rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
+			./var/cache/apt/*cache.bin
+		cd ${oldwd}
+	fi
+fi
+
+# common build profiles setup
+
+oldwd=${PWD}
+cd ${dstroot}
+if test -s ./etc/doas.conf; then
+	echo 'permit nopass keepenv setenv { PATH } :uws as root' >>./etc/doas.conf
+fi
+cd ${oldwd}
+
+# install profile deps
 
 debpkg=${profdir}/debian.install
 
@@ -54,6 +87,8 @@ if test -s ${debpkg}; then
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
 fi
+
+# bootstrap pkgng inside internal chroot only
 
 if test 'Xtrue' = "X${intprof}"; then
 	btsfn=${UWSPKG_BOOTSTRAP}
