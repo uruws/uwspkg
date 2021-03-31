@@ -7,6 +7,7 @@ pkgsrc_dir=${2:?'pkg source dir?'}
 prof=${UWSPKG_PROFILE}
 sess=${UWSPKG_BUILD_SESSION}
 pkgorig=${UWSPKG_ORIGIN}
+pkgvers=${UWSPKG_VERSION_NAME}
 
 srcdir=/etc/schroot/uwspkg-${prof}
 dstdir=/etc/schroot/${sess}
@@ -26,15 +27,21 @@ fi
 install -o root -g root -d -m 0750 ${dstdir}
 rsync -ax ${srcdir}/ ${dstdir}/
 
+cache_name="build/${pkgorig}/${pkgvers}"
+
 prof_fstab=${dstdir}/fstab
-echo "${pkgsrc_dir}/            /uwspkg/src none ro,bind 0 0" >>${prof_fstab}
-echo "${builddir}/build/${sess} /build      none rw,bind 0 0" >>${prof_fstab}
+echo "${pkgsrc_dir}/                  /uwspkg/src none ro,bind 0 0" >>${prof_fstab}
+echo "${builddir}/build/${sess}       /build      none rw,bind 0 0" >>${prof_fstab}
+echo "${builddir}/cache/${cache_name} /cache      none rw,bind 0 0" >>${prof_fstab}
+
+mkdir -m 0770 /build/${sess}
+chgrp uws /build/${sess}
+
+mkdir -p -m 0770 /cache/${cache_name}
+chgrp uws /cache/${cache_name}
 
 echo "[${sess}]" >${cfgdst}
 tail -n +2 ${cfgsrc} | grep -Ev '^profile=' >>${cfgdst}
 echo "profile=${sess}" >>${cfgdst}
-
-mkdir -m 0770 /build/${sess}
-chgrp uws /build/${sess}
 
 exit 0

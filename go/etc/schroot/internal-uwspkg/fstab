@@ -14,3 +14,4 @@ tmpfs           /dev/shm        tmpfs   defaults        0       0
 @CFGDIR@           /etc/schroot             none rw,bind 0 0
 @BUILDDIR@/repo    /uwspkg/repo             none rw,bind 0 0
 @BUILDDIR@/build   /build                   none rw,bind 0 0
+@BUILDDIR@/cache   /cache                   none rw,bind 0 0
