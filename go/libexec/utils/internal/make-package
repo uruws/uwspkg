@@ -1,6 +1,10 @@
 #!/bin/sh
 set -eu
 . /uwspkg/libexec/internal/env.export
+sess=${UWSPKG_BUILD_SESSION}
+pkgname=${UWSPKG_VERSION_NAME}
+export UWSPKG_DESTDIR=/build/$(cat /build/${sess}/.destdir)
+export UWSPKG_BUILDDIR=$(mktemp -d -p /build/${sess} ${pkgname}-package-XXXXXXXX)
 /uwspkg/libexec/internal/mkpkg
 exit 0
 

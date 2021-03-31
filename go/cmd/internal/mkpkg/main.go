@@ -5,7 +5,7 @@
 package main
 
 import (
-	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -18,17 +18,25 @@ func main() {
 	log.Init("mkpkg")
 	log.Print("mkpkg init")
 	log.Debug("%v", os.Environ())
+	buildDir := os.Getenv("UWSPKG_BUILDDIR")
+	if buildDir == "" {
+		log.Fatal("UWSPKG_BUILDDIR not set")
+	}
+	destDir := os.Getenv("UWSPKG_DESTDIR")
+	if destDir == "" {
+		log.Fatal("UWSPKG_DESTDIR not set")
+	}
 	pkgorig := os.Getenv("UWSPKG_ORIGIN")
 	if pkgorig == "" {
-		log.Error("UWSPKG_ORIGIN not set")
+		log.Fatal("UWSPKG_ORIGIN not set")
 	}
 	pkgname := os.Getenv("UWSPKG_NAME")
 	if pkgname == "" {
-		log.Error("UWSPKG_NAME not set")
+		log.Fatal("UWSPKG_NAME not set")
 	}
 	pkgver := os.Getenv("UWSPKG_VERSION")
 	if pkgver == "" {
-		log.Error("UWSPKG_VERSION not set")
+		log.Fatal("UWSPKG_VERSION not set")
 	}
 	mfn := path.Join("/uwspkg/src", pkgorig, "manifest.yml")
 	x := manifest.New(pkgorig)
@@ -45,30 +53,14 @@ func main() {
 	if m.Version != pkgver {
 		log.Fatal("invalid manifest version: %s", m.Version)
 	}
+	if err := writeManifest(m, buildDir); err != nil {
+		log.Fatal("%v", err)
+	}
 	log.Print("mkpkg end")
 }
 
-func writeManifest(m *manifest.Config) error {
-	fn := filepath.Join("/build", m.BuildSession, m.Package+".manifest")
+func writeManifest(m *manifest.Config, buildDir string) error {
+	fn := filepath.Join(buildDir, "+MANIFEST")
 	log.Debug("%s write manifest: %s", m.Session, fn)
-	if _, err := os.Stat(fn); err == nil {
-		return fmt.Errorf("%s: file already exists", fn)
-	} else {
-		if !os.IsNotExist(err) {
-			return err
-		}
-	}
-	fh, err := os.OpenFile(fn, os.O_WRONLY, 0640)
-	if err != nil {
-		return err
-	}
-	defer fh.Close()
-	if n, err := fh.WriteString(m.String()); err != nil {
-		return err
-	} else {
-		if n != len(m.String()) {
-			return fmt.Errorf("write manifest: wrong number of bytes")
-		}
-	}
-	return nil
+	return ioutil.WriteFile(fn, []byte(m.String()), 0640)
 }
