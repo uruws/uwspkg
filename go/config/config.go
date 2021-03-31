@@ -31,9 +31,9 @@ type Main struct {
 	BuildCfgDir          string   `yaml:"-"`
 	BuildEnvPath         string   `yaml:"-"`
 	SchrootCfgDir        string   `yaml:"-"`
+	Manifest             string   `yaml:"-"`
 	Version              uint     `yaml:"version"`
 	PkgDir               string   `yaml:"pkgdir"`
-	Manifest             string   `yaml:"manifest"`
 	BuildDir             string   `yaml:"build.dir"`
 	BuildProfile         []string `yaml:"build.profile"`
 	LibexecTimeout       string   `yaml:"libexec.timeout"`
