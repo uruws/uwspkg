@@ -19,6 +19,8 @@ fetch:
 
 .PHONY: build
 build:
+	@doas apt-get update -yy
+	@cat debian.install | xargs doas apt-get install --no-install-recommends -yy --purge
 	@$(MAKE) -C $(BUILDDIR) build
 
 .PHONY: check
