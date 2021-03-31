@@ -1,6 +1,2 @@
-libbsd-dev
-zlib1g-dev
-libarchive-dev
-libbz2-dev
-liblzma-dev
-libssl-dev
+libbsd0
+libarchive13
