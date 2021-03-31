@@ -67,3 +67,7 @@ fetch:
 				https://github.com/freebsd/pkg/archive/${PKG}.tar.gz
 	@cd $(CACHEDIR) && sha256sum -c $(PKG_CKSUM)
 	@tar -C $(BUILDDIR) -xzf $(CACHEDIR)/pkg-${PKG}.tgz
+
+.PHONY: build
+build:
+	@BUILDDIR=$(BUILDDIR) PKG=$(PKG) ./build.sh

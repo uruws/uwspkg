@@ -8,6 +8,7 @@ PKG_CKSUM := $(PWD)/pkg.checksum
 default: build
 
 SOURCES := ../../LICENSE ../../README.md ../../VERSION ../../Makefile
+SOURCES += ../../build.sh
 
 .PHONY: fetch
 fetch:
@@ -18,6 +19,7 @@ fetch:
 
 .PHONY: build
 build:
+	@$(MAKE) -C $(BUILDDIR) build
 
 .PHONY: check
 check:
