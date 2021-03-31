@@ -5,6 +5,7 @@ package tset
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 	"sync"
 
@@ -33,7 +34,23 @@ func (r *LibexecMockRunner) Exec(env *libexec.Env, cmd string, args []string) er
 	r.x.Lock()
 	defer r.x.Unlock()
 	r.Calls[r.next] = fmt.Sprintf("%s %s", cmd, strings.Join(args, " "))
-	r.Commands[r.next] = fmt.Sprintf("%s [%d]", cmd, len(args))
+	alen := len(args)
+	if filepath.Base(cmd) == "schroot" {
+		aprev := ""
+		alen = 0
+		acount := false
+		for _, a := range args {
+			if acount {
+				alen += 1
+			}
+			if aprev == "--" {
+				cmd = a
+				acount = true
+			}
+			aprev = a
+		}
+	}
+	r.Commands[r.next] = fmt.Sprintf("%s [%d]", cmd, alen)
 	r.next += 1
 	return r.WithError
 }
