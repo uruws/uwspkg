@@ -4,8 +4,21 @@
 // Package main implements mkpkg internal cmd.
 package main
 
+import (
+	"os"
+
+	"uwspkg/log"
+)
+
 func main() {
-	println("lalala")
+	log.Init("mkpkg")
+	log.Print("mkpkg init")
+	log.Debug("%v", os.Environ())
+	pkgorig := os.Getenv("UWSPKG_ORIGIN")
+	if pkgorig == "" {
+		log.Error("UWSPKG_ORIGIN not set")
+	}
+	log.Print("mkpkg end")
 }
 
 //~ func writeManifest(m *manifest.Config) error {
