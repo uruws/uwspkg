@@ -57,6 +57,11 @@ fi
 
 if test 'Xtrue' = "X${intprof}"; then
 	echo "FIXME: uwspkg bootstrap inside internal chroot"
+	btsfn=${UWSPKG_BOOTSTRAP}
+	oldwd=${PWD}
+	cd ${dstroot}
+	tar -v -xzf ${btsfn}
+	cd ${oldwd}
 fi
 
 exit 0

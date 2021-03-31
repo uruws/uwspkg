@@ -47,7 +47,6 @@ type Main struct {
 }
 
 func newMain() *Main {
-	bfn := fmt.Sprintf("uwspkg-bootstrap-%s.tgz", )
 	return &Main{
 		Version:       0,
 		PkgDir:        ".",
