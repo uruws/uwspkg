@@ -22,10 +22,28 @@ func main() {
 	if pkgorig == "" {
 		log.Error("UWSPKG_ORIGIN not set")
 	}
+	pkgname := os.Getenv("UWSPKG_NAME")
+	if pkgname == "" {
+		log.Error("UWSPKG_NAME not set")
+	}
+	pkgver := os.Getenv("UWSPKG_VERSION")
+	if pkgver == "" {
+		log.Error("UWSPKG_VERSION not set")
+	}
 	mfn := path.Join("/uwspkg/src", pkgorig, "manifest.yml")
-	m := manifest.New(pkgorig)
-	if err := m.Load(mfn); err != nil {
+	x := manifest.New(pkgorig)
+	if err := x.Load(mfn); err != nil {
 		log.Fatal("%v", err)
+	}
+	m := x.Config()
+	if m.Origin != pkgorig {
+		log.Fatal("invalid manifest origin: %s", m.Origin)
+	}
+	if m.Name != pkgname {
+		log.Fatal("invalid manifest name: %s", m.Name)
+	}
+	if m.Version != pkgver {
+		log.Fatal("invalid manifest version: %s", m.Version)
 	}
 	log.Print("mkpkg end")
 }
