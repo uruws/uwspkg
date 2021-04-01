@@ -1,22 +1,38 @@
 BUILDDIR ?= ./build
 CACHEDIR ?= ./build/cache
 PKG_CKSUM ?= $(PWD)/base/uwspkg/pkg.checksum
+SRV_UWSPKG ?= /srv/uwspkg
 
 PKG := 1.16.3
 
-.PHONY: default
-default: all
+.PHONY: all
+all: fetch build
 
 .PHONY: clean
 clean:
 	@rm -rvf ./build ./tmp
 
-.PHONY: all
-all: fetch build
+.PHONY: distclean
+distclean:
+	@rm -rvf /etc/schroot/internal-uwspkg /etc/schroot/bootstrap-uwspkg \
+		/etc/schroot/uwspkg-build-* /etc/schroot/uwspkg-* \
+		/etc/schroot/chroot.d/uwspkg*.conf /etc/schroot/chroot.d/*-uwspkg.conf
+
+.PHONY: bootstrap
+bootstrap:
+	@./devel/bootstrap.sh
 
 .PHONY: setup
 setup:
 	@./devel/setup.sh
+
+.PHONY: setup-clean
+setup-clean: distclean
+	@rm -rvf $(SRV_UWSPKG)/build/*
+
+.PHONY: setup-distclean
+setup-distclean: setup-clean
+	@rm -rvf $(SRV_UWSPKG)/cache/* $(SRV_UWSPKG)/chroot/*
 
 .PHONY: fetch
 fetch:
