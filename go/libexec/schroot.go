@@ -6,18 +6,18 @@ package libexec
 import "path"
 
 type Chroot struct {
+	name string
 	cmd  string
 	dir  string
 	user string
-	name string
 }
 
-func NewChroot() *Chroot {
+func NewChroot(name string) *Chroot {
 	return &Chroot{
+		name: name,
 		cmd:  "/usr/bin/schroot",
 		dir:  "/root",
 		user: "",
-		name: "uwspkg-default",
 	}
 }
 
@@ -27,10 +27,6 @@ func (c *Chroot) Dirname(d string) {
 
 func (c *Chroot) User(u string) {
 	c.user = u
-}
-
-func (c *Chroot) Name(n string) {
-	c.name = n
 }
 
 func (c *Chroot) Run(env *Env, cmd string, args ...string) error {

@@ -13,16 +13,14 @@ import (
 
 func Create(cfg *config.Main, m *manifest.Config) error {
 	log.Debug("%s create %s %s", m.Session, m.Origin, m.Profile)
-	chroot := libexec.NewChroot()
+	chroot := libexec.NewChroot("internal-uwspkg")
 	chroot.User("root")
-	chroot.Name("internal-uwspkg")
 	return chroot.Run(m.Environ(), "internal/profile-create", cfg.BuildDir, cfg.PkgDir)
 }
 
 func Remove(m *manifest.Config) error {
 	log.Debug("%s remove %s %s", m.Session, m.Origin, m.Profile)
-	chroot := libexec.NewChroot()
+	chroot := libexec.NewChroot("internal-uwspkg")
 	chroot.User("root")
-	chroot.Name("internal-uwspkg")
 	return chroot.Run(m.Environ(), "internal/profile-remove")
 }

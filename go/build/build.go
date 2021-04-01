@@ -118,9 +118,8 @@ func Source(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s source archive.", m.Package)
 	// fetch
-	chroot := libexec.NewChroot()
+	chroot := libexec.NewChroot(m.BuildSession)
 	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
-	chroot.Name(m.BuildSession)
 	err = chroot.Run(m.Environ(), "internal/make-fetch", m.Fetch)
 	if err != nil {
 		return err
@@ -139,9 +138,8 @@ func Package(m *manifest.Config) error {
 	log.Print("Build %s.", m.Package)
 	log.Debug("%s build: %s", m.Session, m.Package)
 	// build
-	chroot := libexec.NewChroot()
+	chroot := libexec.NewChroot(m.BuildSession)
 	chroot.Dirname(path.Join("/uwspkg/src", m.Origin))
-	chroot.Name(m.BuildSession)
 	err = chroot.Run(m.Environ(), "internal/make", m.Build)
 	if err != nil {
 		return err
@@ -161,8 +159,7 @@ func Package(m *manifest.Config) error {
 
 func buildPackage(m *manifest.Config) error {
 	log.Debug("%s build package: %s", m.Session, m.Package)
-	chroot := libexec.NewChroot()
+	chroot := libexec.NewChroot("internal-uwspkg")
 	chroot.Dirname("/build")
-	chroot.Name("internal-uwspkg")
 	return chroot.Run(m.Environ(), "internal/make-package")
 }
