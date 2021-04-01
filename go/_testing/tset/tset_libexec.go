@@ -41,18 +41,35 @@ func (r *LibexecMockRunner) Exec(env *libexec.Env, cmd string, args []string) er
 		alen = 0
 		acount := false
 		for _, a := range args {
+			add := false
 			if acount {
 				alen += 1
 			}
 			if aprev == "--" {
 				cmd += " -- " + a
 				acount = true
-			} else if aprev == "-c" || aprev == "--chroot" {
+			} else if aprev == "-n" {
+				cmd += " -n "
+				add = true
+			} else if aprev == "-c" {
+				cmd += " -c "
+				add = true
+			} else if aprev == "-u" && a == "root" {
+				cmd += " -u root"
+			}
+			if add {
 				if strings.HasPrefix(a, "uwspkg-build-") {
-					cmd += " -c uwspkg-build-ID"
+					cmd += "uwspkg-build-ID"
+				} else if strings.HasPrefix(a, "build-sess-") {
+					cmd += "build-sess-ID"
 				} else {
-					cmd += " -c " + a
+					cmd += a
 				}
+			}
+			if a == "-b" {
+				cmd += " -b"
+			} else if a == "-e" {
+				cmd += " -e"
 			}
 			aprev = a
 		}

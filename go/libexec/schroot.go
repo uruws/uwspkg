@@ -3,14 +3,18 @@
 
 package libexec
 
-import "path"
+import (
+	"path"
+
+	"uwspkg/log"
+)
 
 type Chroot struct {
 	name string
 	cmd  string
 	dir  string
 	user string
-	sess bool
+	sess string
 }
 
 func NewChroot(name string) *Chroot {
@@ -30,12 +34,44 @@ func (c *Chroot) User(u string) {
 	c.user = u
 }
 
-func (c *Chroot) SessionBegin() {
-	c.sess = true
+func (c *Chroot) SessionBegin(sess string) error {
+	env := NewEnv()
+	args := []string{
+		0: "-d",
+		1: c.dir,
+		2: "-u",
+		3: c.user,
+		4: "-c",
+		5: c.name,
+		6: "-n",
+		7: sess,
+		8: "-b",
+	}
+	if err := lib.Exec(env, c.cmd, args); err != nil {
+		return err
+	}
+	c.sess = sess
+	return nil
 }
 
 func (c *Chroot) SessionEnd() {
-	c.sess = false
+	if c.sess == "" {
+		return
+	}
+	env := NewEnv()
+	args := []string{
+		0: "-d",
+		1: c.dir,
+		2: "-u",
+		3: c.user,
+		4: "-c",
+		5: c.sess,
+		6: "-e",
+	}
+	if err := lib.Exec(env, c.cmd, args); err != nil {
+		log.Error("%v", err)
+	}
+	c.sess = ""
 }
 
 func (c *Chroot) Run(env *Env, cmd string, args ...string) error {
@@ -47,10 +83,10 @@ func (c *Chroot) Run(env *Env, cmd string, args ...string) error {
 		runargs = append(runargs, "-u")
 		runargs = append(runargs, c.user)
 	}
-	if c.sess {
+	if c.sess != "" {
 		runargs = append(runargs, "-r")
 		runargs = append(runargs, "-c")
-		runargs = append(runargs, c.name)
+		runargs = append(runargs, c.sess)
 	} else {
 		runargs = append(runargs, "-c")
 		runargs = append(runargs, c.name)

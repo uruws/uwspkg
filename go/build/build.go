@@ -137,9 +137,15 @@ func Package(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s.", m.Package)
 	log.Debug("%s build: %s", m.Session, m.Package)
-	// build
+	// chroot session
 	chroot := libexec.NewChroot(m.BuildSession)
 	chroot.Dir(path.Join("/uwspkg/src", m.Origin))
+	err = chroot.SessionBegin("build-sess-"+m.Session)
+	if err != nil {
+		return err
+	}
+	defer chroot.SessionEnd()
+	// build
 	err = chroot.Run(m.Environ(), "internal/make", m.Build)
 	if err != nil {
 		return err
@@ -154,6 +160,7 @@ func Package(m *manifest.Config) error {
 	if err != nil {
 		return err
 	}
+	chroot.SessionEnd()
 	return buildPackage(m)
 }
 
