@@ -56,6 +56,9 @@ func (r *LibexecMockRunner) Exec(env *libexec.Env, cmd string, args []string) er
 				add = true
 			} else if aprev == "-u" && a == "root" {
 				cmd += " -u root"
+			} else if strings.HasSuffix(aprev, "internal/make") {
+				cmd += " " + a
+				alen -= 1
 			}
 			if add {
 				if strings.HasPrefix(a, "uwspkg-build-") {

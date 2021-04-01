@@ -145,6 +145,11 @@ func Package(m *manifest.Config) error {
 		return err
 	}
 	defer chroot.SessionEnd()
+	// depends
+	err = chroot.Run(m.Environ(), "internal/make", m.Depends)
+	if err != nil {
+		return err
+	}
 	// build
 	err = chroot.Run(m.Environ(), "internal/make", m.Build)
 	if err != nil {

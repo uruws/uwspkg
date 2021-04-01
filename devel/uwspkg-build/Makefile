@@ -17,6 +17,9 @@ fetch:
 	@mkdir -p $(BUILDDIR)
 	@rsync -ax --delete-before --exclude-from=$(EXCFILE) $(SOURCE_EXCLUDE) \
 		$(SOURCES) $(BUILDDIR)/
+
+.PHONY: depends
+depends:
 	@cd $(BUILDDIR) && GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) go mod download -x
 
 .PHONY: build

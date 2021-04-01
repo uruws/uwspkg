@@ -54,6 +54,7 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.WWW, Equals, "home.page")
 	c.Check(m.c.Categories, DeepEquals, []string{"testing"})
 	c.Check(m.c.Fetch, Equals, "fetch")
+	c.Check(m.c.Depends, Equals, "depends")
 	c.Check(m.c.Build, Equals, "build")
 	c.Check(m.c.Check, Equals, "check")
 	c.Check(m.c.Install, Equals, "install")

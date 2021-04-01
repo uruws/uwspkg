@@ -17,10 +17,13 @@ fetch:
 	@$(MAKE) -C ../../ fetch BUILDDIR=$(BUILDDIR) CACHEDIR=$(CACHEDIR) \
 		PKG_CKSUM=$(PKG_CKSUM)
 
-.PHONY: build
-build:
+.PHONY: depends
+depends:
 	@doas apt-get update -yy
 	@cat debian-devel.install | xargs doas apt-get install --no-install-recommends -yy --purge
+
+.PHONY: build
+build:
 	@$(MAKE) -C $(BUILDDIR) build
 
 .PHONY: check

@@ -50,11 +50,12 @@ func (s *TSuite) TestBuildPackage(c *C) {
 		1: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make-fetch [1]",
 		2: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/source-archive [0]",
 		3: "schroot -c uwspkg-build-ID -n build-sess-ID -b [0]",
-		4: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make [1]",
-		5: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make [1]",
-		6: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make-install [1]",
-		7: "schroot -c build-sess-ID -e [0]",
-		8: "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/make-package [0]",
-		9: "schroot -u root -c internal-uwspkg -- /uwspkg/libexec/internal/profile-remove [0]",
+		4: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make depends [0]",
+		5: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make build [0]",
+		6: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make check [0]",
+		7: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make-install [1]",
+		8: "schroot -c build-sess-ID -e [0]",
+		9: "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/make-package [0]",
+		10: "schroot -u root -c internal-uwspkg -- /uwspkg/libexec/internal/profile-remove [0]",
 	})
 }

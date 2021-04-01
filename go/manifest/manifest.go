@@ -38,6 +38,7 @@ type Config struct {
 	Categories   []string  `yaml:"categories"`
 	// actions
 	Fetch        string    `yaml:"fetch"`
+	Depends      string    `yaml:"depends"`
 	Build        string    `yaml:"build"`
 	Check        string    `yaml:"check"`
 	Install      string    `yaml:"install"`
@@ -155,6 +156,9 @@ func (m *Manifest) Parse(c *Config) error {
 	// actions
 	if c.Fetch == "" {
 		c.Fetch = "fetch"
+	}
+	if c.Depends == "" {
+		c.Depends = "depends"
 	}
 	if c.Build == "" {
 		c.Build = "build"
