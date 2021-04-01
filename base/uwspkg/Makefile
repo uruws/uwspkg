@@ -14,6 +14,8 @@ SOURCES += ../../build.sh
 fetch:
 	@mkdir -p $(BUILDDIR)
 	@rsync -ax --delete-before $(SOURCES) $(BUILDDIR)/
+	@rsync -ax --delete-before ../../etc/pkg.conf $(BUILDDIR)/etc/
+	@rsync -ax --delete-before ../../bin/uwspkg $(BUILDDIR)/bin/
 	@$(MAKE) -C ../../ fetch BUILDDIR=$(BUILDDIR) CACHEDIR=$(CACHEDIR) \
 		PKG_CKSUM=$(PKG_CKSUM)
 
