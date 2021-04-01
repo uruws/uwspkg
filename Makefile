@@ -23,7 +23,7 @@ bootstrap:
 	@./devel/bootstrap.sh
 
 .PHONY: setup
-setup:
+setup: bootstrap
 	@./devel/setup.sh
 
 .PHONY: setup-clean
