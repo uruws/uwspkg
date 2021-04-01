@@ -5,7 +5,9 @@
 package build
 
 import (
+	"io/ioutil"
 	"path"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -15,6 +17,28 @@ import (
 	"uwspkg/log"
 	"uwspkg/manifest"
 )
+
+func Bootstrap(cfg *config.Main) error {
+	log.Info("Bootstrap FreeBSD pkg")
+	if err := buildSetup(cfg); err != nil {
+		return log.DebugError(err)
+	}
+	if err := setupProfile(cfg, "clang"); err != nil {
+		return log.DebugError(err)
+	}
+	distfn := filepath.Join(cfg.SchrootCfgDir, "uwspkg-clang", "debian.distro")
+	distro := ""
+	if blob, err := ioutil.ReadFile(distfn); err != nil {
+		return log.DebugError(err)
+	} else {
+		distro = strings.TrimSpace(string(blob))
+	}
+	log.Debug("bootstrap debian distro: %s", distro)
+	if err := debianInstall(cfg, distro); err != nil {
+		return log.DebugError(err)
+	}
+	return nil
+}
 
 func EnvSetUp(cfg *config.Main) error {
 	log.Info("Setup build environment.")

@@ -14,9 +14,17 @@ clean:
 
 .PHONY: distclean
 distclean:
-	@rm -rvf /etc/schroot/internal-uwspkg /etc/schroot/bootstrap-uwspkg \
+	@rm -rf /etc/schroot/internal-uwspkg /etc/schroot/bootstrap-uwspkg \
 		/etc/schroot/uwspkg-build-* /etc/schroot/uwspkg-* \
 		/etc/schroot/chroot.d/uwspkg*.conf /etc/schroot/chroot.d/*-uwspkg.conf
+
+.PHONY: setup-clean
+setup-clean: distclean
+	@rm -rf $(SRV_UWSPKG)/build/*
+
+.PHONY: setup-distclean
+setup-distclean: setup-clean
+	@rm -rf $(SRV_UWSPKG)/cache/* $(SRV_UWSPKG)/chroot/*
 
 .PHONY: bootstrap
 bootstrap:
@@ -25,14 +33,6 @@ bootstrap:
 .PHONY: setup
 setup: bootstrap
 	@./devel/setup.sh
-
-.PHONY: setup-clean
-setup-clean: distclean
-	@rm -rvf $(SRV_UWSPKG)/build/*
-
-.PHONY: setup-distclean
-setup-distclean: setup-clean
-	@rm -rvf $(SRV_UWSPKG)/cache/* $(SRV_UWSPKG)/chroot/*
 
 .PHONY: fetch
 fetch:

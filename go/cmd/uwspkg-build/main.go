@@ -21,8 +21,10 @@ func main() {
 	log.Init("uwspkg-build")
 	log.Debug("init")
 	var (
+		bootstrap  bool
 		buildSetup bool
 	)
+	flag.BoolVar(&bootstrap, "bootstrap", false, "bootstrap FreeBSD pkg")
 	flag.BoolVar(&buildSetup, "setup", false, "setup build environment")
 	flag.Parse()
 	var (
@@ -35,7 +37,9 @@ func main() {
 	if err = libexec.Configure(cfg); err != nil {
 		log.Fatal("%v", err)
 	}
-	if buildSetup {
+	if bootstrap {
+		err = build.Bootstrap(cfg)
+	} else if buildSetup {
 		err = build.EnvSetUp(cfg)
 	} else {
 		err = pkgBuild(cfg, flag.Arg(0))
