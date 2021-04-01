@@ -1,5 +1,0 @@
-#!/bin/sh
-set -eu
-cd /home/uws/build
-sha256sum -c uwspkg-bootstrap-${UWSPKG_VERSION}.tgz.sha256sum
-exit 0

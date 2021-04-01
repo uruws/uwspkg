@@ -1,9 +1,0 @@
-name: uwspkg
-origin: base/uwspkg
-comment: uws package manager
-www: https://github.com/uruws/uwspkg
-maintainer: pkg@uws.talkingpts.org
-prefix: /uws
-licenses: [BSD]
-desc: uws package manager
-categories: [base]

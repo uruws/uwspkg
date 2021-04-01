@@ -1,5 +1,0 @@
-#!/bin/sh
-set -eu
-cd /home/uws/build
-sudo tar -C / -xf uwspkg-bootstrap-${UWSPKG_VERSION}.tgz
-exit 0

@@ -1,5 +1,0 @@
-#!/bin/sh
-umask 0027
-export LD_LIBRARY_PATH=/uws/lib
-export PATH=/uws/sbin:/uws/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-exec /uws/sbin/pkg $@
