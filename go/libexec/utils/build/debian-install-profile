@@ -10,6 +10,8 @@ if test 'Xdefault' = "X${prof}"; then
 	exit 0
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+
 dstroot=${builddir}/chroot/${prof}
 
 intprof='false'

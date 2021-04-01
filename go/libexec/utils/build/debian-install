@@ -9,6 +9,7 @@ secrepo=${5:?'secrepo?'}
 distro=${6:?'distro?'}
 
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
+export DEBIAN_FRONTEND=noninteractive
 
 debinst="/usr/sbin/debootstrap --force-check-gpg --variant=${variant}"
 debinst="${debinst} --cache-dir=${builddir}/cache/debootstrap"

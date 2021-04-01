@@ -9,6 +9,8 @@ pkgdir=${4:?'packages dir?'}
 shift 4
 debpkgs="$@"
 
+export DEBIAN_FRONTEND=noninteractive
+
 for pkg in ${debpkgs}; do
 	dpkg -s ${pkg} >/dev/null 2>/dev/null || {
 		apt-get -q install -yy --no-install-recommends ${pkg}
