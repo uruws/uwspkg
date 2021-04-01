@@ -98,6 +98,7 @@ if test 'Xtrue' = "X${intprof}"; then
 	oldwd=${PWD}
 	cd ${dstroot}
 	tar -v -xzf ${btsfn}
+	${schroot_cmd} -- /uws/sbin/uwspkg-bootstrap
 	cd ${oldwd}
 fi
 
