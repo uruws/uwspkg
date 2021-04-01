@@ -28,10 +28,11 @@ setup-distclean: setup-clean
 
 .PHONY: bootstrap
 bootstrap:
+	@$(MAKE) -C go internal-mkpkg
 	@./devel/bootstrap.sh $(PKG)
 
 .PHONY: setup
-setup: bootstrap
+setup:
 	@./devel/setup.sh
 
 .PHONY: fetch

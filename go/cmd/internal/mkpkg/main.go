@@ -5,6 +5,7 @@
 package main
 
 import (
+	"flag"
 	"io/ioutil"
 	"os"
 	"path"
@@ -18,6 +19,44 @@ import (
 func main() {
 	log.Init("mkpkg")
 	log.Print("mkpkg init")
+	var (
+		genManifest string
+		genPlist    string
+		pkgOrig     string
+		buildDir    string
+		destDir     string
+	)
+	flag.StringVar(&genManifest, "manifest", "", "gen manifest")
+	flag.StringVar(&genPlist, "plist", "", "gen pkg-plist")
+	flag.StringVar(&pkgOrig, "pkg", "", "pkg origin")
+	flag.StringVar(&buildDir, "builddir", "", "dir where to save generated files")
+	flag.StringVar(&destDir, "destdir", "", "dir from where to generate plist files")
+	flag.Parse()
+	if genManifest != "" {
+		x := manifest.New(pkgOrig)
+		if err := x.Load(genManifest); err != nil {
+			log.Fatal("%v", err)
+		}
+		m := x.Config()
+		if err := writeManifest(m, buildDir); err != nil {
+			log.Fatal("%v", err)
+		}
+	} else if genPlist != "" {
+		x := manifest.New(pkgOrig)
+		if err := x.Load(genPlist); err != nil {
+			log.Fatal("%v", err)
+		}
+		m := x.Config()
+		if err := genPListFile(m, destDir, buildDir); err != nil {
+			log.Fatal("%v", err)
+		}
+	} else {
+		doMain()
+	}
+	log.Print("mkpkg end")
+}
+
+func doMain() {
 	log.Debug("%v", os.Environ())
 	// load env
 	buildSess := os.Getenv("UWSPKG_BUILD_SESSION")
@@ -70,7 +109,6 @@ func main() {
 	if err := genPListFile(m, destDir, buildDir); err != nil {
 		log.Fatal("%v", err)
 	}
-	log.Print("mkpkg end")
 }
 
 func writeManifest(m *manifest.Config, buildDir string) error {
