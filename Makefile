@@ -16,7 +16,7 @@ clean:
 distclean:
 	@rm -rf /etc/schroot/internal-uwspkg /etc/schroot/bootstrap-uwspkg \
 		/etc/schroot/uwspkg-build-* /etc/schroot/uwspkg-* \
-		/etc/schroot/chroot.d/uwspkg*.conf /etc/schroot/chroot.d/*-uwspkg.conf
+		/etc/schroot/chroot.d/uwspkg*.conf
 
 .PHONY: setup-clean
 setup-clean: distclean
@@ -28,7 +28,7 @@ setup-distclean: setup-clean
 
 .PHONY: bootstrap
 bootstrap:
-	@./devel/bootstrap.sh
+	@./devel/bootstrap.sh $(PKG)
 
 .PHONY: setup
 setup: bootstrap
@@ -41,6 +41,7 @@ fetch:
 			wget -O $(CACHEDIR)/pkg-$(PKG).tgz \
 				https://github.com/freebsd/pkg/archive/$(PKG).tar.gz
 	@cd $(CACHEDIR) && sha256sum -c $(PKG_CKSUM)
+	@rm -rf $(BUILDDIR)/pkg-$(PKG)
 	@tar -C $(BUILDDIR) -xzf $(CACHEDIR)/pkg-$(PKG).tgz
 
 .PHONY: build
