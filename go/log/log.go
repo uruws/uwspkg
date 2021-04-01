@@ -185,10 +185,8 @@ func Debug(format string, v ...interface{}) {
 	}
 }
 
-func Error(format string, v ...interface{}) error {
-	err := errors.New(fmt.Sprintf(format, v...))
+func Error(format string, v ...interface{}) {
 	l.Printf(logger.ERROR, format, v...)
-	return err
 }
 
 var osExit func(int) = os.Exit
@@ -208,4 +206,19 @@ func Info(format string, v ...interface{}) {
 	if info {
 		l.Printf(logger.INFO, format, v...)
 	}
+}
+
+func DebugError(err error) error {
+	if debug {
+		l.Printf(logger.DEBUG, "%v", err)
+	}
+	return err
+}
+
+func NewError(format string, v ...interface{}) error {
+	err := errors.New(fmt.Sprintf(format, v...))
+	if debug {
+		l.Printf(logger.DEBUG, "%v", err)
+	}
+	return err
 }
