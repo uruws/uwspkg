@@ -21,7 +21,7 @@ func NewChroot(name string) *Chroot {
 	}
 }
 
-func (c *Chroot) Dirname(d string) {
+func (c *Chroot) Dir(d string) {
 	c.dir = d
 }
 
