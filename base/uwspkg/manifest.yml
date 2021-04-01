@@ -1,7 +1,7 @@
 origin: base/uwspkg
 name: uwspkg
 profile: clang
-version: 20210331
+version: 20210401
 comment: uws package manager
 licenses:
   - BSD
