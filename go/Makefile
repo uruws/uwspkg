@@ -25,8 +25,8 @@ check:
 
 .PHONY: internal-mkpkg
 internal-mkpkg:
-	@install -m 0750 ./_build/cmd/internal/mkpkg ./libexec/utils/internal/
 	@go build $(BUILD_TAGS) -i -o ./_build/cmd/internal/mkpkg ./cmd/internal/mkpkg
+	@install -m 0750 ./_build/cmd/internal/mkpkg ./libexec/utils/internal/
 
 .PHONY: uwspkg-build
 uwspkg-build: internal-mkpkg
