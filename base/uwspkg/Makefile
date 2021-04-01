@@ -28,7 +28,5 @@ check:
 
 .PHONY: install
 install:
-	@doas apt-get update -yy
-	@cat debian-devel.install | xargs doas apt-get install --no-install-recommends -yy --purge
 	@install -v -d -m 0755 $(DESTDIR)$(PREFIX)/etc
 	@$(MAKE) -C $(BUILDDIR) install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
