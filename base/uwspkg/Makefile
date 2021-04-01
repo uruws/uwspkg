@@ -24,12 +24,11 @@ depends:
 
 .PHONY: build
 build:
-	@$(MAKE) -C $(BUILDDIR) build
+	@$(MAKE) -C $(BUILDDIR) build PREFIX=$(PREFIX)
 
 .PHONY: check
 check:
 
 .PHONY: install
 install:
-	@install -v -d -m 0755 $(DESTDIR)$(PREFIX)/etc
 	@$(MAKE) -C $(BUILDDIR) install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)

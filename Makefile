@@ -1,3 +1,5 @@
+DESTDIR ?=
+PREFIX ?= /uws
 BUILDDIR ?= ./build
 CACHEDIR ?= ./build/cache
 PKG_CKSUM ?= $(PWD)/base/uwspkg/pkg.checksum
@@ -47,8 +49,9 @@ fetch:
 
 .PHONY: build
 build:
-	@BUILDDIR=$(BUILDDIR) PKG=$(PKG) ./build.sh
+	@BUILDDIR=$(BUILDDIR) PKG=$(PKG) PREFIX=$(PREFIX) ./build.sh
 
 .PHONY: install
 install:
+	@install -v -d -m 0755 $(DESTDIR)$(PREFIX)/etc
 	@$(MAKE) -C $(BUILDDIR)/pkg-$(PKG) install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
