@@ -11,7 +11,7 @@ debpkgs="$@"
 
 for pkg in ${debpkgs}; do
 	dpkg -s ${pkg} >/dev/null 2>/dev/null || {
-		apt-get install -yy --no-install-recommends ${pkg}
+		apt-get -q install -yy --no-install-recommends ${pkg}
 	}
 done
 

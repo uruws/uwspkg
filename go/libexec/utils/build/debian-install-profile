@@ -49,11 +49,11 @@ echo "${profname}" | tee ${dstroot}/etc/debian_chroot
 if test 'Xbuild' != "X${prof}" && test 'Xfalse' = "X${intprof}"; then
 	debpkg=${cfgdir}/uwspkg-build/debian.install
 	if test -s ${debpkg}; then
-		${schroot_cmd} -- apt-get update -yy
+		${schroot_cmd} -- apt-get -q update -yy
 		cat ${debpkg} | xargs ${schroot_cmd} -- \
-			apt-get install --no-install-recommends -yy --purge
-		${schroot_cmd} -- apt-get autoremove --purge -yy
-		${schroot_cmd} -- apt-get clean -yy
+			apt-get -q install --no-install-recommends -yy --purge
+		${schroot_cmd} -- apt-get -q autoremove --purge -yy
+		${schroot_cmd} -- apt-get -q clean -yy
 		oldwd=${PWD}
 		cd ${dstroot}
 		rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
@@ -76,11 +76,11 @@ cd ${oldwd}
 debpkg=${profdir}/debian.install
 
 if test -s ${debpkg}; then
-	${schroot_cmd} -- apt-get update -yy
+	${schroot_cmd} -- apt-get -q update -yy
 	cat ${debpkg} | xargs ${schroot_cmd} -- \
-		apt-get install --no-install-recommends -yy --purge
-	${schroot_cmd} -- apt-get autoremove --purge -yy
-	${schroot_cmd} -- apt-get clean -yy
+		apt-get -q install --no-install-recommends -yy --purge
+	${schroot_cmd} -- apt-get -q autoremove --purge -yy
+	${schroot_cmd} -- apt-get -q clean -yy
 	oldwd=${PWD}
 	cd ${dstroot}
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \

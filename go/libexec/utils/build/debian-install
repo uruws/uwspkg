@@ -30,11 +30,11 @@ if ! test -d ${baseroot}; then
 	if test -s /${acng_conf}; then
 		install -v -m 0644 /${acng_conf} ./${acng_conf}
 	fi
-	${schroot_source} -- apt-get update -yy
+	${schroot_source} -- apt-get -q update -yy
 	cat ${default_debpkg} | xargs ${schroot_source} -- \
-		apt-get install -yy --no-install-recommends --purge
-	${schroot_source} -- apt-get autoremove -yy --purge
-	${schroot_source} -- apt-get clean -yy
+		apt-get -q install -yy --no-install-recommends --purge
+	${schroot_source} -- apt-get -q autoremove -yy --purge
+	${schroot_source} -- apt-get -q clean -yy
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
