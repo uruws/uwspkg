@@ -14,6 +14,10 @@ clean:
 .PHONY: all
 all: fetch build
 
+.PHONY: setup
+setup:
+	@./devel/setup.sh
+
 .PHONY: fetch
 fetch:
 	@mkdir -p $(BUILDDIR) $(CACHEDIR)
