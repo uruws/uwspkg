@@ -37,6 +37,9 @@ func Bootstrap(cfg *config.Main) error {
 	if err := debianInstall(cfg, distro); err != nil {
 		return log.DebugError(err)
 	}
+	if err := debianInstallProfile(cfg, "clang"); err != nil {
+		return log.DebugError(err)
+	}
 	return nil
 }
 
