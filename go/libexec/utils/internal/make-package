@@ -10,6 +10,11 @@ pkgname=${UWSPKG_VERSION_NAME}
 pkgorig=${UWSPKG_ORIGIN}
 pkg_section=$(dirname ${pkgorig})
 
+# pkgng env
+
+export DEVELOPER_MODE='true'
+export SYSLOG='false'
+
 # generate metadata files
 
 export UWSPKG_DESTDIR=/build/${sess}/$(cat /build/${sess}/.destdir)
@@ -24,10 +29,6 @@ mkdir -vp /uwspkg/repo/src/${pkg_section}
 source_src=/build/${sess}/${pkgname}-source.tgz
 source_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-source.tgz
 install -v -m 0640 ${source_src} ${source_dst}
-
-# pkgng env
-
-export DEVELOPER_MODE='true'
 
 # pkg create
 
