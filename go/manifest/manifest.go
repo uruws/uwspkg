@@ -172,6 +172,8 @@ func (m *Manifest) Parse(c *Config) error {
 	}
 	if c.Prefix == "" {
 		c.Prefix = filepath.FromSlash("/uws")
+	} else {
+		c.Prefix = filepath.FromSlash(c.Prefix)
 	}
 	if c.Description == "" {
 		c.Description = c.Comment
