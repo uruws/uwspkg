@@ -1,10 +1,14 @@
 #!/bin/sh
 set -eu
 
+# make uwspkg-build cmd
+
 cd ./go
 make uwspkg-build
 doas ./_build/cmd/uwspkg-build -bootstrap
 cd ../
+
+# configure bootstrap-uwspkg profile
 
 doas rm -rf /etc/schroot/bootstrap-uwspkg
 doas cp -va /etc/schroot/uwspkg-clang /etc/schroot/bootstrap-uwspkg
@@ -13,6 +17,8 @@ echo "${PWD}/go/libexec/utils/internal /uws/libexec/uwspkg none ro,bind 0 0" |
 	doas tee -a /etc/schroot/bootstrap-uwspkg/fstab
 echo "${PWD} /build none rw,bind 0 0" |
 	doas tee -a /etc/schroot/bootstrap-uwspkg/fstab
+
+# install bootstrap-uwspkg deps
 
 debpkg=$(cat ./base/uwspkg/debian-devel.install)
 debpkg="${debpkg} fakeroot"
