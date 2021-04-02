@@ -5,16 +5,15 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
 
 	"uwspkg/log"
 	"uwspkg/manifest"
+	"uwspkg/plist"
 )
 
 // runs from /uwspkg/libexec/internal/mkpkg inside internal-uwspkg chroot
@@ -50,7 +49,8 @@ func main() {
 			log.Fatal("%v", err)
 		}
 		m := x.Config()
-		if err := genPListFile(m, destDir, buildDir); err != nil {
+		p := plist.New(m)
+		if err := p.Gen(destDir, buildDir); err != nil {
 			log.Fatal("%v", err)
 		}
 	} else {
@@ -93,6 +93,7 @@ func doMain() {
 		log.Fatal("%v", err)
 	}
 	m := x.Config()
+	p := plist.New(m)
 	// build session settings
 	m.BuildSession = buildSess
 	// check laoded manifest
@@ -109,7 +110,7 @@ func doMain() {
 	if err := writeManifest(m, buildDir); err != nil {
 		log.Fatal("%v", err)
 	}
-	if err := genPListFile(m, destDir, buildDir); err != nil {
+	if err := p.Gen(destDir, buildDir); err != nil {
 		log.Fatal("%v", err)
 	}
 }
@@ -118,72 +119,4 @@ func writeManifest(m *manifest.Config, buildDir string) error {
 	fn := filepath.Join(buildDir, "+MANIFEST")
 	log.Debug("%s write manifest: %s", m.Session, fn)
 	return ioutil.WriteFile(fn, []byte(m.String()), 0640)
-}
-
-func genPListFile(m *manifest.Config, installDir, buildDir string) error {
-	fn := filepath.Join(buildDir, "pkg-plist")
-	log.Debug("%s gen plist file: %s", m.Session, fn)
-	fh, err := os.OpenFile(fn, os.O_WRONLY | os.O_CREATE, 0640)
-	if err != nil {
-		return err
-	}
-	defer fh.Close()
-
-	// init pkg-plist file
-	if err := write(fh, "@owner root"); err != nil {
-		return err
-	}
-	if err := write(fh, "@group root"); err != nil {
-		return err
-	}
-	if err := write(fh, "@mode"); err != nil {
-		return err
-	}
-
-	// add provided pkg-plist if found
-	srcfn := path.Join("/uwspkg/src", m.Origin, "pkg-plist")
-	log.Debug("%s pkg-plist file: %s", m.Session, srcfn)
-	if srcfh, err := os.Open(srcfn); err != nil {
-		if os.IsNotExist(err) {
-			log.Debug("%v", err)
-		} else {
-			return log.DebugError(err)
-		}
-	} else {
-		defer srcfh.Close()
-		x := bufio.NewScanner(srcfh)
-		for x.Scan() {
-			line := strings.TrimSpace(x.Text())
-			xerr := x.Err()
-			if xerr != nil {
-				return log.DebugError(xerr)
-			}
-			if err := write(fh, line); err != nil {
-				return log.DebugError(err)
-			}
-		}
-	}
-
-	// scan installation dir and add found files (only files, not dirs)
-	log.Debug("%s install dir: %s", m.Session, installDir)
-	plistFiles := func(p string, i os.FileInfo, e error) error {
-		if e != nil {
-			return e
-		}
-		if !i.IsDir() {
-			if err := write(fh, strings.Replace(p, installDir, "", 1)); err != nil {
-				return err
-			}
-		}
-		return nil
-	}
-	if err := filepath.Walk(installDir, plistFiles); err != nil {
-		return err
-	}
-	return nil
-}
-
-func write(fh *os.File, s string) error {
-	_, err := fh.WriteString(s+"\n")
-	return err
 }
