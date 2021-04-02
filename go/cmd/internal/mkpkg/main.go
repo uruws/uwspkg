@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"io/ioutil"
 	"os"
@@ -15,6 +16,8 @@ import (
 	"uwspkg/log"
 	"uwspkg/manifest"
 )
+
+// runs from /uwspkg/libexec/internal/mkpkg inside internal-uwspkg chroot
 
 func main() {
 	log.Init("mkpkg")
@@ -125,6 +128,8 @@ func genPListFile(m *manifest.Config, installDir, buildDir string) error {
 		return err
 	}
 	defer fh.Close()
+
+	// init pkg-plist file
 	if err := write(fh, "@owner root"); err != nil {
 		return err
 	}
@@ -134,6 +139,32 @@ func genPListFile(m *manifest.Config, installDir, buildDir string) error {
 	if err := write(fh, "@mode"); err != nil {
 		return err
 	}
+
+	// add provided pkg-plist if found
+	srcfn := path.Join("/uwspkg/src", m.Origin, "pkg-plist")
+	log.Debug("%s pkg-plist file: %s", m.Session, srcfn)
+	if srcfh, err := os.Open(srcfn); err != nil {
+		if os.IsNotExist(err) {
+			log.Debug("%v", err)
+		} else {
+			return log.DebugError(err)
+		}
+	} else {
+		defer srcfh.Close()
+		x := bufio.NewScanner(srcfh)
+		for x.Scan() {
+			line := strings.TrimSpace(x.Text())
+			xerr := x.Err()
+			if xerr != nil {
+				return log.DebugError(xerr)
+			}
+			if err := write(fh, line); err != nil {
+				return log.DebugError(err)
+			}
+		}
+	}
+
+	// scan installation dir and add found files (only files, not dirs)
 	log.Debug("%s install dir: %s", m.Session, installDir)
 	plistFiles := func(p string, i os.FileInfo, e error) error {
 		if e != nil {

@@ -162,7 +162,7 @@ func Source(m *manifest.Config) error {
 
 func Package(m *manifest.Config) error {
 	var err error
-	log.Print("Build %s.", m.Package)
+	log.Print("Build %s...", m.Package)
 	log.Debug("%s build: %s", m.Session, m.Package)
 	// chroot session
 	chroot := libexec.NewChroot(m.BuildSession)
