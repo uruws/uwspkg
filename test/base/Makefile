@@ -1,6 +1,8 @@
 DESTDIR ?=
 PREFIX ?= /uws
-BUILDDIR := ../../build/test/base
+
+PKGNAME := base
+BUILDDIR := ../../build/test/$(PKGNAME)
 
 .PHONY: default
 default: build
@@ -14,13 +16,13 @@ depends:
 .PHONY: build
 build:
 	@mkdir -vp $(BUILDDIR)/test
-	@echo 1 >$(BUILDDIR)/test/base.pkg
+	@echo 1 >$(BUILDDIR)/test/$(PKGNAME).pkg
 
 .PHONY: check
 check:
-	@stat $(BUILDDIR)/test/base.pkg
+	@stat $(BUILDDIR)/test/$(PKGNAME).pkg
 
 .PHONY: install
 install:
-	@install -d -v -m 0755 $(DESTDIR)$(PREFIX)/test
-	@install -v -m 0644 $(BUILDDIR)/test/base.pkg $(DESTDIR)$(PREFIX)/test/base.pkg
+	@install -d -v -m 0755 $(DESTDIR)$(PREFIX)/test/$(PKGNAME).dir
+	@install -v -m 0644 $(BUILDDIR)/test/$(PKGNAME).pkg $(DESTDIR)$(PREFIX)/test/$(PKGNAME).pkg

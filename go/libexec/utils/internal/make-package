@@ -19,6 +19,7 @@ export SYSLOG='false'
 
 export UWSPKG_DESTDIR=/build/${sess}/$(cat /build/${sess}/.destdir)
 export UWSPKG_BUILDDIR=$(mktemp -d -p /build/${sess} ${pkgname}-package-XXXXXXXX)
+export UWSPKG_BUILD_ABI=$(uwspkg config abi)
 
 /uwspkg/libexec/internal/mkpkg
 

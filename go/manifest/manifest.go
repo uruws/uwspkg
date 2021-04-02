@@ -39,6 +39,7 @@ type Config struct {
 	Maintainer   string    `yaml:"maintainer"`
 	WWW          string    `yaml:"www"`
 	Categories   []string  `yaml:"categories"`
+	ABI          string    `yaml:"abi"`
 	// internal pkg info
 	Timestamp    time.Time `yaml:"-"`
 	// actions
@@ -80,6 +81,9 @@ func (c *Config) String() string {
 	madd("comment", c.Comment)
 	madd("maintainer", c.Maintainer)
 	madd("www", c.WWW)
+	if c.ABI != "" {
+		madd("abi", c.ABI)
+	}
 	madd("prefix", c.Prefix)
 	if !c.Timestamp.IsZero() {
 		madd("timestamp", c.Timestamp.Unix())

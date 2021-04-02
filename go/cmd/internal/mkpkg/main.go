@@ -93,6 +93,10 @@ func doMain() {
 		log.Fatal("%v", err)
 	}
 	m := x.Config()
+	pkgabi := os.Getenv("UWSPKG_BUILD_ABI")
+	if m.ABI == "" && pkgabi != "" {
+		m.ABI = pkgabi
+	}
 	p := plist.New(m)
 	// build session settings
 	m.BuildSession = buildSess

@@ -1,7 +1,8 @@
 origin: test/base
-name: test_base
+name: test-base
 version: 0
 comment: uwspkg base test
+abi: '*'
 licenses:
   - BSD
 www: https://github.com/TalkingPts/Packaging
