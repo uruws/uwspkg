@@ -1,5 +1,5 @@
-@dir /uws/etc/pkg
-@dir /uws/etc/pkg/repos
-@dir /uws/src
-@dir /uws/var/db/pkg
-@dir /uws/var/cache/pkg
+@dir etc/pkg
+@dir etc/pkg/repos
+@dir src
+@dir var/db/pkg
+@dir var/cache/pkg

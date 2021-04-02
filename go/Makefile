@@ -1,6 +1,7 @@
 DESTDIR ?=
 PREFIX ?= /usr/local
 BUILD_TAGS ?=
+BUILD_ARGS ?=
 
 .PHONY: default
 default:
@@ -25,12 +26,14 @@ check:
 
 .PHONY: internal-mkpkg
 internal-mkpkg:
-	@go build $(BUILD_TAGS) -i -o ./_build/cmd/internal/mkpkg ./cmd/internal/mkpkg
+	@go build $(BUILD_TAGS) $(BUILD_ARGS) -i \
+		-o ./_build/cmd/internal/mkpkg ./cmd/internal/mkpkg
 	@install -m 0750 ./_build/cmd/internal/mkpkg ./libexec/utils/internal/
 
 .PHONY: uwspkg-build
 uwspkg-build: internal-mkpkg
-	@go build $(BUILD_TAGS) -i -o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
+	@go build $(BUILD_TAGS) $(BUILD_ARGS) -i \
+		-o ./_build/cmd/uwspkg-build ./cmd/uwspkg-build
 
 .PHONY: install-uwspkg-build
 install-uwspkg-build:

@@ -72,12 +72,17 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 
 	// scan installation dir and add found files (only files, not dirs)
 	log.Debug("%s install dir: %s", p.m.Session, installDir)
-	plistFiles := func(p string, i os.FileInfo, e error) error {
+	plistFiles := func(path string, i os.FileInfo, e error) error {
 		if e != nil {
 			return log.DebugError(e)
 		}
 		if !i.IsDir() {
-			if err := write(fh, strings.Replace(p, installDir, "", 1)); err != nil {
+			path = strings.Replace(path, installDir, "", 1)
+			if strings.HasPrefix(path, p.m.Prefix) {
+				path = strings.Replace(path, p.m.Prefix, "", 1)
+				path = strings.Replace(path, string(filepath.Separator), "", 1)
+			}
+			if err := write(fh, path); err != nil {
 				return log.DebugError(err)
 			}
 		}
