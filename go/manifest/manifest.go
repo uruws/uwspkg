@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"sync"
 	"time"
@@ -111,6 +112,12 @@ func (m *Manifest) Load(filename string) error {
 	log.Debug("load %s", filename)
 	m.x.Lock()
 	defer m.x.Unlock()
+	var tstamp time.Time
+	if st, err := os.Stat(filename); err != nil {
+		return log.DebugError(err)
+	} else {
+		tstamp = st.ModTime()
+	}
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Debug("%v", err)
@@ -126,6 +133,7 @@ func (m *Manifest) Load(filename string) error {
 		}
 	}
 	log.Debug("parse %s", filename)
+	m.c.Timestamp = tstamp
 	return m.Parse(m.c)
 }
 

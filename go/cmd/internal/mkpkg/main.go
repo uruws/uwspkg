@@ -12,7 +12,6 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"uwspkg/log"
 	"uwspkg/manifest"
@@ -118,7 +117,6 @@ func doMain() {
 func writeManifest(m *manifest.Config, buildDir string) error {
 	fn := filepath.Join(buildDir, "+MANIFEST")
 	log.Debug("%s write manifest: %s", m.Session, fn)
-	m.Timestamp = time.Now()
 	return ioutil.WriteFile(fn, []byte(m.String()), 0640)
 }
 
