@@ -63,14 +63,14 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 origin: "testdata/load"
 version: "0"
 comment: "test load"
-www: "home.page"
 maintainer: "test@uwspkg"
+www: "home.page"
 prefix: "/uws"
+timestamp: 1617122577
 licenselogic: "single"
 licenses: ["BSD"]
-categories: ["testing"]
 desc: "test load"
-timestamp: 1617122577
+categories: ["testing"]
 `
 	c.Check(m.c.String(), Equals, sm)
 }

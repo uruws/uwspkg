@@ -77,18 +77,18 @@ func (c *Config) String() string {
 	madd("origin", c.Origin)
 	madd("version", c.Version)
 	madd("comment", c.Comment)
-	madd("www", c.WWW)
 	madd("maintainer", c.Maintainer)
+	madd("www", c.WWW)
 	madd("prefix", c.Prefix)
+	if !c.Timestamp.IsZero() {
+		madd("timestamp", c.Timestamp.Unix())
+	}
 	if len(c.Licenses) == 1 {
 		madd("licenselogic", "single")
 	}
 	madd("licenses", c.Licenses)
-	madd("categories", c.Categories)
 	madd("desc", c.Description)
-	if !c.Timestamp.IsZero() {
-		madd("timestamp", c.Timestamp.Unix())
-	}
+	madd("categories", c.Categories)
 	return m
 }
 
