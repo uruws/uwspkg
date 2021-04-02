@@ -6,6 +6,7 @@ package manifest
 import (
 	"path/filepath"
 	"testing"
+	"time"
 
 	_ "uwspkg/_testing/setup"
 
@@ -59,6 +60,8 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.Check, Equals, "check")
 	c.Check(m.c.Install, Equals, "install")
 
+	m.c.Timestamp = time.Date(2021, 4, 2, 20, 6, 33, 48871, time.UTC)
+
 	sm := `name: "load"
 origin: "testdata/load"
 version: "0"
@@ -70,6 +73,7 @@ licenselogic: "single"
 licenses: ["BSD"]
 categories: ["testing"]
 desc: "test load"
+timestamp: 1617393993
 `
 	c.Check(m.c.String(), Equals, sm)
 }
