@@ -9,3 +9,7 @@ www: https://github.com/TalkingPts/Packaging
 maintainer: jeremias@talkingpts.org
 categories:
   - devel
+desc: |+
+  This is
+  a long description
+  in a multiline text.

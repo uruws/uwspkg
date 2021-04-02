@@ -59,17 +59,17 @@ func (s *TSuite) TestDefaultConfig(c *C) {
 	c.Check(m.c.Check, Equals, "check")
 	c.Check(m.c.Install, Equals, "install")
 
-	sm := `name: load
-origin: testdata/load
-version: 0
-comment: test load
-www: home.page
-maintainer: test@uwspkg
-prefix: /uws
-licenselogic: single
-licenses: [BSD]
-categories: [testing]
-desc: test load
+	sm := `name: "load"
+origin: "testdata/load"
+version: "0"
+comment: "test load"
+www: "home.page"
+maintainer: "test@uwspkg"
+prefix: "/uws"
+licenselogic: "single"
+licenses: ["BSD"]
+categories: ["testing"]
+desc: "test load"
 `
 	c.Check(m.c.String(), Equals, sm)
 }

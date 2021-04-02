@@ -6,6 +6,7 @@ package manifest
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -65,7 +66,11 @@ func (c *Config) Environ() *libexec.Env {
 func (c *Config) String() string {
 	m := ""
 	madd := func(k, v interface{}) {
-		m = fmt.Sprintf("%s%s: %v\n", m, k, v)
+		blob, err := json.Marshal(v)
+		if err != nil {
+			log.Panic("manifest string encode: %v", err)
+		}
+		m = fmt.Sprintf("%s%s: %s\n", m, k, blob)
 	}
 	madd("name", c.Name)
 	madd("origin", c.Origin)
