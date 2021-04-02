@@ -30,11 +30,8 @@ install -v -m 0640 ${source_src} ${source_dst}
 pkgdir=/uwspkg/repo/pkg/${pkg_section}
 mkdir -vp ${pkgdir}
 
-export PATH=/uws/sbin:${PATH}
-export LD_LIBRARY_PATH=/uws/lib
-
 cd ${UWSPKG_BUILDDIR}
-pkg create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
+uwspkg create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
 cd - >/dev/null
 
 # save metadata
