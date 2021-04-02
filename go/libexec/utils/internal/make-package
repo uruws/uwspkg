@@ -25,6 +25,10 @@ source_src=/build/${sess}/${pkgname}-source.tgz
 source_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-source.tgz
 install -v -m 0640 ${source_src} ${source_dst}
 
+# pkgng env
+
+export DEVELOPER_MODE='true'
+
 # pkg create
 
 pkgdir=/uwspkg/repo/pkg/${pkg_section}
