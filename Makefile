@@ -55,9 +55,9 @@ build:
 
 .PHONY: install
 install:
-	@install -v -d -m 0755 $(DESTDIR)$(PREFIX)/etc $(DESTDIR)$(PREFIX)/usr/local/bin
+	@install -v -d -m 0755 $(DESTDIR)$(PREFIX)/etc $(DESTDIR)/usr/local/bin
 	@install -v -m 0644 ./etc/pkg.conf $(DESTDIR)$(PREFIX)/etc/
-	@install -v -m 0755 ./bin/uwspkg $(DESTDIR)$(PREFIX)/usr/local/bin/
+	@install -v -m 0755 ./bin/uwspkg $(DESTDIR)/usr/local/bin/
 	@$(MAKE) -C $(BUILDDIR)/pkg-$(PKG) install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
 
 .PHONY: uwspkg
