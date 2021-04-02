@@ -38,7 +38,13 @@ cd - >/dev/null
 
 metadir_src=${UWSPKG_BUILDDIR}
 metadir_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta
+
 meta_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta.tgz
+pkgdist=${metadir_src}/manifest.dist
+pkgfn=${pkgdir}/${pkgname}.txz
+
+uwspkg info -R --file ${pkgfn} >${pkgdist}
+
 tar -C ${metadir_src} -czf ${meta_dst} ./
 rm -rf ${metadir_dst}
 mv -v ${metadir_src} ${metadir_dst}
