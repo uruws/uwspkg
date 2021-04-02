@@ -15,6 +15,7 @@ echo "${PWD} /build none rw,bind 0 0" |
 	doas tee -a /etc/schroot/bootstrap-uwspkg/fstab
 
 debpkg=$(cat ./base/uwspkg/debian-devel.install)
+debpkg="${debpkg} fakeroot"
 
 sess=$(schroot -c bootstrap-uwspkg -b)
 
