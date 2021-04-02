@@ -53,14 +53,13 @@ func newMain() *Main {
 		Manifest:      "manifest.yml",
 		BuildEnvPath:  "/bin:/usr/bin:/usr/sbin",
 		SchrootCfgDir: filepath.FromSlash("/etc/schroot"),
-		PkgBootstrap:  "20210324",
 		Libexec:       defaultConfig.Libexec,
 		BuildCfgDir:   defaultConfig.BuildCfgDir,
+		PkgBootstrap:  defaultConfig.PkgBootstrap,
 	}
 }
 
 func (c *Main) GetEnviron() map[string]string {
-	bfn := fmt.Sprintf("uwspkg-bootstrap-%s.tgz", c.PkgBootstrap)
 	return map[string]string{
 		"UWSPKG_LIBEXEC": c.Libexec,
 		"UWSPKG_CONFIG_VERSION": fmt.Sprintf("%d", c.Version),
@@ -69,7 +68,7 @@ func (c *Main) GetEnviron() map[string]string {
 		"UWSPKG_MANIFEST": c.Manifest,
 		"UWSPKG_SOURCE": c.PkgDir,
 		"UWSPKG_BUILDDIR": c.BuildDir,
-		"UWSPKG_BOOTSTRAP": filepath.Join(c.PkgDir, "build", bfn),
+		"UWSPKG_BOOTSTRAP": c.PkgBootstrap,
 	}
 }
 

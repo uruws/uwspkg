@@ -7,8 +7,11 @@ SRV_UWSPKG ?= /srv/uwspkg
 
 PKG := 1.16.3
 
+.PHONY: default
+default: fetch build
+
 .PHONY: all
-all: fetch build
+all: uwspkg uwspkg-build
 
 .PHONY: clean
 clean:
@@ -30,8 +33,7 @@ setup-distclean: setup-clean
 
 .PHONY: bootstrap
 bootstrap:
-	@$(MAKE) -C go internal-mkpkg
-	@./devel/bootstrap.sh $(PKG)
+	@./devel/bootstrap.sh
 
 .PHONY: setup
 setup:
@@ -57,3 +59,13 @@ install:
 	@install -v -m 0644 ./etc/pkg.conf $(DESTDIR)$(PREFIX)/etc/
 	@install -v -m 0755 ./bin/uwspkg $(DESTDIR)$(PREFIX)/usr/local/bin/
 	@$(MAKE) -C $(BUILDDIR)/pkg-$(PKG) install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
+
+.PHONY: uwspkg
+uwspkg:
+	@$(MAKE) -C ./go uwspkg-build
+	@cd ./go && ./_build/cmd/uwspkg-build base/uwspkg
+
+.PHONY: uwspkg-build
+uwspkg-build:
+	@$(MAKE) -C ./go uwspkg-build
+	@cd ./go && ./_build/cmd/uwspkg-build devel/uwspkg-build

@@ -20,4 +20,9 @@ func init() {
 	} else {
 		defaultConfig.BuildCfgDir = cfgd
 	}
+	if bstfn, err := fp.Abs(fp.FromSlash("../build/uwspkg-bootstrap.tgz")); err != nil {
+		panic(err)
+	} else {
+		defaultConfig.PkgBootstrap = bstfn
+	}
 }

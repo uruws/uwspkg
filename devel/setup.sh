@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
-version=`echo -n $(cat ./VERSION)`
-bootstrap_tgz=${PWD}/build/uwspkg-bootstrap-${version}.tgz
+bootstrap_tgz=${PWD}/build/uwspkg-bootstrap.tgz
 test -s ${bootstrap_tgz} || {
 	echo "${bootstrap_tgz}: file not found" >&2
 	exit 1
