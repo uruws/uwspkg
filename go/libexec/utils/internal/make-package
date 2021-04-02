@@ -40,15 +40,23 @@ metadir_src=${UWSPKG_BUILDDIR}
 metadir_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta
 
 meta_dst=/uwspkg/repo/src/${pkg_section}/${pkgname}-meta.tgz
-pkgdist=${metadir_src}/manifest.dist
+pkg_mdist=${metadir_src}/manifest.dist
 pkgfn=${pkgdir}/${pkgname}.txz
 
-uwspkg info -R --file ${pkgfn} >${pkgdist}
+uwspkg info -R --file ${pkgfn} >${pkg_mdist}
 
 tar -C ${metadir_src} -czf ${meta_dst} ./
 rm -rf ${metadir_dst}
 mv -v ${metadir_src} ${metadir_dst}
 
 # save package
+
+oldwd=${PWD}
+cd /uwspkg/repo
+sha256sum src/${pkg_section}/${pkgname}-source.tgz \
+	src/${pkg_section}/${pkgname}-meta.tgz \
+	pkg/${pkg_section}/${pkgname}.txz >dist/${pkgname}.dist
+	sha256sum -c dist/${pkgname}.dist
+cd ${oldwd}
 
 exit 0

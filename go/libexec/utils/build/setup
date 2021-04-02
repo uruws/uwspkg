@@ -33,7 +33,7 @@ install -v -o root -g root -d -m 0750 ${builddir}/cache/debootstrap
 install -v -o root -g root -d -m 0750 ${builddir}/union/overlay ${builddir}/union/underlay
 
 install -v -o root -g uws -d -m 0770 ${builddir}/build
-install -v -o root -g uws -d -m 0770 ${builddir}/repo/src ${builddir}/repo/pkg
+install -v -o root -g uws -d -m 0770 ${builddir}/repo/src ${builddir}/repo/pkg ${builddir}/repo/dist
 
 # main schroot conf
 
