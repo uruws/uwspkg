@@ -66,6 +66,7 @@ comment: test load
 www: home.page
 maintainer: test@uwspkg
 prefix: /uws
+licenselogic: single
 licenses: [BSD]
 categories: [testing]
 desc: test load

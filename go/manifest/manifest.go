@@ -74,6 +74,9 @@ func (c *Config) String() string {
 	madd("www", c.WWW)
 	madd("maintainer", c.Maintainer)
 	madd("prefix", c.Prefix)
+	if len(c.Licenses) == 1 {
+		madd("licenselogic", "single")
+	}
 	madd("licenses", c.Licenses)
 	madd("categories", c.Categories)
 	madd("desc", c.Description)
