@@ -36,6 +36,8 @@ type Config struct {
 	Maintainer   string    `yaml:"maintainer"`
 	WWW          string    `yaml:"www"`
 	Categories   []string  `yaml:"categories"`
+	// internal pkg info
+	Timestamp    time.Time `yaml:"-"`
 	// actions
 	Fetch        string    `yaml:"fetch"`
 	Depends      string    `yaml:"depends"`
@@ -75,6 +77,9 @@ func (c *Config) String() string {
 	madd("licenses", c.Licenses)
 	madd("categories", c.Categories)
 	madd("desc", c.Description)
+	if !c.Timestamp.IsZero() {
+		madd("timestamp", c.Timestamp.Unix())
+	}
 	return m
 }
 
