@@ -1,0 +1,14 @@
+origin: test/base
+name: test_base
+version: 0
+comment: uwspkg base test
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - test
+desc: |+
+  This is
+  a long description
+  in a multiline text.
