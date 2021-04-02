@@ -6,7 +6,6 @@ package build
 
 import (
 	"io/ioutil"
-	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -144,9 +143,10 @@ func TearDown(m *manifest.Config) []error {
 func Source(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s source archive.", m.Package)
+	srcdir := filepath.FromSlash("/uwspkg/src")
 	// fetch
 	chroot := libexec.NewChroot(m.BuildSession)
-	chroot.Dir(path.Join("/uwspkg/src", m.Origin))
+	chroot.Dir(filepath.Join(srcdir, m.OriginPath))
 	err = chroot.Run(m.Environ(), "internal/make-fetch", m.Fetch)
 	if err != nil {
 		return err
@@ -164,9 +164,10 @@ func Package(m *manifest.Config) error {
 	var err error
 	log.Print("Build %s...", m.Package)
 	log.Debug("%s build: %s", m.Session, m.Package)
+	srcdir := filepath.FromSlash("/uwspkg/src")
 	// chroot session
 	chroot := libexec.NewChroot(m.BuildSession)
-	chroot.Dir(path.Join("/uwspkg/src", m.Origin))
+	chroot.Dir(filepath.Join(srcdir, m.OriginPath))
 	err = chroot.SessionBegin("build-sess-"+m.Session)
 	if err != nil {
 		return err

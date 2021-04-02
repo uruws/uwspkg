@@ -26,6 +26,7 @@ type Config struct {
 	Session      string    `yaml:"-"`
 	BuildSession string    `yaml:"-"`
 	SessionStart time.Time `yaml:"-"`
+	OriginPath   string    `yaml:"-"`
 	// pkg info
 	Origin       string    `yaml:"origin"`
 	Name         string    `yaml:"name"`
@@ -161,6 +162,7 @@ func (m *Manifest) Parse(c *Config) error {
 	if len(c.Categories) == 0 {
 		return fmt.Errorf("%s: empty package categories", orig)
 	}
+	c.OriginPath = filepath.FromSlash(c.Origin)
 	c.Package = fmt.Sprintf("%s-%s", c.Name, c.Version)
 	sess := fmt.Sprintf("%s:%s:%s", time.Now(), orig, c.Profile)
 	c.Session = fmt.Sprintf("%x", sha256.Sum256([]byte(sess)))
