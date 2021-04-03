@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"path/filepath"
 
 	"uwspkg"
 	"uwspkg/build"
@@ -31,6 +32,17 @@ func main() {
 		cfg *config.Main
 		err error
 	)
+	usercfg := ""
+	if h, err := os.UserHomeDir(); err != nil {
+		// just debug it
+		log.DebugError(err)
+	} else {
+		usercfg = filepath.Join(h, ".config", "uwspkg.yml")
+	}
+	if usercfg != "" {
+		i := len(config.Files)
+		config.Files[i] = usercfg
+	}
 	if cfg, err = config.Load(); err != nil {
 		log.Fatal("%v", err)
 	}
