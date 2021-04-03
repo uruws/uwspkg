@@ -39,7 +39,7 @@ pkgdir=/uwspkg/repo/pkg/${pkg_section}
 mkdir -vp ${pkgdir}
 
 cd ${UWSPKG_BUILDDIR}
-${uwspkg_cmd} create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
+${uwspkg_cmd} create -n -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
 cd - >/dev/null
 
 # save metadata
