@@ -8,6 +8,8 @@ www: https://github.com/TalkingPts/Packaging
 maintainer: jeremias@talkingpts.org
 categories:
   - test
+plist: |+
+  @dir test/pkg-scripts.dir
 pre-install: |+
   echo "-- pre-install init"
   env | sort

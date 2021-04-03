@@ -45,6 +45,7 @@ type Config struct {
 	WWW           string            `yaml:"www"`
 	Categories    []string          `yaml:"categories"`
 	ABI           string            `yaml:"abi"`
+	Plist         string            `yaml:"plist"`
 	PreInstall    string            `yaml:"pre-install"`
 	PostInstall   string            `yaml:"post-install"`
 	PreDeinstall  string            `yaml:"pre-deinstall"`

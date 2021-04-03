@@ -43,8 +43,7 @@ uwspkg_cmd='uwspkg -C /uwspkg/libexec/internal/pkg-build.conf'
 pkgdir=/uwspkg/repo/pkg/${pkg_section}
 mkdir -vp ${pkgdir}
 
-echo ""
-echo "-- pkg create: ${pkgname}"
+echo "----- pkg create: ${pkgname}"
 
 cd ${UWSPKG_BUILDDIR}
 ${uwspkg_cmd} create ${cmd_args} -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}

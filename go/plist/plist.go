@@ -16,13 +16,13 @@ import (
 
 type Plist struct {
 	m      *manifest.Config
-	srcdir string
+	//~ srcdir string
 }
 
 func New(m *manifest.Config) *Plist {
 	return &Plist{
 		m:      m,
-		srcdir: filepath.FromSlash("/uwspkg/src"),
+		//~ srcdir: filepath.FromSlash("/uwspkg/src"),
 	}
 }
 
@@ -46,27 +46,16 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 		return err
 	}
 
-	// add provided pkg-plist if found
-	srcfn := filepath.Join(p.srcdir, p.m.Origin, "pkg-plist")
-	log.Debug("%s pkg-plist file: %s", p.m.Session, srcfn)
-	if srcfh, err := os.Open(srcfn); err != nil {
-		if os.IsNotExist(err) {
-			log.Debug("%v", err)
-		} else {
-			return log.DebugError(err)
+	// add manifest plist if not empty
+	x := bufio.NewScanner(strings.NewReader(p.m.Plist))
+	for x.Scan() {
+		line := strings.TrimSpace(x.Text())
+		xerr := x.Err()
+		if xerr != nil {
+			return log.DebugError(xerr)
 		}
-	} else {
-		defer srcfh.Close()
-		x := bufio.NewScanner(srcfh)
-		for x.Scan() {
-			line := strings.TrimSpace(x.Text())
-			xerr := x.Err()
-			if xerr != nil {
-				return log.DebugError(xerr)
-			}
-			if err := write(fh, line); err != nil {
-				return log.DebugError(err)
-			}
+		if err := write(fh, line); err != nil {
+			return log.DebugError(err)
 		}
 	}
 

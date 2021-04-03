@@ -9,6 +9,8 @@ www: https://github.com/TalkingPts/Packaging
 maintainer: jeremias@talkingpts.org
 categories:
   - test
+plist: |+
+  @dir test/service.dir
 pre-install: |+
   export DEBIAN_FRONTEND=noninteractive
   apt-get update -yy

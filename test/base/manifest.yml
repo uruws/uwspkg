@@ -13,3 +13,5 @@ desc: |+
   This is
   a long description
   in a multiline text.
+plist: |+
+  @dir test/base.dir

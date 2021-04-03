@@ -11,3 +11,5 @@ categories:
 deps:
   test-base:
     origin: test/base
+plist: |+
+  @dir test/pkg-deps.dir

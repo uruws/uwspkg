@@ -9,3 +9,9 @@ www: https://github.com/TalkingPts/Packaging
 maintainer: jeremias@talkingpts.org
 categories:
   - base
+plist: |+
+  @dir etc/pkg
+  @dir etc/pkg/repos
+  @dir src
+  @dir var/db/pkg
+  @dir var/cache/pkg
