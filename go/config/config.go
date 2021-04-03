@@ -32,6 +32,7 @@ type Main struct {
 	BuildEnvPath         string   `yaml:"-"`
 	SchrootCfgDir        string   `yaml:"-"`
 	Manifest             string   `yaml:"-"`
+	PkgBootstrap         string   `yaml:"-"`
 	Version              uint     `yaml:"version"`
 	PkgDir               string   `yaml:"pkgdir"`
 	BuildDir             string   `yaml:"build.dir"`
@@ -43,7 +44,6 @@ type Main struct {
 	DebianInstall        string   `yaml:"debian.install"`
 	DebianInstallVariant string   `yaml:"debian.install.variant"`
 	DebianDistro         []string `yaml:"debian.distro"`
-	PkgBootstrap         string   `yaml:"pkg.bootstrap"`
 }
 
 func newMain() *Main {
