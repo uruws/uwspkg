@@ -210,7 +210,7 @@ func Info(format string, v ...interface{}) {
 
 func DebugError(err error) error {
 	if debug {
-		l.Printf(logger.DEBUG, "%v", err)
+		l.Printf(logger.DEBUG, "[ERROR] %v", err)
 	}
 	return err
 }
@@ -218,7 +218,7 @@ func DebugError(err error) error {
 func NewError(format string, v ...interface{}) error {
 	err := errors.New(fmt.Sprintf(format, v...))
 	if debug {
-		l.Printf(logger.DEBUG, "%v", err)
+		l.Printf(logger.DEBUG, "[ERROR] %v", err)
 	}
 	return err
 }
