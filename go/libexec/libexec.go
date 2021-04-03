@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
@@ -24,8 +25,9 @@ var (
 )
 
 type Config struct {
-	Dir     string
-	Timeout time.Duration
+	Dir           string
+	Timeout       time.Duration
+	DeveloperMode bool
 }
 
 type Env struct {
@@ -42,19 +44,23 @@ func NewEnv() *Env {
 	if err != nil {
 		log.Panic("%v", err)
 	}
-	e.l = append(e.l, fmt.Sprintf("%s=%s", "USER", u.Username))
-	e.l = append(e.l, fmt.Sprintf("%s=%s", "LOGNAME", u.Username))
-	e.l = append(e.l, fmt.Sprintf("%s=%s", "HOME", u.HomeDir))
+	envadd := func(f string, args ...interface{}) {
+		e.l = append(e.l, fmt.Sprintf(f, args...))
+	}
+	envadd("%s=%s", "USER", u.Username)
+	envadd("%s=%s", "LOGNAME", u.Username)
+	envadd("%s=%s", "HOME", u.HomeDir)
 	if term := os.Getenv("TERM"); term != "" {
-		e.l = append(e.l, fmt.Sprintf("%s=%s", "TERM", term))
+		envadd("%s=%s", "TERM", term)
 	}
-	e.l = append(e.l, "SHELL=/bin/sh")
-	e.l = append(e.l, "PATH=/bin:/usr/bin:/usr/local/bin")
+	envadd("SHELL=/bin/sh")
+	envadd("PATH=/bin:/usr/bin:/usr/local/bin")
 	if loglvl := os.Getenv("UWSPKG_LOG"); loglvl == "" {
-		e.l = append(e.l, "UWSPKG_LOG=default")
+		envadd("UWSPKG_LOG=default")
 	} else {
-		e.l = append(e.l, fmt.Sprintf("UWSPKG_LOG=%s", loglvl))
+		envadd("UWSPKG_LOG=%s", loglvl)
 	}
+	envadd("UWSPKG_DEVELOPER_MODE=%s", strconv.FormatBool(cfg.DeveloperMode))
 	return e
 }
 
@@ -129,14 +135,16 @@ func Configure(c *config.Main) error {
 	if c.Libexec != "" {
 		cfg.Dir = c.Libexec
 	}
+	log.Debug("dir: %s", cfg.Dir)
 	if c.LibexecTimeout != "" {
 		cfg.Timeout, err = time.ParseDuration(c.LibexecTimeout)
 		if err != nil {
 			return err
 		}
 	}
-	log.Debug("dir: %s", cfg.Dir)
 	log.Debug("timeout: %s", cfg.Timeout)
+	cfg.DeveloperMode = c.DeveloperMode
+	log.Debug("developer_mode: %v", cfg.DeveloperMode)
 	return nil
 }
 

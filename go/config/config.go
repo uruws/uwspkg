@@ -44,6 +44,7 @@ type Main struct {
 	DebianInstall        string   `yaml:"debian.install"`
 	DebianInstallVariant string   `yaml:"debian.install.variant"`
 	DebianDistro         []string `yaml:"debian.distro"`
+	DeveloperMode        bool     `yaml:"developer_mode"`
 }
 
 func newMain() *Main {
