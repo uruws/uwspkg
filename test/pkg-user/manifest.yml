@@ -1,0 +1,19 @@
+origin: test/pkg-user
+name: test-pkg-user
+version: 0
+comment: uwspkg pkg-user test
+abi: '*'
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - test
+pre-install: |+
+  useradd -c pkg_user0 -d /home/pkg_user0 -m -s /sbin/nologin -U -u 3000 pkg_user0
+  useradd -c pkg_user1 -d /home/pkg_user1 -m -s /sbin/nologin -U -u 3001 pkg_user1
+  useradd -c pkg_user2 -d /home/pkg_user2 -m -s /sbin/nologin -U -u 3002 pkg_user2
+post-deinstall: |+
+  userdel -r pkg_user2
+  userdel -r pkg_user1
+  userdel -r pkg_user0
