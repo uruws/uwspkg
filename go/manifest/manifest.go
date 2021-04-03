@@ -28,26 +28,30 @@ type Config struct {
 	SessionStart time.Time `yaml:"-"`
 	OriginPath   string    `yaml:"-"`
 	// pkg info
-	Origin       string    `yaml:"origin"`
-	Name         string    `yaml:"name"`
-	Version      string    `yaml:"version"`
-	Profile      string    `yaml:"profile"`
-	Prefix       string    `yaml:"prefix"`
-	Comment      string    `yaml:"comment"`
-	Description  string    `yaml:"desc"`
-	Licenses     []string  `yaml:"licenses"`
-	Maintainer   string    `yaml:"maintainer"`
-	WWW          string    `yaml:"www"`
-	Categories   []string  `yaml:"categories"`
-	ABI          string    `yaml:"abi"`
+	Origin        string   `yaml:"origin"`
+	Name          string   `yaml:"name"`
+	Version       string   `yaml:"version"`
+	Profile       string   `yaml:"profile"`
+	Prefix        string   `yaml:"prefix"`
+	Comment       string   `yaml:"comment"`
+	Description   string   `yaml:"desc"`
+	Licenses      []string `yaml:"licenses"`
+	Maintainer    string   `yaml:"maintainer"`
+	WWW           string   `yaml:"www"`
+	Categories    []string `yaml:"categories"`
+	ABI           string   `yaml:"abi"`
+	PreInstall    string   `yaml:"pre-install"`
+	PostInstall   string   `yaml:"post-install"`
+	PreDeinstall  string   `yaml:"pre-deinstall"`
+	PostDeinstall string   `yaml:"post-deinstall"`
 	// internal pkg info
-	Timestamp    time.Time `yaml:"-"`
+	Timestamp time.Time `yaml:"-"`
 	// actions
-	Fetch        string    `yaml:"fetch"`
-	Depends      string    `yaml:"depends"`
-	Build        string    `yaml:"build"`
-	Check        string    `yaml:"check"`
-	Install      string    `yaml:"install"`
+	Fetch   string `yaml:"fetch"`
+	Depends string `yaml:"depends"`
+	Build   string `yaml:"build"`
+	Check   string `yaml:"check"`
+	Install string `yaml:"install"`
 }
 
 func newConfig(origin string) *Config {
@@ -94,6 +98,22 @@ func (c *Config) String() string {
 	madd("licenses", c.Licenses)
 	madd("desc", c.Description)
 	madd("categories", c.Categories)
+	scripts := make(map[string]string)
+	if c.PreInstall != "" {
+		scripts["pre-install"] = c.PreInstall
+	}
+	if c.PostInstall != "" {
+		scripts["post-install"] = c.PostInstall
+	}
+	if c.PreDeinstall != "" {
+		scripts["pre-deinstall"] = c.PreDeinstall
+	}
+	if c.PostDeinstall != "" {
+		scripts["post-deinstall"] = c.PostDeinstall
+	}
+	if len(scripts) > 0 {
+		madd("scripts", scripts)
+	}
 	return m
 }
 

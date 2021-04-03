@@ -10,18 +10,18 @@ import (
 	"path/filepath"
 	"strings"
 
-	"uwspkg/manifest"
 	"uwspkg/log"
+	"uwspkg/manifest"
 )
 
 type Plist struct {
-	m *manifest.Config
+	m      *manifest.Config
 	srcdir string
 }
 
 func New(m *manifest.Config) *Plist {
 	return &Plist{
-		m: m,
+		m:      m,
 		srcdir: filepath.FromSlash("/uwspkg/src"),
 	}
 }
@@ -29,7 +29,7 @@ func New(m *manifest.Config) *Plist {
 func (p *Plist) Gen(installDir, buildDir string) error {
 	fn := filepath.Join(buildDir, "pkg-plist")
 	log.Debug("%s gen plist file: %s", p.m.Session, fn)
-	fh, err := os.OpenFile(fn, os.O_WRONLY | os.O_CREATE, 0640)
+	fh, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0640)
 	if err != nil {
 		return err
 	}
@@ -95,6 +95,6 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 }
 
 func write(fh *os.File, s string) error {
-	_, err := fh.WriteString(s+"\n")
+	_, err := fh.WriteString(s + "\n")
 	return log.DebugError(err)
 }

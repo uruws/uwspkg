@@ -168,7 +168,7 @@ func Package(m *manifest.Config) error {
 	// chroot session
 	chroot := libexec.NewChroot(m.BuildSession)
 	chroot.Dir(filepath.Join(srcdir, m.OriginPath))
-	err = chroot.SessionBegin("build-sess-"+m.Session)
+	err = chroot.SessionBegin("build-sess-" + m.Session)
 	if err != nil {
 		return err
 	}

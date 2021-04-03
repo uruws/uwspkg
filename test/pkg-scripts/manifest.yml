@@ -1,0 +1,26 @@
+origin: test/pkg-scripts
+name: test-pkg-scripts
+version: 0
+comment: uwspkg pkg-scripts test
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - test
+pre-install: |+
+  echo "-- pre-install init"
+  env | sort
+  echo "-- pre-install end"
+post-install: |+
+  echo "-- post-install init"
+  env | sort
+  echo "-- post-install end"
+pre-deinstall: |+
+  echo "-- pre-deinstall init"
+  env | sort
+  echo "-- pre-deinstall end"
+post-deinstall: |+
+  echo "-- post-deinstall init"
+  env | sort
+  echo "-- post-deinstall end"

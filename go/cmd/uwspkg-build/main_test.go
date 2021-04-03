@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"uwspkg"
-	"uwspkg/config"
 	"uwspkg/_testing/tset"
+	"uwspkg/config"
 
 	. "gopkg.in/check.v1"
 )
@@ -18,7 +18,7 @@ func Test(t *testing.T) {
 }
 
 type TSuite struct {
-	cfg *config.Main
+	cfg        *config.Main
 	mockRunner *tset.LibexecMockRunner
 }
 
@@ -46,16 +46,16 @@ func (s *TSuite) TestBuildPackage(c *C) {
 	err = pkg.Build()
 	c.Assert(err, IsNil)
 	c.Assert(s.mockRunner.Commands, DeepEquals, map[uint]string{
-		0: "schroot -u root -c internal-uwspkg -- /uwspkg/libexec/internal/profile-create [2]",
-		1: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make-fetch [1]",
-		2: "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/source-archive [0]",
-		3: "schroot -c uwspkg-build-ID -n build-sess-ID -b [0]",
-		4: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make depends [0]",
-		5: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make build [0]",
-		6: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make check [0]",
-		7: "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make-install [1]",
-		8: "schroot -c build-sess-ID -e [0]",
-		9: "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/make-package [0]",
+		0:  "schroot -u root -c internal-uwspkg -- /uwspkg/libexec/internal/profile-create [2]",
+		1:  "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/make-fetch [1]",
+		2:  "schroot -c uwspkg-build-ID -- /uwspkg/libexec/internal/source-archive [0]",
+		3:  "schroot -c uwspkg-build-ID -n build-sess-ID -b [0]",
+		4:  "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make depends [0]",
+		5:  "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make build [0]",
+		6:  "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make check [0]",
+		7:  "schroot -c build-sess-ID -- /uwspkg/libexec/internal/make-install [1]",
+		8:  "schroot -c build-sess-ID -e [0]",
+		9:  "schroot -c internal-uwspkg -- /uwspkg/libexec/internal/make-package [0]",
 		10: "schroot -u root -c internal-uwspkg -- /uwspkg/libexec/internal/profile-remove [0]",
 	})
 }

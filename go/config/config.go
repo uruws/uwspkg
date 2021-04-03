@@ -61,14 +61,14 @@ func newMain() *Main {
 
 func (c *Main) GetEnviron() map[string]string {
 	return map[string]string{
-		"UWSPKG_LIBEXEC": c.Libexec,
+		"UWSPKG_LIBEXEC":        c.Libexec,
 		"UWSPKG_CONFIG_VERSION": fmt.Sprintf("%d", c.Version),
-		"UWSPKG_CONFIG_SRC": c.BuildCfgDir,
-		"UWSPKG_CONFIG_DST": c.SchrootCfgDir,
-		"UWSPKG_MANIFEST": c.Manifest,
-		"UWSPKG_SOURCE": c.PkgDir,
-		"UWSPKG_BUILDDIR": c.BuildDir,
-		"UWSPKG_BOOTSTRAP": c.PkgBootstrap,
+		"UWSPKG_CONFIG_SRC":     c.BuildCfgDir,
+		"UWSPKG_CONFIG_DST":     c.SchrootCfgDir,
+		"UWSPKG_MANIFEST":       c.Manifest,
+		"UWSPKG_SOURCE":         c.PkgDir,
+		"UWSPKG_BUILDDIR":       c.BuildDir,
+		"UWSPKG_BOOTSTRAP":      c.PkgBootstrap,
 	}
 }
 
