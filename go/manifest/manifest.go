@@ -44,6 +44,8 @@ type Config struct {
 	PostInstall   string   `yaml:"post-install"`
 	PreDeinstall  string   `yaml:"pre-deinstall"`
 	PostDeinstall string   `yaml:"post-deinstall"`
+	Users         []string `yaml:"users"`
+	Groups        []string `yaml:"groups"`
 	// internal pkg info
 	Timestamp time.Time `yaml:"-"`
 	// actions
@@ -98,6 +100,12 @@ func (c *Config) String() string {
 	madd("licenses", c.Licenses)
 	madd("desc", c.Description)
 	madd("categories", c.Categories)
+	if len(c.Users) > 0 {
+		madd("users", c.Users)
+	}
+	if len(c.Groups) > 0 {
+		madd("groups", c.Groups)
+	}
 	scripts := make(map[string]string)
 	if c.PreInstall != "" {
 		scripts["pre-install"] = c.PreInstall
