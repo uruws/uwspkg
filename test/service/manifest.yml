@@ -1,0 +1,25 @@
+origin: test/service
+name: test-service
+version: 0
+comment: uwspkg service test
+abi: 'linux:*'
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - test
+pre-install: |+
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update -yy
+  apt-get install -yy --purge --no-install-recommends nginx
+  service nginx stop
+post-install: |+
+  export DEBIAN_FRONTEND=noninteractive
+  service nginx start
+pre-deinstall: |+
+  export DEBIAN_FRONTEND=noninteractive
+  service nginx stop
+post-deinstall: |+
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get autoremove -yy --purge nginx
