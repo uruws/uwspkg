@@ -18,5 +18,5 @@ post-deinstall: |+
   userdel -r pkg_user1
   userdel -r pkg_user0
 plist: |+
-  @dir test/perms.dir
+  @dir(root,uws,0750) test/perms.dir
   @(pkg_user0,pkg_user1,0640) test/perms.pkg

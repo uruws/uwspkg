@@ -46,6 +46,8 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 		return err
 	}
 
+	done := make(map[string]bool)
+
 	// add manifest plist if not empty
 	x := bufio.NewScanner(strings.NewReader(p.m.Plist))
 	for x.Scan() {
@@ -56,6 +58,12 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 		}
 		if err := write(fh, line); err != nil {
 			return log.DebugError(err)
+		}
+		for _, fn := range p.getFiles(line) {
+			if done[fn] {
+				return log.NewError("%s: plist duplicate '%s' entry", p.m.Origin, fn)
+			}
+			done[fn] = true
 		}
 	}
 
@@ -71,8 +79,10 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 				path = strings.Replace(path, p.m.Prefix, "", 1)
 				path = strings.Replace(path, string(filepath.Separator), "", 1)
 			}
-			if err := write(fh, path); err != nil {
-				return log.DebugError(err)
+			if !done[path] {
+				if err := write(fh, path); err != nil {
+					return log.DebugError(err)
+				}
 			}
 		}
 		return nil
@@ -86,4 +96,23 @@ func (p *Plist) Gen(installDir, buildDir string) error {
 func write(fh *os.File, s string) error {
 	_, err := fh.WriteString(s + "\n")
 	return log.DebugError(err)
+}
+
+func (p *Plist) getFiles(line string) []string {
+	fl := make([]string, 0)
+	i := strings.Split(line, " ")
+	if strings.HasPrefix(i[0], "@dir") {
+	} else if i[0] == "@owner" {
+	} else if i[0] == "@group" {
+	} else if i[0] == "@mode" {
+	} else if strings.HasPrefix(i[0], "@(") {
+		for _, n := range i[1:] {
+			fl = append(fl, n)
+		}
+	} else if !strings.HasPrefix(i[0], "@") {
+		for _, n := range i {
+			fl = append(fl, n)
+		}
+	}
+	return fl
 }
