@@ -20,6 +20,11 @@ import (
 	"uwspkg/log"
 )
 
+type pkgDep struct {
+	Origin  string `yaml:"origin" json:"origin"`
+	Version string `yaml:"version" json:"version"`
+}
+
 type Config struct {
 	// internal data
 	Package      string    `yaml:"-"`
@@ -28,24 +33,25 @@ type Config struct {
 	SessionStart time.Time `yaml:"-"`
 	OriginPath   string    `yaml:"-"`
 	// pkg info
-	Origin        string   `yaml:"origin"`
-	Name          string   `yaml:"name"`
-	Version       string   `yaml:"version"`
-	Profile       string   `yaml:"profile"`
-	Prefix        string   `yaml:"prefix"`
-	Comment       string   `yaml:"comment"`
-	Description   string   `yaml:"desc"`
-	Licenses      []string `yaml:"licenses"`
-	Maintainer    string   `yaml:"maintainer"`
-	WWW           string   `yaml:"www"`
-	Categories    []string `yaml:"categories"`
-	ABI           string   `yaml:"abi"`
-	PreInstall    string   `yaml:"pre-install"`
-	PostInstall   string   `yaml:"post-install"`
-	PreDeinstall  string   `yaml:"pre-deinstall"`
-	PostDeinstall string   `yaml:"post-deinstall"`
-	Users         []string `yaml:"users"`
-	Groups        []string `yaml:"groups"`
+	Origin        string            `yaml:"origin"`
+	Name          string            `yaml:"name"`
+	Version       string            `yaml:"version"`
+	Profile       string            `yaml:"profile"`
+	Prefix        string            `yaml:"prefix"`
+	Comment       string            `yaml:"comment"`
+	Description   string            `yaml:"desc"`
+	Licenses      []string          `yaml:"licenses"`
+	Maintainer    string            `yaml:"maintainer"`
+	WWW           string            `yaml:"www"`
+	Categories    []string          `yaml:"categories"`
+	ABI           string            `yaml:"abi"`
+	PreInstall    string            `yaml:"pre-install"`
+	PostInstall   string            `yaml:"post-install"`
+	PreDeinstall  string            `yaml:"pre-deinstall"`
+	PostDeinstall string            `yaml:"post-deinstall"`
+	Users         []string          `yaml:"users"`
+	Groups        []string          `yaml:"groups"`
+	Deps          map[string]pkgDep `yaml:"deps"`
 	// internal pkg info
 	Timestamp time.Time `yaml:"-"`
 	// actions
@@ -57,7 +63,7 @@ type Config struct {
 }
 
 func newConfig(origin string) *Config {
-	return &Config{Origin: origin}
+	return &Config{Origin: origin, Deps: make(map[string]pkgDep)}
 }
 
 func (c *Config) Environ() *libexec.Env {
@@ -99,6 +105,9 @@ func (c *Config) String() string {
 	}
 	madd("licenses", c.Licenses)
 	madd("desc", c.Description)
+	if len(c.Deps) > 0 {
+		madd("deps", c.Deps)
+	}
 	madd("categories", c.Categories)
 	if len(c.Users) > 0 {
 		madd("users", c.Users)
@@ -153,13 +162,11 @@ func (m *Manifest) Load(filename string) error {
 	}
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Debug("%v", err)
-		return err
+		return log.DebugError(err)
 	}
 	orig := m.c.Origin
 	if err := yaml.Unmarshal(blob, &m.c); err != nil {
-		log.Debug("%v", err)
-		return err
+		return log.DebugError(err)
 	} else {
 		if m.c.Origin != orig {
 			return fmt.Errorf("%s package origin mismatch: %s", orig, m.c.Origin)

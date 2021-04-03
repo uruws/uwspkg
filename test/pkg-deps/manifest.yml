@@ -1,0 +1,13 @@
+origin: test/pkg-deps
+name: test-pkg-deps
+version: 0
+comment: uwspkg pkg-scripts test
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - test
+deps:
+  test-base:
+    origin: test/base
