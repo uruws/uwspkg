@@ -8,12 +8,17 @@ set -eu
 sess=${UWSPKG_BUILD_SESSION}
 pkgname=${UWSPKG_VERSION_NAME}
 pkgorig=${UWSPKG_ORIGIN}
+
 pkg_section=$(dirname ${pkgorig})
 
 # pkgng env
 
-export DEVELOPER_MODE='true'
-export SYSLOG='false'
+cmd_args='-v -n'
+export DEVELOPER_MODE=${UWSPKG_DEVELOPER_MODE}
+if test 'Xtrue' = "X${DEVELOPER_MODE}"; then
+	export SYSLOG='false'
+	cmd_args='-v'
+fi
 
 # generate metadata files
 
@@ -38,8 +43,11 @@ uwspkg_cmd='uwspkg -C /uwspkg/libexec/internal/pkg-build.conf'
 pkgdir=/uwspkg/repo/pkg/${pkg_section}
 mkdir -vp ${pkgdir}
 
+echo ""
+echo "-- pkg create: ${pkgname}"
+
 cd ${UWSPKG_BUILDDIR}
-${uwspkg_cmd} create -v -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
+${uwspkg_cmd} create ${cmd_args} -o ${pkgdir} -m . -p pkg-plist -r ${UWSPKG_DESTDIR}
 cd - >/dev/null
 
 # save metadata
