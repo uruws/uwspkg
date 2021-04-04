@@ -60,5 +60,7 @@ install-uwspkg-build:
 			$(DESTDIR)$(PREFIX)/libexec/uwspkg/$${libxd}/; \
 	done
 	@chmod 0644 $(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/env.export
-	@install -v -m 0644 ./libexec/utils/internal/pkg-build.conf \
-		$(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/
+	@chmod 0644 $(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/pkg-build.conf
+	@install -d -m 0755 $(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/.repos
+	@install -v -m 0644 ./libexec/utils/internal/.repos/*.conf \
+		$(DESTDIR)$(PREFIX)/libexec/uwspkg/internal/.repos/
