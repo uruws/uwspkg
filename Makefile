@@ -42,6 +42,7 @@ setup:
 .PHONY: fetch
 fetch:
 	@mkdir -p $(BUILDDIR) $(CACHEDIR)
+	@cd $(CACHEDIR) && (sha256sum -c $(PKG_CKSUM) || rm -vf $(CACHEDIR)/pkg-$(PKG).tgz)
 	@test -s $(CACHEDIR)/pkg-$(PKG).tgz || \
 			wget -O $(CACHEDIR)/pkg-$(PKG).tgz \
 				https://github.com/freebsd/pkg/archive/$(PKG).tar.gz
