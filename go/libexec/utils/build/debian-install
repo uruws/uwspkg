@@ -19,6 +19,23 @@ baseroot=${builddir}/chroot/debian/${distro}
 schroot_source="schroot -c source:uwspkg-debian-${distro} -d /root"
 
 default_debpkg=${cfgdir}/uwspkg-default/debian.install
+acng_conf=etc/apt/apt.conf.d/02apt-cacher-proxy
+
+chroot_expire='true'
+expirefn=${baseroot}/.uwspkg-expire
+
+if test -s ${expirefn}; then
+	expire=$(cat ${expirefn})
+	now=$(date '+%s')
+	if test ${expire} -gt ${now}; then
+		chroot_expire='false'
+	fi
+fi
+
+if test 'Xtrue' = "X${chroot_expire}"; then
+	echo "-- debian chroot expire: ${distro}"
+	rm -rf ${baseroot}
+fi
 
 if ! test -d ${baseroot}; then
 	${debinst} ${distro} ${baseroot} ${repo}
@@ -27,7 +44,6 @@ if ! test -d ${baseroot}; then
 	printf 'deb %s/ %s main\n' ${repo} ${distro} >./etc/apt/sources.list
 	printf 'deb %s/ %s-updates main\n' ${repo} ${distro} >>./etc/apt/sources.list
 	printf 'deb %s %s-security/updates main\n' ${secrepo} ${distro}>>./etc/apt/sources.list
-	acng_conf=etc/apt/apt.conf.d/02apt-cacher-proxy
 	if test -s /${acng_conf}; then
 		install -v -m 0644 /${acng_conf} ./${acng_conf}
 	fi
@@ -39,6 +55,7 @@ if ! test -d ${baseroot}; then
 	rm -rf ./var/lib/apt/lists/* ./var/cache/apt/archives/*.deb \
 		./var/cache/apt/*cache.bin
 	cd ${oldwd}
+	date --date='tomorrow' '+%s' >${expirefn}
 fi
 
 exit 0

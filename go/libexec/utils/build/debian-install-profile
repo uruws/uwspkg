@@ -24,7 +24,23 @@ fi
 
 schroot_cmd="schroot -c source:${profname} -d /root"
 
-# only create it if not exsits already
+# only create it if not exsits already or expired
+
+chroot_expire='true'
+expirefn=${dstroot}/.uwspkg-expire
+
+if test -s ${expirefn}; then
+	expire=$(cat ${expirefn})
+	now=$(date '+%s')
+	if test ${expire} -gt ${now}; then
+		chroot_expire='false'
+	fi
+fi
+
+if test 'Xtrue' = "X${chroot_expire}"; then
+	echo "-- profile chroot expire: ${profname}"
+	rm -rf ${dstroot}
+fi
 
 if test -d ${dstroot}; then
 	exit 0
@@ -102,4 +118,5 @@ if test 'Xtrue' = "X${intprof}"; then
 	cd ${oldwd}
 fi
 
+date --date='tomorrow' '+%s' >${expirefn}
 exit 0
