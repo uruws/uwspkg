@@ -12,6 +12,7 @@ categories:
 plist: |+
   @dir etc/pkg
   @dir etc/pkg/repos
+  @dir share/pkg/trigger
   @dir src
   @dir var/db/pkg
   @dir var/cache/pkg
