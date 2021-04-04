@@ -101,18 +101,10 @@ func write(fh *os.File, s string) error {
 func (p *Plist) getFiles(line string) []string {
 	fl := make([]string, 0)
 	i := strings.Split(line, " ")
-	if strings.HasPrefix(i[0], "@dir") {
-	} else if i[0] == "@owner" {
-	} else if i[0] == "@group" {
-	} else if i[0] == "@mode" {
-	} else if strings.HasPrefix(i[0], "@(") {
-		for _, n := range i[1:] {
-			fl = append(fl, n)
-		}
+	if strings.HasPrefix(i[0], "@(") {
+		fl = append(fl, strings.Join(i[1:], " "))
 	} else if !strings.HasPrefix(i[0], "@") {
-		for _, n := range i {
-			fl = append(fl, n)
-		}
+		fl = append(fl, line)
 	}
 	return fl
 }
