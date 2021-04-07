@@ -1,0 +1,13 @@
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+description: test trigger0
+path: ["/uws/var/pkg/trigger/test"]
+trigger: {
+  type: shell
+  script: echo "testing trigger0" | tee /tmp/trigger.log
+}
+cleanup: {
+  type: shell
+  script: echo "testing trigger0 cleanup" | tee -a /tmp/trigger.log
+}

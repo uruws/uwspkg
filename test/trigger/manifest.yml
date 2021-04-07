@@ -1,0 +1,21 @@
+origin: test/trigger
+name: test-trigger
+version: 0
+comment: uwspkg trigger test
+abi: '*'
+licenses:
+  - BSD
+www: https://github.com/TalkingPts/Packaging
+maintainer: jeremias@talkingpts.org
+categories:
+  - test
+
+deps:
+  test-pkg-trigger:
+    origin: test/pkg-trigger
+
+plist: |+
+  @dir test/trigger.dir
+
+post-install: |+
+  echo 2 >/uws/var/pkg/trigger/test
