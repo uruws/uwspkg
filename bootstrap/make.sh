@@ -28,7 +28,7 @@ install -v -m 0640 ${builddir}/pkg-plist ${destdir}/uws/lib/uwspkg/bootstrap/
 
 install -v -m 0755 ./bootstrap/uwspkg-bootstrap.sh ${destdir}/uws/sbin/uwspkg-bootstrap
 
-fakeroot tar -C ${destdir} -czf ./build/uwspkg-bootstrap.tgz ./
+fakeroot tar -C ${destdir} -czf ./build/uwspkg-bootstrap.tgz ./uws ./usr
 ls ./build/uwspkg-bootstrap.tgz
 
 exit 0
